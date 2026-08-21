@@ -143,10 +143,62 @@
     .hidden{display:none!important}
     @media(max-width:1100px){.week-grid{grid-template-columns:repeat(7,260px)}.day{min-width:260px;min-height:360px}}
     @media(max-width:700px){.app{padding:16px}.topbar{align-items:flex-start;flex-direction:column}.toolbar{grid-template-columns:1fr;justify-items:stretch}.toolbar-spacer{display:none}.range-wrap{order:-1}.view-tabs{justify-content:center;justify-self:stretch}.filter-row{align-items:flex-start}.routine-inline{margin-left:0;width:100%;justify-content:flex-end}.memo-head{align-items:flex-start;flex-direction:column;gap:2px}.week-grid{grid-template-columns:repeat(7,280px);margin-right:-16px;padding-right:16px}.day{min-width:280px;min-height:auto}.cal-cell{min-height:95px;padding:6px}.cal-task{font-size:10px;padding:3px 4px}.row2{grid-template-columns:1fr}.subrow{grid-template-columns:1fr}.subrow button{justify-self:end}.bundle-item{grid-template-columns:auto 72px minmax(0,1fr)}.bundle-edit{grid-column:3;justify-self:end}.completed-row{grid-template-columns:auto 72px minmax(0,1fr)}.completed-row>.task-menu{grid-column:3;justify-self:end}}
+
+    .auth-gate{
+      min-height:100vh;display:flex;align-items:center;justify-content:center;
+      padding:24px;background:var(--bg)
+    }
+    .auth-card{
+      width:min(420px,100%);background:#fff;border:1px solid var(--line);
+      border-radius:18px;padding:28px;box-shadow:var(--shadow)
+    }
+    .auth-card h1{font-size:24px;margin:0 0 7px;font-weight:800}
+    .auth-card p{font-size:13px;color:var(--muted);margin:0 0 22px;line-height:1.5}
+    .auth-field{margin-bottom:14px}
+    .auth-field label{display:block;font-size:12px;font-weight:750;color:#59616c;margin-bottom:6px}
+    .auth-field input{
+      width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;
+      background:#fff;color:var(--text);outline:none
+    }
+    .auth-field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+    .auth-submit{
+      width:100%;border:1px solid var(--accent);background:var(--accent);color:#fff;
+      border-radius:11px;padding:11px 13px;font-weight:750;margin-top:4px
+    }
+    .auth-submit:disabled{opacity:.55;cursor:not-allowed}
+    .auth-message{min-height:20px;margin-top:11px;font-size:12px;color:var(--danger);line-height:1.5}
+    .auth-note{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);line-height:1.5}
+    .user-badge{display:inline-flex;align-items:center;max-width:180px;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
   </style>
 </head>
 <body>
-<div class="app">
+<div class="auth-gate" id="authGate">
+  <div class="auth-card">
+    <h1>Jin's Work Planner</h1>
+    <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
+
+    <div class="auth-field">
+      <label for="loginEmail">이메일</label>
+      <input id="loginEmail" type="email" autocomplete="username" placeholder="email@example.com" />
+    </div>
+
+    <div class="auth-field">
+      <label for="loginPassword">비밀번호</label>
+      <input id="loginPassword" type="password" autocomplete="current-password" placeholder="비밀번호" />
+    </div>
+
+    <button class="auth-submit" id="loginBtn" type="button">로그인</button>
+    <div class="auth-message" id="authMessage" aria-live="polite"></div>
+
+    <div class="auth-note">
+      Supabase에 직접 생성한 계정만 로그인할 수 있습니다.
+      로그인 정보는 이 브라우저에 세션으로 저장됩니다.
+    </div>
+  </div>
+</div>
+
+<div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
       <h1>Jin's Work Planner</h1>
@@ -154,6 +206,8 @@
     </div>
     <div class="actions">
       <span class="sync-status" id="syncStatus" title="Supabase 동기화 상태"><span class="sync-dot"></span><span id="syncText">연결 중</span></span>
+      <span class="user-badge" id="userBadge"></span>
+      <button class="btn" id="logoutBtn">로그아웃</button>
       <button class="btn" id="manageCategories">카테고리 관리</button>
       <button class="btn" id="exportBtn">백업</button>
       <button class="btn" id="importBtn">불러오기</button>
@@ -391,6 +445,7 @@
   const SUPABASE_URL = 'https://ehtgftlfhdujydifwcny.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_5ojdmUHjkuFOCTt3y_LhEA_hzQ26T7M';
   const SUPABASE_ROW_ID = 'main';
+  const AUTH_STORAGE_KEY = 'jins-work-planner-auth-v1';
   const FIXED_CATEGORIES = ['네이버','베네피아','롯데ON','LIVE','광고','품의','디자인','기타'];
   const defaultData = {categories:[...FIXED_CATEGORIES], tasks:[], memo:''};
   const PRIORITY_ORDER = {high:0,medium:1,low:2};
@@ -479,6 +534,174 @@
     raw.memo=typeof raw.memo==='string'?raw.memo:'';
     return raw;
   }
+  let authSession = loadAuthSession();
+
+  function loadAuthSession(){
+    try{
+      const raw=localStorage.getItem(AUTH_STORAGE_KEY);
+      return raw?JSON.parse(raw):null;
+    }catch(e){return null}
+  }
+
+  function storeAuthSession(session){
+    authSession=session||null;
+    if(authSession)localStorage.setItem(AUTH_STORAGE_KEY,JSON.stringify(authSession));
+    else localStorage.removeItem(AUTH_STORAGE_KEY);
+  }
+
+  function clearAuthSession(){
+    authSession=null;
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+  }
+
+  function authHeaders(extra={}){
+    const headers={'apikey':SUPABASE_KEY,...extra};
+    if(authSession&&authSession.access_token)headers['Authorization']='Bearer '+authSession.access_token;
+    return headers;
+  }
+
+  function sessionExpiresSoon(){
+    if(!authSession||!authSession.expires_at)return true;
+    return Date.now() >= (Number(authSession.expires_at)*1000 - 60000);
+  }
+
+  async function refreshAuthSession(){
+    if(!authSession||!authSession.refresh_token)throw new Error('No refresh token');
+    const res=await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`,{
+      method:'POST',
+      headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({refresh_token:authSession.refresh_token})
+    });
+    if(!res.ok)throw new Error('세션 갱신에 실패했습니다.');
+    const next=await res.json();
+    storeAuthSession({
+      access_token:next.access_token,
+      refresh_token:next.refresh_token||authSession.refresh_token,
+      expires_at:next.expires_at || Math.floor(Date.now()/1000)+(next.expires_in||3600),
+      user:next.user||authSession.user
+    });
+    return authSession;
+  }
+
+  async function ensureAuthSession(){
+    if(!authSession||!authSession.access_token)return false;
+    if(sessionExpiresSoon()){
+      try{await refreshAuthSession()}
+      catch(e){clearAuthSession();return false}
+    }
+    return true;
+  }
+
+  async function fetchCurrentUser(){
+    if(!await ensureAuthSession())return null;
+    const res=await fetch(`${SUPABASE_URL}/auth/v1/user`,{
+      headers:authHeaders()
+    });
+    if(res.status===401){
+      try{
+        await refreshAuthSession();
+        const retry=await fetch(`${SUPABASE_URL}/auth/v1/user`,{headers:authHeaders()});
+        if(!retry.ok)return null;
+        return await retry.json();
+      }catch(e){return null}
+    }
+    if(!res.ok)return null;
+    return await res.json();
+  }
+
+  function showLogin(message=''){
+    remoteReady=false;
+    document.getElementById('plannerApp').classList.add('hidden');
+    document.getElementById('authGate').classList.remove('hidden');
+    document.getElementById('authMessage').textContent=message;
+    document.getElementById('loginPassword').value='';
+    setTimeout(()=>document.getElementById('loginEmail').focus(),0);
+  }
+
+  function showPlanner(user){
+    document.getElementById('authGate').classList.add('hidden');
+    document.getElementById('plannerApp').classList.remove('hidden');
+    document.getElementById('userBadge').textContent=(user&&user.email)||'로그인됨';
+  }
+
+  async function signIn(){
+    const email=document.getElementById('loginEmail').value.trim();
+    const password=document.getElementById('loginPassword').value;
+    const btn=document.getElementById('loginBtn');
+    const msg=document.getElementById('authMessage');
+    if(!email||!password){msg.textContent='이메일과 비밀번호를 입력해 주세요.';return}
+
+    btn.disabled=true;
+    btn.textContent='로그인 중...';
+    msg.textContent='';
+
+    try{
+      const res=await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`,{
+        method:'POST',
+        headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
+        body:JSON.stringify({email,password})
+      });
+      const result=await res.json().catch(()=>({}));
+      if(!res.ok){
+        throw new Error(result.error_description||result.msg||result.message||'로그인에 실패했습니다.');
+      }
+
+      storeAuthSession({
+        access_token:result.access_token,
+        refresh_token:result.refresh_token,
+        expires_at:result.expires_at || Math.floor(Date.now()/1000)+(result.expires_in||3600),
+        user:result.user
+      });
+
+      showPlanner(result.user);
+      await initializeRemote();
+    }catch(err){
+      clearAuthSession();
+      msg.textContent=err.message||'로그인에 실패했습니다.';
+    }finally{
+      btn.disabled=false;
+      btn.textContent='로그인';
+    }
+  }
+
+  async function signOut(){
+    try{
+      if(remoteReady)await pushRemoteData();
+      if(authSession&&authSession.access_token){
+        await fetch(`${SUPABASE_URL}/auth/v1/logout`,{
+          method:'POST',
+          headers:authHeaders()
+        });
+      }
+    }catch(e){
+      console.warn(e);
+    }finally{
+      clearAuthSession();
+      remoteReady=false;
+      data=clone(defaultData);
+      activeCategories=new Set(data.categories);
+      localStorage.removeItem(STORAGE_KEY);
+      showLogin('로그아웃되었습니다.');
+    }
+  }
+
+  async function initializeAuth(){
+    if(!authSession){
+      showLogin();
+      return;
+    }
+    const user=await fetchCurrentUser();
+    if(!user){
+      clearAuthSession();
+      showLogin('로그인 세션이 만료되었습니다. 다시 로그인해 주세요.');
+      return;
+    }
+    authSession.user=user;
+    storeAuthSession(authSession);
+    showPlanner(user);
+    await initializeRemote();
+  }
+
   let remoteReady=false;
   let syncTimer=null;
   let syncInFlight=false;
@@ -500,16 +723,16 @@
   }
   async function pushRemoteData(){
     if(!remoteReady)return;
+    if(!await ensureAuthSession()){showLogin('로그인 세션이 만료되었습니다.');return;}
     if(syncInFlight){pendingSync=true;return;}
     syncInFlight=true;
     try{
       const res=await fetch(`${SUPABASE_URL}/rest/v1/planner_data?on_conflict=id`,{
         method:'POST',
-        headers:{
-          'apikey':SUPABASE_KEY,
+        headers:authHeaders({
           'Content-Type':'application/json',
           'Prefer':'resolution=merge-duplicates,return=minimal'
-        },
+        }),
         body:JSON.stringify([{id:SUPABASE_ROW_ID,data,updated_at:new Date().toISOString()}])
       });
       if(!res.ok)throw new Error(`Supabase save ${res.status}: ${await res.text()}`);
@@ -523,10 +746,11 @@
     }
   }
   async function initializeRemote(){
+    if(!await ensureAuthSession()){showLogin('로그인이 필요합니다.');return;}
     setSyncStatus('syncing','연결 중');
     try{
       const res=await fetch(`${SUPABASE_URL}/rest/v1/planner_data?id=eq.${encodeURIComponent(SUPABASE_ROW_ID)}&select=data`,{
-        headers:{'apikey':SUPABASE_KEY}
+        headers:authHeaders()
       });
       if(!res.ok)throw new Error(`Supabase load ${res.status}: ${await res.text()}`);
       const rows=await res.json();
@@ -547,7 +771,11 @@
     }catch(err){
       console.error(err);
       remoteReady=false;
-      setSyncStatus('error','로컬 저장 중');
+      setSyncStatus('error','동기화 오류');
+      if(String(err.message||'').includes('401')||String(err.message||'').includes('403')){
+        clearAuthSession();
+        showLogin('인증이 만료되었거나 접근 권한이 없습니다.');
+      }
     }
   }
   function pad(n){return String(n).padStart(2,'0')}
@@ -854,6 +1082,11 @@
     });
   }
 
+  document.getElementById('loginBtn').addEventListener('click',signIn);
+  document.getElementById('loginPassword').addEventListener('keydown',e=>{if(e.key==='Enter')signIn()});
+  document.getElementById('loginEmail').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('loginPassword').focus()});
+  document.getElementById('logoutBtn').addEventListener('click',signOut);
+
   const memoText=document.getElementById('memoText');memoText.value=data.memo||'';memoText.addEventListener('input',()=>{data.memo=memoText.value;saveData()});
   document.getElementById('closeBundleBtn').addEventListener('click',()=>document.getElementById('bundleDialog').close());
   document.getElementById('addTaskBtn').addEventListener('click',()=>openTaskDialog(dateKey(new Date())));
@@ -886,8 +1119,7 @@
   document.getElementById('exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`work-planner-backup-${dateKey(new Date())}.json`;a.click();URL.revokeObjectURL(a.href)});
   document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());document.getElementById('importFile').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{data=normalize(JSON.parse(reader.result));activeCategories=new Set(data.categories);memoText.value=data.memo||'';saveData();render()}catch(err){alert('올바른 백업 파일이 아닙니다.')}};reader.readAsText(file);e.target.value=''});
 
-  render();
-  initializeRemote();
+  initializeAuth();
 })();
 </script>
 </body>
