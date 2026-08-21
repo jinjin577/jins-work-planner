@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jin's Work Planner</title>
+  <title>🖥️ Jin's Work Planner</title>
   <style>
     :root{
       --bg:#f5f6f8; --panel:#fff; --text:#20242a; --muted:#7a828c; --line:#e6e8ec;
@@ -142,7 +142,27 @@
     .week-grid::-webkit-scrollbar-track{background:transparent}
     .hidden{display:none!important}
     @media(max-width:1100px){.week-grid{grid-template-columns:repeat(7,260px)}.day{min-width:260px;min-height:360px}}
-    @media(max-width:700px){.app{padding:16px.week-shell{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;align-items:center!important}.week-nav-btn{width:100%!important;height:36px!important;margin:0!important;border-radius:9px!important;font-size:20px!important}.week-grid{grid-column:1/-1!important;display:grid!important;grid-template-columns:1fr!important;gap:10px!important;overflow-x:visible!important;margin:0!important;padding:0!important;scroll-snap-type:none!important}.day{min-width:0!important;width:100%!important;min-height:auto!important;scroll-snap-align:none!important}}.topbar{align-items:flex-start;flex-direction:column}.toolbar{grid-template-columns:1fr;justify-items:stretch}.toolbar-spacer{display:none}.range-wrap{order:-1}.view-tabs{justify-content:center;justify-self:stretch}.filter-row{align-items:flex-start}.routine-inline{margin-left:0;width:100%;justify-content:flex-end}.memo-head{align-items:flex-start;flex-direction:column;gap:2px}.week-grid{grid-template-columns:repeat(7,280px);margin-right:-16px;padding-right:16px}.day{min-width:280px;min-height:auto}.cal-cell{min-height:95px;padding:6px}.cal-task{font-size:10px;padding:3px 4px}.row2{grid-template-columns:1fr}.subrow{grid-template-columns:1fr}.subrow button{justify-self:end}.bundle-item{grid-template-columns:auto 72px minmax(0,1fr)}.bundle-edit{grid-column:3;justify-self:end}.completed-row{grid-template-columns:auto 72px minmax(0,1fr)}.completed-row>.task-menu{grid-column:3;justify-self:end}}
+    @media(max-width:700px){.app{padding:16px.week-shell{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;align-items:center!important}.week-nav-btn{width:100%!important;height:36px!important;margin:0!important;border-radius:9px!important;font-size:20px!important}.week-grid{grid-column:1/-1!important;display:grid!important;grid-template-columns:1fr!important;gap:10px!important;overflow-x:visible!important;margin:0!important;padding:0!important;scroll-snap-type:none!important}.day{min-width:0!important;width:100%!important;min-height:auto!important;scroll-snap-align:none!important}}.topbar{align-items:flex-start;flex-direction:column}.toolbar{grid-template-columns:1fr;justify-items:stretch}.toolbar-spacer{display:none}.range-wrap{order:-1}.view-tabs{justify-content:center;justify-self:stretch}.filter-row{align-items:flex-start}.routine-inline{margin-left:0;width:100%;justify-content:flex-end}.memo-head{align-items:flex-start;flex-direction:column;gap:2px}.week-grid{grid-template-columns:repeat(7,280px);margin-right:-16px;padding-right:16px}.day{min-width:280px;min-height:auto}.cal-cell{min-height:95px;padding:6px}.cal-task{font-size:10px;padding:3px 4px}.row2{grid-template-columns:1fr}.subrow{grid-template-columns:1fr}.subrow button{justify-self:end}.bundle-item{grid-template-columns:auto 72px minmax(0,1fr)}.bundle-edit{grid-column:3;justify-self:end}.completed-row{grid-template-columns:auto 72px minmax(0,1fr)}.completed-row>.task-menu{grid-column:3;justify-self:end}
+      /* Mobile only: categories and routine shortcuts at the very bottom */
+      #plannerApp{display:flex;flex-direction:column}
+      #plannerApp .filter-row{
+        order:99;
+        margin-top:20px;
+        margin-bottom:0;
+        padding-top:16px;
+        border-top:1px solid var(--line);
+      }
+      #plannerApp .filter-row .filters{
+        width:100%;
+        flex:1 1 100%;
+      }
+      #plannerApp .routine-inline{
+        width:100%;
+        margin-left:0;
+        margin-top:5px;
+        justify-content:flex-start;
+      }
+}
 
     .auth-gate{
       min-height:100vh;display:flex;align-items:center;justify-content:center;
@@ -175,7 +195,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>Jin's Work Planner</h1>
+    <h1>🖥️ Jin's Work Planner</h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -201,7 +221,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>Jin's Work Planner</h1>
+      <h1>🖥️ Jin's Work Planner</h1>
       <p>일자별 업무 · 카테고리 · 우선순위 · 묶음 업무를 PC와 모바일에서 함께 관리하세요.</p>
     </div>
     <div class="actions">
@@ -301,11 +321,12 @@
           <option value="monthly">매월</option>
         </select>
         <select id="taskWeekday" class="hidden">
+          <option value="weekdays">평일 (월~금)</option>
           <option value="1">월요일</option><option value="2">화요일</option><option value="3">수요일</option><option value="4">목요일</option><option value="5">금요일</option><option value="6">토요일</option><option value="0">일요일</option>
         </select>
         <input id="taskMonthday" class="hidden" type="number" min="1" max="31" placeholder="매월 날짜 (1~31)" />
       </div>
-      <div class="hint" id="recurrenceHint">반복 업무는 시작일 이후 매주 또는 매월 자동 표시되고, 완료 여부는 날짜별로 따로 저장됩니다.</div>
+      <div class="hint" id="recurrenceHint">반복 업무는 시작일 이후 매주·평일(월~금) 또는 매월 자동 표시되고, 완료 여부는 날짜별로 따로 저장됩니다.</div>
     </div>
 
     <div id="subtaskSection" class="field">
@@ -504,7 +525,10 @@
   function newId(){try{if(window.crypto&&typeof window.crypto.randomUUID==='function')return window.crypto.randomUUID()}catch(e){}return 'id-'+Date.now()+'-'+Math.random().toString(36).slice(2)}
   function normalizeRecurrence(r){
     if(!r||!['weekly','monthly'].includes(r.type))return {type:'none'};
-    if(r.type==='weekly')return {type:'weekly',weekday:Number.isInteger(Number(r.weekday))?Number(r.weekday):1};
+    if(r.type==='weekly'){
+      if(r.weekday==='weekdays')return {type:'weekly',weekday:'weekdays'};
+      return {type:'weekly',weekday:Number.isInteger(Number(r.weekday))?Number(r.weekday):1};
+    }
     return {type:'monthly',day:Math.min(31,Math.max(1,Number(r.day)||1))};
   }
   function loadData(){
@@ -796,14 +820,23 @@
   function hasRecurrence(t){return t.recurrence&&t.recurrence.type&&t.recurrence.type!=='none'}
   function recurrenceText(t){
     if(!hasRecurrence(t))return '';
-    if(t.recurrence.type==='weekly')return `매주 ${['일','월','화','수','목','금','토'][t.recurrence.weekday]}요일`;
+    if(t.recurrence.type==='weekly'){
+      if(t.recurrence.weekday==='weekdays')return '매주 평일';
+      return `매주 ${['일','월','화','수','목','금','토'][t.recurrence.weekday]}요일`;
+    }
     return `매월 ${t.recurrence.day}일`;
   }
   function recurrenceMatches(t,key){
     if(!hasRecurrence(t))return t.date===key;
     if(key<t.date)return false;
     const d=parseDate(key);
-    if(t.recurrence.type==='weekly')return d.getDay()===Number(t.recurrence.weekday);
+    if(t.recurrence.type==='weekly'){
+      if(t.recurrence.weekday==='weekdays'){
+        const weekday=d.getDay();
+        return weekday>=1&&weekday<=5;
+      }
+      return d.getDay()===Number(t.recurrence.weekday);
+    }
     return d.getDate()===Number(t.recurrence.day);
   }
   function tasksForDate(key){
@@ -979,14 +1012,16 @@
     if(!recurrenceSection.classList.contains('hidden'))document.getElementById('subtaskSection').classList.toggle('hidden',hideSub);
   }
   function readRecurrence(){
-    if(taskRecurrence.value==='weekly')return {type:'weekly',weekday:Number(taskWeekday.value)};
+    if(taskRecurrence.value==='weekly'){
+      return {type:'weekly',weekday:taskWeekday.value==='weekdays'?'weekdays':Number(taskWeekday.value)};
+    }
     if(taskRecurrence.value==='monthly')return {type:'monthly',day:Math.min(31,Math.max(1,Number(taskMonthday.value)||1))};
     return {type:'none'};
   }
   function openTaskDialog(date,id=null){
     editingId=id;refreshCategorySelect();subtaskEditor.innerHTML='';document.getElementById('modalTitle').textContent=id?'업무 수정':'업무 추가';
     deleteTaskBtn.classList.toggle('hidden',!id);duplicateTaskBtn.classList.toggle('hidden',!id);
-    taskRecurrence.disabled=false;taskWeekday.disabled=false;taskMonthday.disabled=false;recurrenceSection.classList.remove('hidden');recurrenceHint.textContent='반복 업무는 시작일 이후 매주 또는 매월 자동 표시되고, 완료 여부는 날짜별로 따로 저장됩니다.';
+    taskRecurrence.disabled=false;taskWeekday.disabled=false;taskMonthday.disabled=false;recurrenceSection.classList.remove('hidden');recurrenceHint.textContent='반복 업무는 시작일 이후 매주·평일(월~금) 또는 매월 자동 표시되고, 완료 여부는 날짜별로 따로 저장됩니다.';
     if(id){
       const t=taskById(id),children=childrenOf(id);taskTitle.value=t.title;taskDate.value=t.date;taskCategory.value=t.category;taskPriority.value=t.priority||'medium';taskNote.value=t.note||'';
       taskRecurrence.value=t.recurrence?.type||'none';taskWeekday.value=String(t.recurrence?.weekday??parseDate(t.date).getDay());taskMonthday.value=String(t.recurrence?.day??parseDate(t.date).getDate());
@@ -1092,7 +1127,7 @@
   document.getElementById('addTaskBtn').addEventListener('click',()=>openTaskDialog(dateKey(new Date())));
   document.getElementById('addSubtaskBtn').addEventListener('click',()=>makeSubRow('',taskDate.value||dateKey(new Date())));
   document.getElementById('cancelTaskBtn').addEventListener('click',closeTaskDialog);document.getElementById('saveTaskBtn').addEventListener('click',saveTask);document.getElementById('duplicateTaskBtn').addEventListener('click',duplicateTask);
-  taskRecurrence.addEventListener('change',updateRecurrenceUI);taskDate.addEventListener('change',()=>{if(taskRecurrence.value==='weekly')taskWeekday.value=String(parseDate(taskDate.value).getDay());if(taskRecurrence.value==='monthly')taskMonthday.value=String(parseDate(taskDate.value).getDate())});
+  taskRecurrence.addEventListener('change',updateRecurrenceUI);taskDate.addEventListener('change',()=>{if(taskRecurrence.value==='weekly'&&taskWeekday.value!=='weekdays')taskWeekday.value=String(parseDate(taskDate.value).getDay());if(taskRecurrence.value==='monthly')taskMonthday.value=String(parseDate(taskDate.value).getDate())});
   deleteTaskBtn.addEventListener('click',()=>{if(!editingId)return;const ids=new Set([editingId,...childrenOf(editingId).map(x=>x.id)]);data.tasks=data.tasks.filter(t=>!ids.has(t.id));saveData();closeTaskDialog();render()});
 
   document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{currentView=tab.dataset.view;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===tab));render()}));
