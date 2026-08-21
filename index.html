@@ -190,7 +190,32 @@
     .auth-note{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);line-height:1.5}
     .user-badge{display:inline-flex;align-items:center;max-width:180px;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-  </style>
+  
+    .task[draggable="true"],.cal-task[draggable="true"]{cursor:grab}
+    .task.dragging,.cal-task.dragging{opacity:.38;cursor:grabbing}
+    .day.drop-target,.cal-cell.drop-target{
+      outline:2px dashed var(--accent);
+      outline-offset:-4px;
+      background:var(--accent-soft);
+    }
+    .mobile-dragging{user-select:none;-webkit-user-select:none}
+    .drag-toast{
+      position:fixed;left:50%;bottom:24px;transform:translateX(-50%);
+      z-index:9999;background:#20242a;color:#fff;border-radius:999px;
+      padding:9px 14px;font-size:12px;font-weight:700;
+      box-shadow:0 8px 26px rgba(0,0,0,.18);pointer-events:none
+    }
+    .repeat-move-info{
+      padding:11px 12px;background:#f8fafc;border:1px solid var(--line);
+      border-radius:11px;font-size:13px;line-height:1.55;margin-bottom:16px
+    }
+    .repeat-move-info strong{font-weight:800}
+    .repeat-move-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    @media(max-width:700px){
+      .task[draggable="true"],.cal-task[draggable="true"]{-webkit-touch-callout:none}
+    }
+
+</style>
 </head>
 <body>
 <div class="auth-gate" id="authGate">
@@ -459,6 +484,23 @@
   </div>
 </dialog>
 
+
+<dialog id="repeatMoveDialog">
+  <div class="modal">
+    <h2>반복 업무 이동</h2>
+    <div class="repeat-move-info" id="repeatMoveInfo"></div>
+    <div class="hint" style="margin-bottom:18px">
+      ‘이 날짜만 이동’은 이번 일정만 옮기고 다음 반복 일정은 그대로 유지합니다.
+      ‘반복 설정 변경’은 업무 수정창에서 반복 기준을 바꿀 수 있습니다.
+    </div>
+    <div class="repeat-move-actions">
+      <button class="btn" id="cancelRepeatMoveBtn" type="button">취소</button>
+      <button class="btn" id="editRepeatMoveBtn" type="button">반복 설정 변경</button>
+      <button class="btn primary" id="onceRepeatMoveBtn" type="button">이 날짜만 이동</button>
+    </div>
+  </div>
+</dialog>
+
 <script>
 (() => {
   const STORAGE_KEY = 'weekly-work-planner-v2';
@@ -549,9 +591,10 @@
     const extras=(raw.categories||[]).filter(c=>!FIXED_CATEGORIES.includes(c));
     raw.categories=[...FIXED_CATEGORIES,...extras];
     raw.tasks=(raw.tasks||[]).map(t=>({
-      priority:'medium',parentId:null,done:false,note:'',doneDates:[],recurrence:{type:'none'},...t,
+      priority:'medium',parentId:null,done:false,note:'',doneDates:[],skipDates:[],recurrence:{type:'none'},...t,
       note:typeof t.note==='string'?t.note:'',
       doneDates:Array.isArray(t.doneDates)?t.doneDates:[],
+      skipDates:Array.isArray(t.skipDates)?t.skipDates:[],
       recurrence:normalizeRecurrence(t.recurrence)
     }));
     raw.tasks.forEach(t=>{if(!raw.categories.includes(t.category))t.category='기타'});
@@ -829,6 +872,7 @@
   function recurrenceMatches(t,key){
     if(!hasRecurrence(t))return t.date===key;
     if(key<t.date)return false;
+    if(Array.isArray(t.skipDates)&&t.skipDates.includes(key))return false;
     const d=parseDate(key);
     if(t.recurrence.type==='weekly'){
       if(t.recurrence.weekday==='weekdays'){
@@ -855,6 +899,278 @@
         const a=document.createElement('a');a.href=part;a.target='_blank';a.rel='noopener noreferrer';a.textContent=part;a.addEventListener('click',e=>e.stopPropagation());container.appendChild(a);
       }else container.appendChild(document.createTextNode(part));
     });
+  }
+
+  let activeDrag=null;
+  let pendingRecurringMove=null;
+  let touchDragTimer=null;
+  let touchStartPoint=null;
+  let touchLastPoint=null;
+  let touchDragActive=false;
+
+  function clearDropTargets(){
+    document.querySelectorAll('.drop-target').forEach(el=>el.classList.remove('drop-target'));
+  }
+
+  function showDragToast(message){
+    document.querySelectorAll('.drag-toast').forEach(el=>el.remove());
+    const toast=document.createElement('div');
+    toast.className='drag-toast';
+    toast.textContent=message;
+    document.body.appendChild(toast);
+    setTimeout(()=>toast.remove(),1300);
+  }
+
+  function moveNormalTask(t,targetDate){
+    if(!t||!targetDate||t.date===targetDate)return;
+    t.date=targetDate;
+    saveData();
+    render();
+    showDragToast(`${targetDate}로 이동했습니다.`);
+  }
+
+  function moveRecurringOccurrenceOnce(t,sourceDate,targetDate){
+    if(!t||sourceDate===targetDate)return;
+
+    const skip=new Set(t.skipDates||[]);
+    skip.add(sourceDate);
+    t.skipDates=[...skip].sort();
+
+    const doneSet=new Set(t.doneDates||[]);
+    const wasDone=doneSet.has(sourceDate);
+    doneSet.delete(sourceDate);
+    t.doneDates=[...doneSet].sort();
+
+    data.tasks.push({
+      id:newId(),
+      title:t.title,
+      date:targetDate,
+      category:t.category,
+      priority:t.priority,
+      note:t.note||'',
+      parentId:null,
+      done:wasDone,
+      doneDates:[],
+      skipDates:[],
+      recurrence:{type:'none'},
+      movedFrom:{taskId:t.id,date:sourceDate}
+    });
+
+    saveData();
+    render();
+    showDragToast(`이번 일정만 ${targetDate}로 이동했습니다.`);
+  }
+
+  function openRepeatMoveDialog(t,sourceDate,targetDate){
+    pendingRecurringMove={taskId:t.id,sourceDate,targetDate};
+    const info=document.getElementById('repeatMoveInfo');
+    info.innerHTML='';
+
+    const title=document.createElement('strong');
+    title.textContent=t.title;
+
+    const dates=document.createElement('div');
+    dates.style.marginTop='5px';
+    dates.textContent=`${sourceDate} → ${targetDate}`;
+
+    const rule=document.createElement('div');
+    rule.style.marginTop='3px';
+    rule.style.color='var(--muted)';
+    rule.textContent=recurrenceText(t);
+
+    info.append(title,dates,rule);
+    document.getElementById('repeatMoveDialog').showModal();
+  }
+
+  function editRecurringScheduleFromDrop(){
+    if(!pendingRecurringMove)return;
+    const move={...pendingRecurringMove};
+    pendingRecurringMove=null;
+    document.getElementById('repeatMoveDialog').close();
+
+    const t=taskById(move.taskId);
+    if(!t)return;
+
+    openTaskDialog(t.date,t.id);
+    taskDate.value=move.targetDate;
+
+    const d=parseDate(move.targetDate);
+    if(t.recurrence?.type==='weekly'){
+      if(t.recurrence.weekday==='weekdays'){
+        taskWeekday.value='weekdays';
+      }else{
+        taskWeekday.value=String(d.getDay());
+      }
+    }else if(t.recurrence?.type==='monthly'){
+      taskMonthday.value=String(d.getDate());
+    }
+
+    recurrenceHint.textContent='드래그한 날짜를 기준으로 반복 설정을 확인한 뒤 저장해 주세요.';
+  }
+
+  function handleTaskDrop(taskId,sourceDate,targetDate){
+    clearDropTargets();
+    document.body.classList.remove('mobile-dragging');
+
+    if(!taskId||!targetDate||sourceDate===targetDate)return;
+    const t=taskById(taskId);
+    if(!t)return;
+
+    if(hasRecurrence(t)){
+      openRepeatMoveDialog(t,sourceDate,targetDate);
+      return;
+    }
+
+    // 묶음의 상위 업무라도 이 업무의 날짜만 변경한다.
+    // childrenOf(t.id)는 수정하지 않으므로 하위 업무 일정은 그대로 유지된다.
+    moveNormalTask(t,targetDate);
+  }
+
+  function setupDropZone(el,date){
+    el.dataset.dropDate=date;
+
+    el.addEventListener('dragover',e=>{
+      if(!activeDrag)return;
+      e.preventDefault();
+      if(activeDrag.sourceDate!==date){
+        clearDropTargets();
+        el.classList.add('drop-target');
+      }
+    });
+
+    el.addEventListener('dragleave',e=>{
+      if(!el.contains(e.relatedTarget))el.classList.remove('drop-target');
+    });
+
+    el.addEventListener('drop',e=>{
+      if(!activeDrag)return;
+      e.preventDefault();
+      const drag={...activeDrag};
+      activeDrag=null;
+      handleTaskDrop(drag.taskId,drag.sourceDate,date);
+    });
+  }
+
+  function isInteractiveDragTarget(target){
+    return !!target.closest('button,input,select,textarea,a,label');
+  }
+
+  function enableTaskDrag(el,t,occurrenceDate){
+    el.draggable=true;
+    el.dataset.dragTaskId=t.id;
+    el.dataset.dragOccurrence=occurrenceDate;
+
+    el.addEventListener('dragstart',e=>{
+      if(isInteractiveDragTarget(e.target)){
+        e.preventDefault();
+        return;
+      }
+
+      activeDrag={taskId:t.id,sourceDate:occurrenceDate};
+      el.classList.add('dragging');
+
+      if(e.dataTransfer){
+        e.dataTransfer.effectAllowed='move';
+        e.dataTransfer.setData('text/plain',t.id);
+      }
+    });
+
+    el.addEventListener('dragend',()=>{
+      activeDrag=null;
+      el.classList.remove('dragging');
+      clearDropTargets();
+    });
+
+    // iPhone / touch: 짧은 스크롤과 구분하기 위해 길게 누른 뒤 이동한다.
+    el.addEventListener('touchstart',e=>{
+      if(e.touches.length!==1||isInteractiveDragTarget(e.target))return;
+
+      const touch=e.touches[0];
+      touchStartPoint={x:touch.clientX,y:touch.clientY};
+      touchLastPoint={...touchStartPoint};
+      clearTimeout(touchDragTimer);
+
+      touchDragTimer=setTimeout(()=>{
+        touchDragActive=true;
+        activeDrag={taskId:t.id,sourceDate:occurrenceDate};
+        el.classList.add('dragging');
+        document.body.classList.add('mobile-dragging');
+        showDragToast('원하는 날짜로 옮겨주세요.');
+      },420);
+    },{passive:true});
+
+    el.addEventListener('touchmove',e=>{
+      if(e.touches.length!==1)return;
+      const touch=e.touches[0];
+      touchLastPoint={x:touch.clientX,y:touch.clientY};
+
+      if(!touchDragActive){
+        if(touchStartPoint){
+          const dx=touch.clientX-touchStartPoint.x;
+          const dy=touch.clientY-touchStartPoint.y;
+          if(Math.hypot(dx,dy)>10){
+            clearTimeout(touchDragTimer);
+            touchDragTimer=null;
+          }
+        }
+        return;
+      }
+
+      e.preventDefault();
+
+      // 세로형 모바일 주간에서 먼 날짜로도 옮길 수 있도록 화면 가장자리에서 자동 스크롤.
+      if(touch.clientY<90)window.scrollBy({top:-18,behavior:'auto'});
+      else if(touch.clientY>window.innerHeight-90)window.scrollBy({top:18,behavior:'auto'});
+
+      clearDropTargets();
+      const under=document.elementFromPoint(touch.clientX,touch.clientY);
+      const zone=under&&under.closest('[data-drop-date]');
+      if(zone&&zone.dataset.dropDate!==occurrenceDate){
+        zone.classList.add('drop-target');
+      }
+    },{passive:false});
+
+    el.addEventListener('touchend',e=>{
+      clearTimeout(touchDragTimer);
+      touchDragTimer=null;
+
+      if(!touchDragActive){
+        touchStartPoint=null;
+        touchLastPoint=null;
+        return;
+      }
+
+      const last=e.changedTouches&&e.changedTouches[0];
+      const point=last?{x:last.clientX,y:last.clientY}:touchLastPoint;
+      const under=point?document.elementFromPoint(point.x,point.y):null;
+      const zone=under&&under.closest('[data-drop-date]');
+      const targetDate=zone&&zone.dataset.dropDate;
+
+      const drag=activeDrag?{...activeDrag}:null;
+      activeDrag=null;
+      touchDragActive=false;
+      touchStartPoint=null;
+      touchLastPoint=null;
+      el.classList.remove('dragging');
+      clearDropTargets();
+      document.body.classList.remove('mobile-dragging');
+
+      if(drag&&targetDate){
+        handleTaskDrop(drag.taskId,drag.sourceDate,targetDate);
+      }
+    },{passive:true});
+
+    el.addEventListener('touchcancel',()=>{
+      clearTimeout(touchDragTimer);
+      touchDragTimer=null;
+      activeDrag=null;
+      touchDragActive=false;
+      touchStartPoint=null;
+      touchLastPoint=null;
+      el.classList.remove('dragging');
+      clearDropTargets();
+      document.body.classList.remove('mobile-dragging');
+    },{passive:true});
   }
 
   function renderFilters(){
@@ -889,7 +1205,7 @@
     body.appendChild(meta);
     const menu=document.createElement('button');menu.className='task-menu';menu.textContent='⋯';menu.title=hasRecurrence(t)?'반복 업무 수정':'수정';
     menu.addEventListener('click',()=>openTaskDialog(occurrenceDate,t.id));
-    el.append(cb,body,menu);return el;
+    el.append(cb,body,menu);enableTaskDrag(el,t,occurrenceDate);return el;
   }
 
   function renderWeek(){
@@ -900,7 +1216,7 @@
     for(let i=0;i<7;i++){
       const day=new Date(start);day.setDate(start.getDate()+i);const key=dateKey(day),holiday=holidayInfo(key);
       const classes=['day'];if(isSameDay(day,today))classes.push('today');if(day.getDay()===0)classes.push('sunday');if(day.getDay()===6)classes.push('saturday');if(holiday)classes.push('holiday');
-      const el=document.createElement('div');el.className=classes.join(' ');
+      const el=document.createElement('div');el.className=classes.join(' ');setupDropZone(el,key);
       const head=document.createElement('div');head.className='day-head';
       const hleft=document.createElement('div');
       const weekday=document.createElement('div');weekday.className='weekday';weekday.textContent=names[i];
@@ -922,13 +1238,13 @@
     for(let i=0;i<42;i++){
       const d=new Date(start);d.setDate(start.getDate()+i);const key=dateKey(d),holiday=holidayInfo(key);
       const classes=['cal-cell'];if(d.getMonth()!==m)classes.push('out');if(isSameDay(d,today))classes.push('today');if(d.getDay()===0)classes.push('sunday');if(d.getDay()===6)classes.push('saturday');if(holiday)classes.push('holiday');
-      const cell=document.createElement('div');cell.className=classes.join(' ');
+      const cell=document.createElement('div');cell.className=classes.join(' ');setupDropZone(cell,key);
       const date=document.createElement('div');date.className='cal-date';date.textContent=d.getDate();cell.appendChild(date);
       if(holiday){const h=document.createElement('div');h.className='cal-holiday';h.textContent=holiday;cell.appendChild(h)}
       tasksForDate(key).forEach(t=>{
         const e=document.createElement('div');e.className='cal-task'+(isTaskDone(t,key)?' done':'');e.textContent=(t.priority==='high'?'● ':'')+t.title;
         const [bg,tx]=categoryStyle(t.category);e.style.setProperty('--tag-bg',bg);e.style.setProperty('--tag-text',tx);
-        e.title=`${t.category} · ${priorityText(t.priority)}${hasRecurrence(t)?' · '+recurrenceText(t):''} · ${t.title}`;e.addEventListener('click',()=>openTaskDialog(key,t.id));cell.appendChild(e);
+        e.title=`${t.category} · ${priorityText(t.priority)}${hasRecurrence(t)?' · '+recurrenceText(t):''} · ${t.title}`;e.addEventListener('click',()=>openTaskDialog(key,t.id));enableTaskDrag(e,t,key);cell.appendChild(e);
       });
       cell.addEventListener('dblclick',()=>openTaskDialog(key));calendarGrid.appendChild(cell);
     }
@@ -1116,6 +1432,20 @@
       row.append(left,del);wrap.appendChild(row);
     });
   }
+
+  document.getElementById('cancelRepeatMoveBtn').addEventListener('click',()=>{
+    pendingRecurringMove=null;
+    document.getElementById('repeatMoveDialog').close();
+  });
+  document.getElementById('onceRepeatMoveBtn').addEventListener('click',()=>{
+    if(!pendingRecurringMove)return;
+    const move={...pendingRecurringMove};
+    pendingRecurringMove=null;
+    document.getElementById('repeatMoveDialog').close();
+    const t=taskById(move.taskId);
+    if(t)moveRecurringOccurrenceOnce(t,move.sourceDate,move.targetDate);
+  });
+  document.getElementById('editRepeatMoveBtn').addEventListener('click',editRecurringScheduleFromDrop);
 
   document.getElementById('loginBtn').addEventListener('click',signIn);
   document.getElementById('loginPassword').addEventListener('keydown',e=>{if(e.key==='Enter')signIn()});
