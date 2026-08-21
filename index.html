@@ -18,6 +18,11 @@
     .title-wrap h1{font-size:24px;margin:0 0 5px;font-weight:750}
     .title-wrap p{margin:0;color:var(--muted);font-size:14px}
     .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .sync-status{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--muted);padding:7px 9px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .sync-dot{width:7px;height:7px;border-radius:50%;background:#a5abb4;flex:0 0 auto}
+    .sync-status.syncing .sync-dot{background:#d99a32}
+    .sync-status.synced .sync-dot{background:#49a36f}
+    .sync-status.error .sync-dot{background:#d65353}
     .btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:9px 13px;font-weight:650}
     .btn:hover{background:#f9fafb}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
     .btn.icon{padding:8px 11px}.btn.danger{color:var(--danger);border-color:#f0caca}
@@ -145,9 +150,10 @@
   <div class="topbar">
     <div class="title-wrap">
       <h1>Jin's Work Planner</h1>
-      <p>일자별 업무 · 카테고리 · 우선순위 · 묶음 업무를 한 번에 관리하세요.</p>
+      <p>일자별 업무 · 카테고리 · 우선순위 · 묶음 업무를 PC와 모바일에서 함께 관리하세요.</p>
     </div>
     <div class="actions">
+      <span class="sync-status" id="syncStatus" title="Supabase 동기화 상태"><span class="sync-dot"></span><span id="syncText">연결 중</span></span>
       <button class="btn" id="manageCategories">카테고리 관리</button>
       <button class="btn" id="exportBtn">백업</button>
       <button class="btn" id="importBtn">불러오기</button>
@@ -382,6 +388,9 @@
 (() => {
   const STORAGE_KEY = 'weekly-work-planner-v2';
   const LEGACY_KEY = 'weekly-work-planner-v1';
+  const SUPABASE_URL = 'https://ehtgftlfhdujydifwcny.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_5ojdmUHjkuFOCTt3y_LhEA_hzQ26T7M';
+  const SUPABASE_ROW_ID = 'main';
   const FIXED_CATEGORIES = ['네이버','베네피아','롯데ON','LIVE','광고','품의','디자인','기타'];
   const defaultData = {categories:[...FIXED_CATEGORIES], tasks:[], memo:''};
   const PRIORITY_ORDER = {high:0,medium:1,low:2};
@@ -470,7 +479,77 @@
     raw.memo=typeof raw.memo==='string'?raw.memo:'';
     return raw;
   }
-  function saveData(){localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}
+  let remoteReady=false;
+  let syncTimer=null;
+  let syncInFlight=false;
+  let pendingSync=false;
+  function setSyncStatus(state,text){
+    const el=document.getElementById('syncStatus'),tx=document.getElementById('syncText');
+    if(!el||!tx)return;
+    el.className='sync-status '+state;
+    tx.textContent=text;
+  }
+  function saveData(){
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+    if(remoteReady)scheduleRemoteSave();
+  }
+  function scheduleRemoteSave(){
+    clearTimeout(syncTimer);
+    setSyncStatus('syncing','저장 중');
+    syncTimer=setTimeout(pushRemoteData,450);
+  }
+  async function pushRemoteData(){
+    if(!remoteReady)return;
+    if(syncInFlight){pendingSync=true;return;}
+    syncInFlight=true;
+    try{
+      const res=await fetch(`${SUPABASE_URL}/rest/v1/planner_data?on_conflict=id`,{
+        method:'POST',
+        headers:{
+          'apikey':SUPABASE_KEY,
+          'Content-Type':'application/json',
+          'Prefer':'resolution=merge-duplicates,return=minimal'
+        },
+        body:JSON.stringify([{id:SUPABASE_ROW_ID,data,updated_at:new Date().toISOString()}])
+      });
+      if(!res.ok)throw new Error(`Supabase save ${res.status}: ${await res.text()}`);
+      setSyncStatus('synced','동기화됨');
+    }catch(err){
+      console.error(err);
+      setSyncStatus('error','동기화 오류');
+    }finally{
+      syncInFlight=false;
+      if(pendingSync){pendingSync=false;pushRemoteData();}
+    }
+  }
+  async function initializeRemote(){
+    setSyncStatus('syncing','연결 중');
+    try{
+      const res=await fetch(`${SUPABASE_URL}/rest/v1/planner_data?id=eq.${encodeURIComponent(SUPABASE_ROW_ID)}&select=data`,{
+        headers:{'apikey':SUPABASE_KEY}
+      });
+      if(!res.ok)throw new Error(`Supabase load ${res.status}: ${await res.text()}`);
+      const rows=await res.json();
+      if(rows.length&&rows[0]&&rows[0].data){
+        data=normalize(rows[0].data);
+        activeCategories=new Set(data.categories);
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+        const memo=document.getElementById('memoText');
+        if(memo)memo.value=data.memo||'';
+        remoteReady=true;
+        setSyncStatus('synced','동기화됨');
+        render();
+      }else{
+        // Supabase가 비어 있으면 이 브라우저의 기존 v9 데이터를 최초 데이터로 업로드.
+        remoteReady=true;
+        await pushRemoteData();
+      }
+    }catch(err){
+      console.error(err);
+      remoteReady=false;
+      setSyncStatus('error','로컬 저장 중');
+    }
+  }
   function pad(n){return String(n).padStart(2,'0')}
   function dateKey(d){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`}
   function parseDate(s){const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)}
@@ -808,6 +887,7 @@
   document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());document.getElementById('importFile').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{data=normalize(JSON.parse(reader.result));activeCategories=new Set(data.categories);memoText.value=data.memo||'';saveData();render()}catch(err){alert('올바른 백업 파일이 아닙니다.')}};reader.readAsText(file);e.target.value=''});
 
   render();
+  initializeRemote();
 })();
 </script>
 </body>
