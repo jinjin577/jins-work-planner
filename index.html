@@ -18,6 +18,7 @@
     .title-wrap h1{font-size:24px;margin:0 0 5px;font-weight:750}
     .title-wrap p{margin:0;color:var(--muted);font-size:14px}
     .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .account-actions,.planner-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
     .sync-status{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--muted);padding:7px 9px;border-radius:999px;background:#fff;border:1px solid var(--line)}
     .sync-dot{width:7px;height:7px;border-radius:50%;background:#a5abb4;flex:0 0 auto}
     .sync-status.syncing .sync-dot{background:#d99a32}
@@ -192,22 +193,30 @@
       .topbar{align-items:flex-start;flex-direction:column;gap:10px;margin-bottom:14px}
       .title-wrap h1{font-size:21px}
       .title-wrap p{font-size:12px}
-      .actions{gap:5px;width:100%}
+      .actions{gap:7px;width:100%;flex-direction:column;align-items:stretch}
+      .account-actions{width:100%;gap:5px;justify-content:flex-end}
+      .planner-actions{width:100%;gap:5px;justify-content:flex-end;flex-wrap:nowrap;overflow-x:auto;padding-bottom:1px}
       .actions .sync-status{font-size:10.5px;padding:6px 8px}
-      .actions .user-badge{font-size:10px;max-width:130px}
-      .actions .btn{padding:6px 9px;border-radius:999px;font-size:10.5px;font-weight:700;line-height:1.2}
-      .actions .btn.primary{padding:6px 10px}
+      .actions .user-badge{font-size:10px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+      .actions .btn{padding:6px 8px;border-radius:999px;font-size:10.5px;font-weight:700;line-height:1.2;white-space:nowrap}
+      .actions .btn.primary{padding:6px 9px}
       .toolbar{grid-template-columns:1fr;justify-items:stretch;padding:10px 11px}
       .toolbar-spacer{display:none}
       .range-wrap{order:-1}.range-title{font-size:13px}
       .view-tabs{justify-content:center;justify-self:stretch;overflow-x:auto}
       .tab{padding:6px 9px;font-size:11.5px;white-space:nowrap}
+      .quick-add-bar{margin-bottom:10px;padding:7px 8px;gap:7px}
+      .quick-add-main input{padding:8px 9px;font-size:13px}
+      .quick-add-btn{padding:7px 9px!important}
+      .routine-inline{gap:5px}
+      .routine-inline .routine-label{display:none}
+      .routine-btn{padding:7px 9px;font-size:10.5px}
 
       #plannerApp{display:flex;flex-direction:column}
       #plannerApp .topbar{order:0}
       #plannerApp .toolbar{order:1}
-      #weekShell,#monthView,#categoryView,#completedView{order:2}
-      #quickAddBar{order:3}
+      #quickAddBar{order:2}
+      #weekShell,#monthView,#categoryView,#completedView{order:3}
       #productivityHub{order:4}
 
       .week-shell{width:100%!important}
@@ -326,17 +335,21 @@
   <div class="topbar">
     <div class="title-wrap">
       <h1>🖥️ Jin's Work Planner</h1>
-      <p>주간 업무 · 카테고리 · 진행상태 · 묶음 업무를 PC와 모바일에서 함께 관리하세요.</p>
+      <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
-      <span class="sync-status" id="syncStatus" title="Supabase 동기화 상태"><span class="sync-dot"></span><span id="syncText">연결 중</span></span>
-      <span class="user-badge" id="userBadge"></span>
-      <button class="btn" id="logoutBtn">로그아웃</button>
-      <button class="btn" id="manageCategories">카테고리 관리</button>
-      <button class="btn" id="exportBtn">백업</button>
-      <button class="btn" id="importBtn">불러오기</button>
-      <input type="file" id="importFile" accept=".json" hidden />
-      <button class="btn primary" id="addTaskBtn">+ 업무 추가</button>
+      <div class="account-actions">
+        <span class="sync-status" id="syncStatus" title="Supabase 동기화 상태"><span class="sync-dot"></span><span id="syncText">연결 중</span></span>
+        <span class="user-badge" id="userBadge"></span>
+        <button class="btn" id="logoutBtn">로그아웃</button>
+      </div>
+      <div class="planner-actions">
+        <button class="btn" id="manageCategories">카테고리 관리</button>
+        <button class="btn" id="exportBtn">백업</button>
+        <button class="btn" id="importBtn">불러오기</button>
+        <input type="file" id="importFile" accept=".json" hidden />
+        <button class="btn primary" id="addTaskBtn">+ 업무 추가</button>
+      </div>
     </div>
   </div>
 
@@ -1788,7 +1801,30 @@
   document.getElementById('addSubtaskBtn').addEventListener('click',()=>makeSubRow('',taskDate.value||dateKey(new Date())));
   document.getElementById('cancelTaskBtn').addEventListener('click',closeTaskDialog);document.getElementById('saveTaskBtn').addEventListener('click',saveTask);document.getElementById('duplicateTaskBtn').addEventListener('click',duplicateTask);
   taskRecurrence.addEventListener('change',updateRecurrenceUI);taskDate.addEventListener('change',()=>{if(taskRecurrence.value==='weekly'&&taskWeekday.value!=='weekdays')taskWeekday.value=String(parseDate(taskDate.value).getDay());if(taskRecurrence.value==='monthly')taskMonthday.value=String(parseDate(taskDate.value).getDate())});
-  deleteTaskBtn.addEventListener('click',()=>{if(!editingId)return;const ids=new Set([editingId,...childrenOf(editingId).map(x=>x.id)]);data.tasks=data.tasks.filter(t=>!ids.has(t.id));saveData();closeTaskDialog();render()});
+  deleteTaskBtn.addEventListener('click',()=>{
+    if(!editingId)return;
+    const task=taskById(editingId);
+    if(!task)return;
+
+    const children=childrenOf(editingId);
+    let message=`“${displayTaskTitle(task)}” 업무를 정말 삭제하시겠습니까?`;
+
+    if(children.length){
+      message+=`\n\n하위 업무 ${children.length}개도 함께 삭제됩니다.`;
+    }else if(hasRecurrence(task)){
+      message+='\n\n반복 업무 전체와 저장된 완료 기록이 함께 삭제됩니다.';
+    }
+
+    message+='\n\n삭제한 업무는 복구할 수 없습니다.';
+
+    if(!window.confirm(message))return;
+
+    const ids=new Set([editingId,...children.map(x=>x.id)]);
+    data.tasks=data.tasks.filter(t=>!ids.has(t.id));
+    saveData();
+    closeTaskDialog();
+    render();
+  });
 
   document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{currentView=tab.dataset.view;if(currentView==='category')showCategoryCompleted=false;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===tab));render()}));
   document.getElementById('prevBtn').addEventListener('click',()=>{
