@@ -70,7 +70,15 @@
     .ad-product-media{border:1px solid var(--line);border-radius:11px;padding:10px;background:#fbfcfd;min-width:0}
     .ad-product-media-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px}.ad-product-media-head b{font-size:11.5px}.ad-product-media-head span{font-size:9.5px;color:var(--muted)}
     .ad-product-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.ad-product-kpi{background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px;min-width:0}.ad-product-kpi small{display:block;color:var(--muted);font-size:9px}.ad-product-kpi b{display:block;margin-top:3px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .ad-product-table{margin-top:10px;border:1px solid var(--line);border-radius:10px;overflow:hidden}.ad-product-row{display:grid;grid-template-columns:90px 72px 1fr 1fr 80px;gap:8px;align-items:center;padding:7px 9px;border-top:1px solid var(--line);font-size:10.5px}.ad-product-row:first-child{border-top:0}.ad-product-row.head{background:#f5f7f9;color:var(--muted);font-weight:800}.ad-product-empty{padding:18px;text-align:center;color:var(--muted);font-size:11px;background:#fafbfc;border-radius:10px}
+    .ad-product-history-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+    .ad-product-history-panel{min-width:0}
+    .ad-product-history-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;font-size:11.5px;font-weight:850}
+    .ad-product-history-title span{font-size:9.5px;color:var(--muted);font-weight:650}
+    .ad-product-table{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+    .ad-product-row{display:grid;grid-template-columns:90px 1fr 1fr 80px;gap:8px;align-items:center;padding:7px 9px;border-top:1px solid var(--line);font-size:10.5px}
+    .ad-product-row:first-child{border-top:0}
+    .ad-product-row.head{background:#f5f7f9;color:var(--muted);font-weight:800}
+    .ad-product-empty{padding:18px;text-align:center;color:var(--muted);font-size:11px;background:#fafbfc;border-radius:10px}
     .ad-history{margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
     .ad-history-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}.ad-history-title{font-size:13px;font-weight:850}
     .ad-history-list{display:grid;gap:6px}.ad-history-item{display:grid;grid-template-columns:96px 80px minmax(0,1fr) auto;gap:8px;align-items:center;padding:8px 9px;border:1px solid var(--line);border-radius:9px;background:#fbfcfd;font-size:10.5px}.ad-history-item b{font-size:11px}.ad-history-empty{font-size:11px;color:var(--muted);padding:8px 2px}
@@ -471,8 +479,8 @@
     </div>
     <div class="ad-upload-grid">
       <div class="ad-upload-card">
-        <h3>검색광고 리포트</h3>
-        <p>대행사에서 받은 일일 검색광고 HTML 파일을 선택하면 성과 기준일과 핵심 지표를 자동으로 읽습니다.</p>
+        <h3>검색광고 주간 리포트</h3>
+        <p>대행사에서 받은 주간 검색광고 HTML 파일을 선택하면 7일치 일별·제품별 성과를 자동으로 추출합니다.</p>
         <div class="ad-file-row"><input class="ad-file-input" id="searchReportFile" type="file" accept=".html,text/html" /></div>
         <div class="ad-file-status" id="searchReportStatus">선택된 파일이 없습니다.</div>
         <div class="ad-preview hidden" id="searchReportPreview"></div>
@@ -486,7 +494,7 @@
       </div>
     </div>
     <div class="ad-product-panel">
-      <div class="ad-product-head"><div><div class="ad-product-title">제품별 광고 성과</div><div class="ad-product-hint">GFA는 제품별 전체 데이터 · 검색광고는 HTML에 노출된 주요 캠페인 기준</div></div><button class="hub-mini-btn" id="refreshAdProductsBtn" type="button">새로고침</button></div>
+      <div class="ad-product-head"><div><div class="ad-product-title">제품별 광고 성과</div><div class="ad-product-hint">각 매체의 최근 7일 누적 성과 · 검색광고와 GFA 모두 주간 리포트 내부의 제품별 일자 데이터를 누적</div></div><button class="hub-mini-btn" id="refreshAdProductsBtn" type="button">새로고침</button></div>
       <div class="ad-product-tabs" id="adProductTabs"></div>
       <div id="adProductContent"><div class="ad-product-empty">저장된 제품별 광고 데이터가 없습니다.</div></div>
     </div>
@@ -1778,11 +1786,14 @@
   function renderImportPreview(container,kind,payload){
     container.classList.remove('hidden');
     if(kind==='search'){
-      const total=payload.daily.find(x=>x.media==='TOTAL');
-      const search=payload.daily.find(x=>x.media==='SEARCH');
-      container.innerHTML=`<div class="ad-preview-head"><div class="ad-preview-title">${payload.meta.report_date} 성과 미리보기</div><div class="ad-preview-meta">${payload.meta.file_name}</div></div>
-        <div class="ad-kpi-grid">${makeKpi('통합 광고비',formatWon(total?.spend))}${makeKpi('통합 매출',formatWon(total?.revenue))}${makeKpi('통합 ROAS',formatPct(total?.roas))}${makeKpi('검색 ROAS',formatPct(search?.roas))}</div>
-        <div class="ad-preview-note">검색광고 일별 ${payload.daily.length}행 · 제품별 주요 캠페인 ${payload.products.length}행을 저장합니다. 검색광고 제품별 수치는 HTML에 노출된 주요 캠페인 기준입니다.</div>
+      const spend=payload.daily.reduce((s,r)=>s+(Number(r.spend)||0),0);
+      const revenue=payload.daily.reduce((s,r)=>s+(Number(r.revenue)||0),0);
+      const conversions=payload.daily.reduce((s,r)=>s+(Number(r.conversions)||0),0);
+      const roas=spend?safeRatio(revenue,spend,100):null;
+      const productNames=[...new Set(payload.products.map(x=>x.product_name))];
+      container.innerHTML=`<div class="ad-preview-head"><div class="ad-preview-title">${payload.meta.date_from} ~ ${payload.meta.date_to}</div><div class="ad-preview-meta">${payload.meta.file_name}</div></div>
+        <div class="ad-kpi-grid">${makeKpi('7일 광고비',formatWon(spend))}${makeKpi('7일 매출',formatWon(revenue))}${makeKpi('7일 ROAS',formatPct(roas))}${makeKpi('제품',productNames.length.toLocaleString('ko-KR')+'개')}</div>
+        <div class="ad-preview-note">검색광고 주간 HTML에서 일별 ${payload.daily.length}행 · 제품별 일자 ${payload.products.length}행을 저장합니다. 캠페인명 기준으로 제품을 묶고, HW3→HW-3 · 엠비피→MBP로 통일합니다.</div>
         <div class="ad-save-row"><button class="ad-save-btn" id="saveSearchReportBtn" type="button">Supabase에 저장</button></div>`;
       container.querySelector('#saveSearchReportBtn').addEventListener('click',()=>saveAdImport('search'));
     }else{
@@ -1797,42 +1808,65 @@
   async function parseSearchReportFile(file){
     const html=await file.text();
     const doc=new DOMParser().parseFromString(html,'text/html');
-    const allText=doc.body?.innerText||'';
-    let reportDate=null;
-    for(const p of doc.querySelectorAll('p.desc')){
-      const m=(p.textContent||'').match(/(20\d{2}-\d{2}-\d{2})\s*기준/);
-      if(m){reportDate=m[1];break}
-    }
-    if(!reportDate){const m=allText.match(/(20\d{2}-\d{2}-\d{2})\s*통합 기준/);if(m)reportDate=m[1]}
-    if(!reportDate)throw new Error('검색광고 HTML에서 실제 성과 기준일을 찾지 못했습니다.');
-    const daily=[];
-    const sections=[...doc.querySelectorAll('section')];
-    const metricsSection=sections.find(s=>s.querySelector('h2')?.textContent.trim()==='오늘의 종합 성과');
-    if(metricsSection){
-      const metrics={};
-      metricsSection.querySelectorAll('.metric').forEach(box=>{const k=box.querySelector('small')?.textContent.trim(),v=box.querySelector('b')?.textContent.trim();if(k&&v)metrics[k]=v});
-      daily.push({report_date:reportDate,media:'TOTAL',spend:parseIntegerText(metrics['광고비']),revenue:parseIntegerText(metrics['매출']),conversions:parseIntegerText(metrics['전환']),cpc:parseNumberText(metrics['CPC']),roas:parsePercentText(metrics['ROAS']),cpa:parseNumberText(metrics['CPA']),source_type:'SEARCH_HTML'});
-    }
-    const mediaRows=[...doc.querySelectorAll('article.media-row')];
-    const row=mediaRows.find(a=>a.querySelector('.media-name b')?.textContent.trim()==='검색광고');
-    if(!row)throw new Error('검색광고 매체별 성과를 찾지 못했습니다.');
-    const spans=[...row.children].filter(x=>x.tagName==='SPAN').map(x=>x.textContent.trim());
-    if(spans.length<5)throw new Error('검색광고 성과 항목을 읽지 못했습니다.');
-    daily.push({report_date:reportDate,media:'SEARCH',spend:parseIntegerText(spans[0]),conversions:parseIntegerText(spans[1]),revenue:parseIntegerText(spans[2]),cpc:null,roas:parsePercentText(spans[3]),cpa:parseNumberText(spans[4]),source_type:'SEARCH_HTML'});
-    const productAgg=new Map();
-    row.querySelectorAll('.campaigns span').forEach(chip=>{
-      const campaign=chip.querySelector('b')?.textContent.trim()||'';
-      const product=normalizeAdProductName(campaign);
-      if(!product||product===campaign&&!/(콘드로이친|콘트로이친|MBP|엠비피|콜라겐|HW[-_ ]?3|오메가\s*3|하스카프)/i.test(campaign))return;
-      const txt=chip.textContent||'';
-      const spendMatch=txt.match(/([\d,]+)원/),roasMatch=txt.match(/ROAS\s*([\d,.]+)%/i);
-      if(!spendMatch||!roasMatch)return;
-      const spend=parseIntegerText(spendMatch[1]),roas=parsePercentText(roasMatch[1]+'%'),revenue=Math.round((spend||0)*(roas||0)/100);
-      const cur=productAgg.get(product)||{spend:0,revenue:0};
-      cur.spend+=spend||0;cur.revenue+=revenue||0;productAgg.set(product,cur);
+    const modelNode=doc.querySelector('#embedded-model');
+    if(!modelNode)throw new Error('검색광고 주간 HTML에서 embedded-model 데이터를 찾지 못했습니다. 일일 리포트가 아니라 주간 리포트 파일인지 확인해 주세요.');
+
+    let model;
+    try{model=JSON.parse(modelNode.textContent||'{}')}catch(e){throw new Error('검색광고 주간 리포트의 내부 데이터를 읽지 못했습니다.')}
+    const rawPeriod=Array.isArray(model?.raw?.period)?model.raw.period:[];
+    if(!rawPeriod.length)throw new Error('검색광고 주간 리포트에서 일별 원천 데이터를 찾지 못했습니다.');
+
+    // 검색광고 원천행만 사용. 주간 통합 HTML 안에 별도 GFA/파워컨텐츠 데이터가 있어도 여기서는 제외한다.
+    const searchRows=rawPeriod.filter(r=>{
+      const type=String(r?.type||'').trim();
+      return type && type!=='GFA' && type!=='파워컨텐츠';
     });
-    const products=[...productAgg.entries()].map(([product_name,v])=>({report_date:reportDate,media:'SEARCH',product_name,spend:v.spend,revenue:v.revenue,conversions:null,impressions:null,clicks:null,ctr:null,cpc:null,cvr:null,roas:v.spend?safeRatio(v.revenue,v.spend,100):null,cpa:null}));
-    return {daily,products,meta:{report_date:reportDate,report_type:'SEARCH_HTML',file_name:file.name,source_hash:await sha256File(file),note:`파싱 성공: 일별 ${daily.length}행 · 제품별 주요 캠페인 ${products.length}행`}};
+    if(!searchRows.length)throw new Error('검색광고 캠페인 데이터를 찾지 못했습니다.');
+
+    const dailyMap=new Map();
+    const productMap=new Map();
+    for(const r of searchRows){
+      let date;
+      try{date=normalizeReportDate(r.date)}catch(e){continue}
+      const impressions=Math.round(Number(r.impressions)||0);
+      const clicks=Math.round(Number(r.clicks)||0);
+      const spend=Math.round(Number(r.cost)||0);
+      const conversions=Math.round(Number(r.conversions)||0);
+      const revenue=Math.round(Number(r.revenue)||0);
+
+      if(!dailyMap.has(date))dailyMap.set(date,{report_date:date,media:'SEARCH',spend:0,revenue:0,conversions:0,impressions:0,clicks:0});
+      const d=dailyMap.get(date);
+      d.spend+=spend; d.revenue+=revenue; d.conversions+=conversions; d.impressions+=impressions; d.clicks+=clicks;
+
+      const campaign=String(r.campaign||'').trim();
+      const product=normalizeAdProductName(campaign);
+      const recognized=/(콘드로이친|콘트로이친|MBP|엠비피|콜라겐|HW[-_ ]?3|오메가\s*3|하스카프)/i.test(campaign);
+      if(!recognized||!product)continue;
+      const key=date+'\u0000'+product;
+      if(!productMap.has(key))productMap.set(key,{report_date:date,media:'SEARCH',product_name:product,spend:0,revenue:0,conversions:0,impressions:0,clicks:0});
+      const p=productMap.get(key);
+      p.spend+=spend; p.revenue+=revenue; p.conversions+=conversions; p.impressions+=impressions; p.clicks+=clicks;
+    }
+
+    const finalize=x=>({...x,
+      ctr:safeRatio(x.clicks,x.impressions,100),
+      cpc:safeRatio(x.spend,x.clicks),
+      cvr:safeRatio(x.conversions,x.clicks,100),
+      roas:safeRatio(x.revenue,x.spend,100),
+      cpa:safeRatio(x.spend,x.conversions)
+    });
+    const daily=[...dailyMap.values()].sort((a,b)=>a.report_date.localeCompare(b.report_date)).map(x=>({...finalize(x),source_type:'SEARCH_HTML'}));
+    const products=[...productMap.values()].sort((a,b)=>a.report_date.localeCompare(b.report_date)||a.product_name.localeCompare(b.product_name,'ko')).map(finalize);
+    if(!daily.length)throw new Error('검색광고 주간 일별 데이터를 만들지 못했습니다.');
+    if(!products.length)throw new Error('제품으로 분류할 수 있는 검색광고 캠페인을 찾지 못했습니다.');
+
+    const dates=daily.map(x=>x.report_date);
+    const dateFrom=dates[0], dateTo=dates[dates.length-1];
+    return {daily,products,meta:{
+      report_date:dateTo,date_from:dateFrom,date_to:dateTo,
+      report_type:'SEARCH_HTML',file_name:file.name,source_hash:await sha256File(file),
+      note:`주간 파싱 성공: ${dateFrom}~${dateTo} / 검색광고 일별 ${daily.length}행 / 제품별 일자 ${products.length}행`
+    }};
   }
   function findSheetHeader(rows,required,maxScan=60){
     const req=required.map(x=>x.trim());
@@ -1865,7 +1899,7 @@
     const rc=n=>rheaders.indexOf(n);
     const agg=new Map();
     for(let i=rh+1;i<rawRows.length;i++){
-      const r=rawRows[i]||[],product=String(r[rc('제품')]??'').trim();if(!product)continue;
+      const r=rawRows[i]||[],product=normalizeAdProductName(String(r[rc('제품')]??'').trim());if(!product)continue;
       let date;try{date=normalizeReportDate(r[rc('기간')])}catch(e){continue}
       const key=date+'\u0000'+product;
       if(!agg.has(key))agg.set(key,{report_date:date,media:'GFA',product_name:product,spend:0,revenue:0,conversions:0,impressions:0,clicks:0});
@@ -1938,10 +1972,93 @@
   function renderAdProductRows(rows){
     adProductTabs.querySelectorAll('.ad-product-tab').forEach(b=>b.classList.toggle('active',b.dataset.product===selectedAdProduct));
     const pr=rows.filter(r=>r.product_name===selectedAdProduct).sort((a,b)=>b.report_date.localeCompare(a.report_date));
-    const latestByMedia={};pr.forEach(r=>{if(!latestByMedia[r.media])latestByMedia[r.media]=r});
-    const mediaCard=(media,label,note)=>{const r=latestByMedia[media];return `<div class="ad-product-media"><div class="ad-product-media-head"><b>${label}</b><span>${r?r.report_date:'데이터 없음'}${note?' · '+note:''}</span></div>${r?`<div class="ad-product-kpis"><div class="ad-product-kpi"><small>광고비</small><b>${formatWon(r.spend)}</b></div><div class="ad-product-kpi"><small>매출</small><b>${formatWon(r.revenue)}</b></div><div class="ad-product-kpi"><small>ROAS</small><b>${formatPct(r.roas)}</b></div></div>`:'<div class="ad-product-empty">데이터 없음</div>'}</div>`};
-    const history=pr.slice(0,60).map(r=>`<div class="ad-product-row"><span>${r.report_date}</span><b>${r.media==='SEARCH'?'검색':'GFA'}</b><span>${formatWon(r.spend)}</span><span>${formatWon(r.revenue)}</span><b>${formatPct(r.roas)}</b></div>`).join('');
-    adProductContent.innerHTML=`<div class="ad-product-summary">${mediaCard('GFA','GFA','제품별 전체')}${mediaCard('SEARCH','검색광고','주요 캠페인 기준')}</div><div class="ad-product-table"><div class="ad-product-row head"><span>날짜</span><span>매체</span><span>광고비</span><span>매출</span><span>ROAS</span></div>${history||'<div class="ad-product-empty">데이터 없음</div>'}</div>`;
+
+    const parseDateOnly=(s)=>{
+      const [y,m,d]=String(s||'').split('-').map(Number);
+      return new Date(Date.UTC(y,m-1,d));
+    };
+    const isoDate=(d)=>d.toISOString().slice(0,10);
+    const shortDate=(s)=>{
+      const p=String(s||'').split('-');
+      return p.length===3?`${Number(p[1])}/${Number(p[2])}`:s;
+    };
+
+    const mediaRows=(media)=>pr.filter(r=>r.media===media);
+
+    const sevenDayStats=(media)=>{
+      const mr=mediaRows(media);
+      if(!mr.length)return null;
+
+      const uniqueDates=[...new Set(mr.map(r=>r.report_date))].sort((a,b)=>b.localeCompare(a));
+      let latest=uniqueDates[0], startKey=null, windowRows=[];
+
+      // 주간 리포트로 저장된 완전한 7일 구간을 우선 선택한다.
+      // 과거 일일 리포트의 단독 최신행이 남아 있어도 주간 성과를 깨뜨리지 않도록 한다.
+      for(const candidate of uniqueDates){
+        const end=parseDateOnly(candidate);
+        const start=new Date(end);start.setUTCDate(start.getUTCDate()-6);
+        const sk=isoDate(start);
+        const rowsInWindow=mr.filter(r=>r.report_date>=sk&&r.report_date<=candidate);
+        const covered=new Set(rowsInWindow.map(r=>r.report_date));
+        if(covered.size===7){latest=candidate;startKey=sk;windowRows=rowsInWindow;break}
+      }
+      if(!startKey){
+        const end=parseDateOnly(latest);const start=new Date(end);start.setUTCDate(start.getUTCDate()-6);startKey=isoDate(start);
+        windowRows=mr.filter(r=>r.report_date>=startKey&&r.report_date<=latest);
+      }
+      const spend=windowRows.reduce((sum,r)=>sum+(Number(r.spend)||0),0);
+      const revenue=windowRows.reduce((sum,r)=>sum+(Number(r.revenue)||0),0);
+      const roas=spend>0?(revenue/spend*100):0;
+
+      return {latest,start:startKey,rows:windowRows,spend,revenue,roas};
+    };
+
+    const mediaCard=(media,label,note)=>{
+      const s=sevenDayStats(media);
+      if(!s)return `<div class="ad-product-media"><div class="ad-product-media-head"><b>${label}</b><span>데이터 없음</span></div><div class="ad-product-empty">데이터 없음</div></div>`;
+
+      const period=`${shortDate(s.start)}~${shortDate(s.latest)}`;
+      const coverage=s.rows.length===7?'7일 데이터':`${s.rows.length}일 데이터`;
+      return `<div class="ad-product-media">
+        <div class="ad-product-media-head">
+          <b>${label}</b>
+          <span>${period} · 최근 7일 누적 · ${coverage}${note?' · '+note:''}</span>
+        </div>
+        <div class="ad-product-kpis">
+          <div class="ad-product-kpi"><small>광고비</small><b>${formatWon(s.spend)}</b></div>
+          <div class="ad-product-kpi"><small>매출</small><b>${formatWon(s.revenue)}</b></div>
+          <div class="ad-product-kpi"><small>ROAS</small><b>${formatPct(s.roas)}</b></div>
+        </div>
+      </div>`;
+    };
+
+    const historyPanel=(media,label,note)=>{
+      const mr=mediaRows(media).slice(0,60);
+      const history=mr.map(r=>`<div class="ad-product-row">
+        <span>${r.report_date}</span>
+        <span>${formatWon(r.spend)}</span>
+        <span>${formatWon(r.revenue)}</span>
+        <b>${formatPct(r.roas)}</b>
+      </div>`).join('');
+
+      return `<div class="ad-product-history-panel">
+        <div class="ad-product-history-title"><b>${label}</b><span>${note}</span></div>
+        <div class="ad-product-table">
+          <div class="ad-product-row head"><span>날짜</span><span>광고비</span><span>매출</span><span>ROAS</span></div>
+          ${history||'<div class="ad-product-empty">데이터 없음</div>'}
+        </div>
+      </div>`;
+    };
+
+    adProductContent.innerHTML=`
+      <div class="ad-product-summary">
+        ${mediaCard('SEARCH','검색광고','제품별 전체 캠페인')}
+        ${mediaCard('GFA','GFA','제품별 전체')}
+      </div>
+      <div class="ad-product-history-grid">
+        ${historyPanel('SEARCH','검색광고','일자별 · 제품별 전체 캠페인')}
+        ${historyPanel('GFA','GFA','일자별 · 제품별 전체')}
+      </div>`;
   }
   async function loadAdHistory(){
     if(!adHistoryList)return;
@@ -1957,7 +2074,7 @@
   async function handleSearchReportFile(file){
     pendingSearchImport=null;searchReportPreview.classList.add('hidden');searchReportPreview.innerHTML='';if(!file){setAdStatus(searchReportStatus,'','선택된 파일이 없습니다.');return}
     setAdStatus(searchReportStatus,'loading','분석 중 · '+file.name);
-    try{pendingSearchImport=await parseSearchReportFile(file);setAdStatus(searchReportStatus,'ok',`분석 완료 · ${pendingSearchImport.meta.report_date} 기준`);renderImportPreview(searchReportPreview,'search',pendingSearchImport)}catch(err){console.error(err);setAdStatus(searchReportStatus,'error','분석 실패 · '+(err.message||err))}
+    try{pendingSearchImport=await parseSearchReportFile(file);setAdStatus(searchReportStatus,'ok',`분석 완료 · ${pendingSearchImport.meta.date_from} ~ ${pendingSearchImport.meta.date_to}`);renderImportPreview(searchReportPreview,'search',pendingSearchImport)}catch(err){console.error(err);setAdStatus(searchReportStatus,'error','분석 실패 · '+(err.message||err))}
   }
   async function handleGfaReportFile(file){
     pendingGfaImport=null;gfaReportPreview.classList.add('hidden');gfaReportPreview.innerHTML='';if(!file){setAdStatus(gfaReportStatus,'','선택된 파일이 없습니다.');return}
