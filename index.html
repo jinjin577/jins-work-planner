@@ -93,9 +93,20 @@
     .task-note{margin-top:5px;font-size:12px;line-height:1.4;color:#697381;white-space:pre-wrap;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
     .task-note a{color:var(--accent);text-decoration:none}
     .task-note a:hover{text-decoration:underline}
-    .meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
-    .repeat-chip{display:inline-flex;border-radius:999px;padding:3px 7px;font-size:10.5px;font-weight:750;background:#eef5ff;color:#4b6f9d}
-    .tag,.priority,.parent-chip{display:inline-flex;border-radius:999px;padding:3px 7px;font-size:10.5px;font-weight:750}
+    .meta{
+      display:flex;
+      align-items:center;
+      gap:4px;
+      flex-wrap:nowrap;
+      margin-top:5px;
+      min-width:0;
+      overflow:hidden;
+      white-space:nowrap;
+    }
+    .meta>.tag,.meta>.priority,.meta>.repeat-chip,.meta>.waiting-chip{flex:0 0 auto}
+    .repeat-chip{display:inline-flex;border-radius:999px;padding:2px 6px;font-size:10px;font-weight:750;background:#eef5ff;color:#4b6f9d;white-space:nowrap}
+    .tag,.priority,.parent-chip{display:inline-flex;border-radius:999px;padding:2px 6px;font-size:10px;font-weight:750;white-space:nowrap}
+    .parent-ref-row{margin-top:4px;min-width:0;overflow:hidden}
     .tag{background:var(--tag-bg,#eef1f5);color:var(--tag-text,#53606f)}
     button.tag{border:0;cursor:pointer}.category-link:hover{filter:brightness(.97);text-decoration:underline}
     .priority.high{background:#fff0f0;color:var(--p-high)} .priority.medium{background:#fff7e8;color:var(--p-medium)} .priority.low{background:#eff5f1;color:var(--p-low)}
@@ -211,6 +222,8 @@
       .routine-inline{gap:5px}
       .routine-inline .routine-label{display:none}
       .routine-btn{padding:7px 9px;font-size:10.5px}
+      .task .meta{gap:3px}
+      .task .meta .tag,.task .meta .priority,.task .meta .repeat-chip{font-size:9.5px;padding:2px 5px}
 
       #plannerApp{display:flex;flex-direction:column}
       #plannerApp .topbar{order:0}
@@ -1495,11 +1508,12 @@
     const pri=document.createElement('span');pri.className='priority '+t.priority;pri.textContent=priorityText(t.priority);meta.append(tag,pri);
     if(t.status==='waiting'){const w=document.createElement('span');w.className='waiting-chip';w.textContent='⏳ 대기중';meta.appendChild(w)}
     if(hasRecurrence(t)){const r=document.createElement('span');r.className='repeat-chip';r.textContent='↻ '+recurrenceText(t);meta.appendChild(r)}
-    if(parent){
-      const pc=document.createElement('button');pc.type='button';pc.className='parent-chip parent-link';pc.textContent='↳ '+parent.title;pc.title='묶음 업무 전체보기';
-      pc.addEventListener('click',()=>openBundleDialog(parent.id));meta.appendChild(pc);
-    }
     body.appendChild(meta);
+    if(parent){
+      const parentRow=document.createElement('div');parentRow.className='parent-ref-row';
+      const pc=document.createElement('button');pc.type='button';pc.className='parent-chip parent-link';pc.textContent='↳ '+parent.title;pc.title='묶음 업무 전체보기';
+      pc.addEventListener('click',()=>openBundleDialog(parent.id));parentRow.appendChild(pc);body.appendChild(parentRow);
+    }
     const menu=document.createElement('button');menu.className='task-menu';menu.textContent='⋯';menu.title=hasRecurrence(t)?'반복 업무 수정':'수정';
     menu.addEventListener('click',()=>openTaskDialog(occurrenceDate,t.id));
     el.append(cb,body,menu);enableTaskDrag(el,t,occurrenceDate);return el;
@@ -1626,8 +1640,12 @@
       const pri=document.createElement('span');pri.className='priority '+t.priority;pri.textContent=priorityText(t.priority);meta.append(tag,pri);
       if(hasRecurrence(t)){const r=document.createElement('span');r.className='repeat-chip';r.textContent='↻ '+recurrenceText(t);meta.appendChild(r)}
       const parent=t.parentId?taskById(t.parentId):null;
-      if(parent){const pc=document.createElement('button');pc.type='button';pc.className='parent-link';pc.textContent='↳ '+parent.title;pc.title='묶음 업무 전체보기';pc.addEventListener('click',()=>openBundleDialog(parent.id));meta.appendChild(pc)}
       body.appendChild(meta);
+      if(parent){
+        const parentRow=document.createElement('div');parentRow.className='parent-ref-row';
+        const pc=document.createElement('button');pc.type='button';pc.className='parent-link';pc.textContent='↳ '+parent.title;pc.title='묶음 업무 전체보기';pc.addEventListener('click',()=>openBundleDialog(parent.id));
+        parentRow.appendChild(pc);body.appendChild(parentRow);
+      }
       const menu=document.createElement('button');menu.className='task-menu';menu.textContent='⋯';menu.title='수정';menu.addEventListener('click',()=>openTaskDialog(key,t.id));
       row.append(cb,date,body,menu);completedList.appendChild(row);
     });
