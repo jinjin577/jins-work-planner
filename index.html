@@ -110,9 +110,6 @@
     .cal-head div:nth-child(6){color:#4776c5}.cal-head div:nth-child(7){color:#d54b4b}
     .cal-task{font-size:11px;border-radius:6px;padding:4px 6px;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:var(--tag-bg,#eef1f5);color:var(--tag-text,#53606f);cursor:pointer}
     .cal-task.done{text-decoration:line-through;opacity:.55}
-    .calendar.is-visible{display:block}
-    .week-shell.is-visible{display:block}
-    .completed-view.is-visible{display:block}
     dialog{width:min(520px,calc(100vw - 28px));border:0;border-radius:16px;padding:0;box-shadow:0 24px 80px rgba(0,0,0,.22)}
     dialog::backdrop{background:rgba(24,28,35,.38)}
     .modal{padding:22px}.modal h2{font-size:19px;margin:0 0 18px}
@@ -144,6 +141,10 @@
     .week-grid::-webkit-scrollbar-thumb{background:#d5d9df;border-radius:999px}
     .week-grid::-webkit-scrollbar-track{background:transparent}
     .hidden{display:none!important}
+    .planner-view-hidden{display:none!important}
+    #weekShell.planner-view-active{display:block!important}
+    #monthView.planner-view-active{display:block!important}
+    #completedView.planner-view-active{display:block!important}
     @media(max-width:1100px){.week-grid{grid-template-columns:repeat(7,260px)}.day{min-width:260px;min-height:360px}}
     @media(max-width:700px){
       .app{padding:16px}
@@ -267,7 +268,14 @@
         justify-content:flex-start;
         flex-wrap:wrap;
       }
-    }
+    
+      #weekShell.planner-view-hidden,
+      #monthView.planner-view-hidden,
+      #completedView.planner-view-hidden{display:none!important}
+      #weekShell.planner-view-active,
+      #monthView.planner-view-active,
+      #completedView.planner-view-active{display:block!important}
+}
 
     .auth-gate{
       min-height:100vh;display:flex;align-items:center;justify-content:center;
@@ -397,14 +405,14 @@
       <button class="routine-btn" id="promoTemplateBtn">+ 프로모션</button>
     </div>
   </div>
-  <section class="week-shell" id="weekShell">
+  <section class="week-shell planner-view-active" id="weekShell">
     <div class="week-grid" id="weekView"></div>
   </section>
-  <section class="calendar" id="monthView">
+  <section class="calendar planner-view-hidden" id="monthView">
     <div class="cal-head"><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div><div>일</div></div>
     <div class="cal-grid" id="calendarGrid"></div>
   </section>
-  <section class="completed-view" id="completedView">
+  <section class="completed-view planner-view-hidden" id="completedView">
     <div class="completed-head">
       <span class="completed-title">완료된 업무</span>
       <span class="completed-count" id="completedCount"></span>
@@ -1453,12 +1461,18 @@
   function render(){
     renderFilters();
     const isWeek=currentView==='week',isMonth=currentView==='month',completed=currentView==='completed';
-    weekShell.style.display=isWeek?'block':'none';
-    monthView.style.display=isMonth?'block':'none';
-    completedView.style.display=completed?'block':'none';
-    weekShell.classList.toggle('is-visible',isWeek);
-    monthView.classList.toggle('is-visible',isMonth);
-    completedView.classList.toggle('is-visible',completed);
+
+    const views=[
+      [weekShell,isWeek],
+      [monthView,isMonth],
+      [completedView,completed]
+    ];
+    views.forEach(([el,active])=>{
+      el.classList.toggle('planner-view-active',active);
+      el.classList.toggle('planner-view-hidden',!active);
+      el.style.removeProperty('display');
+    });
+
     document.getElementById('prevBtn').style.display=completed?'none':'flex';
     document.getElementById('nextBtn').style.display=completed?'none':'flex';
     document.getElementById('todayBtn').style.display=completed?'none':'inline-flex';
@@ -1466,7 +1480,10 @@
     document.getElementById('nextBtn').title=isWeek?'다음 주':'다음 달';
     document.getElementById('prevBtn').setAttribute('aria-label',isWeek?'이전 주':'이전 달');
     document.getElementById('nextBtn').setAttribute('aria-label',isWeek?'다음 주':'다음 달');
-    if(isWeek)renderWeek();else if(isMonth)renderMonth();else renderCompleted();
+
+    if(isWeek)renderWeek();
+    else if(isMonth)renderMonth();
+    else renderCompleted();
   }
 
   function fillCategorySelect(select,selected){
