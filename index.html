@@ -37,22 +37,41 @@
     .view-tabs{display:flex;gap:4px;background:#f1f3f6;padding:4px;border-radius:10px}
     .tab{border:0;background:transparent;padding:7px 12px;border-radius:8px;color:var(--muted);font-weight:700}
     .tab.active{background:#fff;color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.06)}
-    .filter-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
-    .filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1;min-width:0}
-    .filter-chip{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 10px;font-size:13px}
-    .filter-chip input{accent-color:var(--accent)}
-    .routine-inline{margin-left:auto;display:flex;align-items:center;gap:8px;flex:0 0 auto}
-    .routine-inline .routine-label{font-size:12px;font-weight:750;color:var(--muted);margin-right:2px}
-    .routine-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:9px 13px;font-weight:650;box-shadow:0 1px 2px rgba(25,31,40,.03)}
+    .productivity-hub{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr) minmax(0,1fr);gap:12px;margin-bottom:12px}
+    .hub-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;box-shadow:0 4px 18px rgba(25,31,40,.035);min-width:0}
+    .memo-panel{margin:0}
+    .memo-head,.hub-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+    .memo-title,.hub-title{font-size:13px;font-weight:800}
+    .memo-hint{font-size:11px;color:var(--muted)}
+    .hub-count{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:22px;padding:0 7px;border-radius:999px;background:#f1f3f6;color:#68717e;font-size:11px;font-weight:800}
+    .memo-panel textarea{width:100%;min-height:112px;max-height:210px;resize:vertical;border:1px solid var(--line);border-radius:10px;padding:10px 11px;background:#fbfcfe;color:var(--text);font:inherit;line-height:1.5;outline:none}
+    .memo-panel textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+    .hub-list{display:flex;flex-direction:column;gap:6px;max-height:152px;overflow:auto;padding-right:2px}
+    .hub-empty{font-size:12px;color:#a7adb6;padding:8px 2px}
+    .hub-item{border:1px solid var(--line);border-radius:9px;padding:8px 9px;background:#fbfcfe;min-width:0}
+    .hub-item-main{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+    .hub-item-title{border:0;background:transparent;padding:0;color:var(--text);font-size:12.5px;font-weight:700;line-height:1.35;text-align:left;min-width:0;overflow-wrap:anywhere}
+    .hub-item-title:hover{text-decoration:underline}
+    .hub-item-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:5px;color:var(--muted);font-size:10.5px}
+    .hub-item-actions{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap}
+    .hub-mini-btn{border:1px solid var(--line);background:#fff;border-radius:7px;padding:4px 7px;color:#68717e;font-size:10.5px;font-weight:750}
+    .hub-mini-btn:hover{background:#f5f7fa}
+    .overdue-days{color:#c04a4a;font-weight:750}.waiting-days{color:#9a6a14;font-weight:750}
+    .waiting-chip{display:inline-flex;border-radius:999px;padding:3px 7px;font-size:10.5px;font-weight:750;background:#fff5df;color:#9a6a14}
+    .overdue-chip{display:inline-flex;border-radius:999px;padding:3px 7px;font-size:10.5px;font-weight:750;background:#fff0f0;color:#c33f3f}
+
+    .quick-add-bar{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin-bottom:14px;box-shadow:0 2px 10px rgba(25,31,40,.03)}
+    .quick-add-main{display:flex;align-items:center;gap:7px;flex:1;min-width:0}
+    .quick-add-main input{flex:1;min-width:120px;border:1px solid var(--line);border-radius:9px;padding:8px 10px;outline:none;background:#fbfcfe}
+    .quick-add-main input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+    .quick-add-btn{padding:8px 11px}
+    .quick-add-hint{font-size:10.5px;color:var(--muted);white-space:nowrap}
+    .routine-inline{margin-left:auto;display:flex;align-items:center;gap:7px;flex:0 0 auto}
+    .routine-inline .routine-label{font-size:11px;font-weight:750;color:var(--muted);margin-right:1px}
+    .routine-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:9px;padding:8px 11px;font-weight:650;box-shadow:0 1px 2px rgba(25,31,40,.03)}
     .routine-btn:hover{background:#f9fafb;border-color:#d8dce3}
     .routine-btn:active{transform:translateY(1px)}
-    .memo-panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:14px;box-shadow:0 4px 18px rgba(25,31,40,.035)}
-    .memo-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
-    .memo-title{font-size:13px;font-weight:800}
-    .memo-hint{font-size:11px;color:var(--muted)}
-    .memo-panel textarea{width:100%;min-height:78px;resize:vertical;border:1px solid var(--line);border-radius:10px;padding:10px 11px;background:#fbfcfe;color:var(--text);font:inherit;line-height:1.5;outline:none}
-    .memo-panel textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-        .week-shell{display:block}
+    .week-shell{display:block}
 
     .week-grid{display:grid;grid-template-columns:repeat(7,minmax(235px,1fr));gap:12px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x proximity;overscroll-behavior-x:contain;min-width:0}
     .day{min-width:235px;min-height:430px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px;box-shadow:0 4px 18px rgba(25,31,40,.045);scroll-snap-align:start}
@@ -77,6 +96,7 @@
     .repeat-chip{display:inline-flex;border-radius:999px;padding:3px 7px;font-size:10.5px;font-weight:750;background:#eef5ff;color:#4b6f9d}
     .tag,.priority,.parent-chip{display:inline-flex;border-radius:999px;padding:3px 7px;font-size:10.5px;font-weight:750}
     .tag{background:var(--tag-bg,#eef1f5);color:var(--tag-text,#53606f)}
+    button.tag{border:0;cursor:pointer}.category-link:hover{filter:brightness(.97);text-decoration:underline}
     .priority.high{background:#fff0f0;color:var(--p-high)} .priority.medium{background:#fff7e8;color:var(--p-medium)} .priority.low{background:#eff5f1;color:var(--p-low)}
     .parent-chip{background:#f1f3f6;color:#68717e;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:0}
     .parent-link{cursor:pointer;background:transparent!important;border:0!important;border-radius:0!important;padding:0!important;color:#626b77!important;font-size:10.5px!important;font-weight:650!important;line-height:1.35;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -98,6 +118,26 @@
     .completed-note{margin-top:5px;font-size:11.5px;line-height:1.4;color:#697381;white-space:pre-wrap;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
     .completed-note a{color:var(--accent);text-decoration:none}
     .completed-note a:hover{text-decoration:underline}
+    .category-view{display:none;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+    .category-page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:13px}
+    .category-page-title{font-size:15px;font-weight:800}
+    .category-page-hint{font-size:11.5px;color:var(--muted);margin-top:4px}
+    .category-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px;margin-bottom:16px}
+    .category-card{border:1px solid var(--line);border-radius:11px;background:#fff;padding:11px;text-align:left;min-width:0}
+    .category-card:hover{background:#fafbfc}.category-card.selected{outline:2px solid var(--accent);outline-offset:-2px;background:var(--accent-soft)}
+    .category-card-name{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:800}
+    .category-card-dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+    .category-card-counts{display:flex;gap:8px;flex-wrap:wrap;margin-top:7px;font-size:10.5px;color:var(--muted)}
+    .category-detail{border-top:1px solid var(--line);padding-top:14px}
+    .category-detail-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .category-detail-title{font-size:14px;font-weight:800}
+    .category-list{display:flex;flex-direction:column;gap:7px}
+    .category-row-item{display:grid;grid-template-columns:86px minmax(0,1fr) auto;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:#fff}
+    .category-row-date{font-size:11px;color:var(--muted);font-weight:750;padding-top:2px;white-space:nowrap}
+    .category-row-body{min-width:0}.category-row-title{border:0;background:transparent;padding:0;font-size:13px;font-weight:700;text-align:left;color:var(--text);overflow-wrap:anywhere}
+    .category-row-title:hover{text-decoration:underline}.category-row-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+    .category-completed-toggle{border:0;background:transparent;color:var(--accent);font-size:11px;font-weight:750;padding:4px 0}
+    .category-completed-section{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
     .calendar{display:none;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
     .cal-head,.cal-grid{display:grid;width:100%;grid-template-columns:repeat(7,minmax(0,1fr))}
     .cal-head div{min-width:0;padding:10px;text-align:center;font-size:12px;font-weight:750;color:var(--muted);border-bottom:1px solid var(--line)}
@@ -144,6 +184,7 @@
     .planner-view-hidden{display:none!important}
     #weekShell.planner-view-active{display:block!important}
     #monthView.planner-view-active{display:block!important}
+    #categoryView.planner-view-active{display:block!important}
     #completedView.planner-view-active{display:block!important}
     @media(max-width:1100px){.week-grid{grid-template-columns:repeat(7,260px)}.day{min-width:260px;min-height:360px}}
     @media(max-width:700px){
@@ -151,131 +192,56 @@
       .topbar{align-items:flex-start;flex-direction:column;gap:10px;margin-bottom:14px}
       .title-wrap h1{font-size:21px}
       .title-wrap p{font-size:12px}
-
       .actions{gap:5px;width:100%}
       .actions .sync-status{font-size:10.5px;padding:6px 8px}
       .actions .user-badge{font-size:10px;max-width:130px}
-      .actions .btn{
-        padding:6px 9px;
-        border-radius:999px;
-        font-size:10.5px;
-        font-weight:700;
-        line-height:1.2;
-      }
+      .actions .btn{padding:6px 9px;border-radius:999px;font-size:10.5px;font-weight:700;line-height:1.2}
       .actions .btn.primary{padding:6px 10px}
-
       .toolbar{grid-template-columns:1fr;justify-items:stretch;padding:10px 11px}
       .toolbar-spacer{display:none}
-      .range-wrap{order:-1}
-      .range-title{font-size:13px}
-      .view-tabs{justify-content:center;justify-self:stretch}
-      .tab{padding:6px 10px;font-size:12px}
+      .range-wrap{order:-1}.range-title{font-size:13px}
+      .view-tabs{justify-content:center;justify-self:stretch;overflow-x:auto}
+      .tab{padding:6px 9px;font-size:11.5px;white-space:nowrap}
 
-      .memo-head{align-items:flex-start;flex-direction:column;gap:2px}
-      .memo-panel{padding:10px 11px}
-
-      /* Mobile weekly view: Monday-Sunday vertical */
-      .week-shell{width:100%!important}
-      .week-grid{
-        display:grid!important;
-        grid-template-columns:1fr!important;
-        gap:10px!important;
-        overflow-x:visible!important;
-        margin:0!important;
-        padding:0!important;
-        scroll-snap-type:none!important;
-        width:100%!important;
-      }
-      .day{
-        min-width:0!important;
-        width:100%!important;
-        min-height:auto!important;
-        scroll-snap-align:none!important;
-      }
-
-      /* Mobile calendar: force the complete 7-column month into viewport */
-      .calendar{
-        width:100%!important;
-        max-width:100%!important;
-        overflow:hidden!important;
-        border-radius:12px;
-      }
-      .cal-head,.cal-grid{
-        width:100%!important;
-        max-width:100%!important;
-        grid-template-columns:repeat(7,minmax(0,1fr))!important;
-      }
-      .cal-head div{
-        min-width:0!important;
-        padding:7px 2px!important;
-        font-size:10px!important;
-      }
-      .cal-cell{
-        min-width:0!important;
-        width:auto!important;
-        min-height:82px!important;
-        padding:4px 3px!important;
-        overflow:hidden!important;
-      }
-      .cal-date{font-size:10.5px!important;margin-bottom:2px!important}
-      .cal-holiday{
-        font-size:7.5px!important;
-        line-height:1.15!important;
-        margin-bottom:3px!important;
-        display:-webkit-box;
-        -webkit-box-orient:vertical;
-        -webkit-line-clamp:2;
-        overflow:hidden;
-      }
-      .cal-task{
-        width:100%!important;
-        min-width:0!important;
-        font-size:8.5px!important;
-        line-height:1.2!important;
-        padding:3px 3px!important;
-        margin-bottom:3px!important;
-        overflow:hidden!important;
-        text-overflow:ellipsis!important;
-        white-space:nowrap!important;
-      }
-
-      .row2{grid-template-columns:1fr}
-      .subrow{grid-template-columns:1fr}
-      .subrow button{justify-self:end}
-      .bundle-item{grid-template-columns:auto 72px minmax(0,1fr)}
-      .bundle-edit{grid-column:3;justify-self:end}
-      .completed-row{grid-template-columns:auto 72px minmax(0,1fr)}
-      .completed-row>.task-menu{grid-column:3;justify-self:end}
-
-      /* Mobile only: categories and routine shortcuts at the very bottom */
       #plannerApp{display:flex;flex-direction:column}
-      #plannerApp .filter-row{
-        order:99;
-        margin-top:20px;
-        margin-bottom:0;
-        padding-top:16px;
-        border-top:1px solid var(--line);
-        align-items:flex-start;
-      }
-      #plannerApp .filter-row .filters{
-        width:100%;
-        flex:1 1 100%;
-      }
-      #plannerApp .routine-inline{
-        width:100%;
-        margin-left:0;
-        margin-top:5px;
-        justify-content:flex-start;
-        flex-wrap:wrap;
-      }
-    
-      #weekShell.planner-view-hidden,
-      #monthView.planner-view-hidden,
-      #completedView.planner-view-hidden{display:none!important}
-      #weekShell.planner-view-active,
-      #monthView.planner-view-active,
-      #completedView.planner-view-active{display:block!important}
-}
+      #plannerApp .topbar{order:0}
+      #plannerApp .toolbar{order:1}
+      #weekShell,#monthView,#categoryView,#completedView{order:2}
+      #quickAddBar{order:3}
+      #productivityHub{order:4}
+
+      .week-shell{width:100%!important}
+      .week-grid{display:grid!important;grid-template-columns:1fr!important;gap:10px!important;overflow-x:visible!important;margin:0!important;padding:0!important;scroll-snap-type:none!important;width:100%!important}
+      .day{min-width:0!important;width:100%!important;min-height:auto!important;scroll-snap-align:none!important}
+
+      .quick-add-bar{flex-direction:column;align-items:stretch;margin-top:12px;margin-bottom:10px;padding:9px}
+      .quick-add-main{width:100%}.quick-add-hint{display:none}.quick-add-main input{font-size:16px}
+      .quick-add-bar .routine-inline{width:100%;margin:0;justify-content:flex-start;flex-wrap:wrap;padding-top:2px}
+      .routine-inline .routine-label{display:none}
+      .routine-btn{padding:7px 10px;font-size:11px}
+
+      .productivity-hub{grid-template-columns:1fr;gap:9px;margin-top:0;margin-bottom:0}
+      #overdueHubCard{order:1}#waitingHubCard{order:2}#memoHubCard{order:3}
+      .hub-card{padding:10px 11px}.memo-head{align-items:flex-start;flex-direction:column;gap:2px}
+      .memo-panel textarea{min-height:82px}.hub-list{max-height:none}
+
+      .calendar{width:100%!important;max-width:100%!important;overflow:hidden!important;border-radius:12px}
+      .cal-head,.cal-grid{width:100%!important;max-width:100%!important;grid-template-columns:repeat(7,minmax(0,1fr))!important}
+      .cal-head div{min-width:0!important;padding:7px 2px!important;font-size:10px!important}
+      .cal-cell{min-width:0!important;width:auto!important;min-height:82px!important;padding:4px 3px!important;overflow:hidden!important}
+      .cal-date{font-size:10.5px!important;margin-bottom:2px!important}
+      .cal-holiday{font-size:7.5px!important;line-height:1.15!important;margin-bottom:3px!important;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+      .cal-task{width:100%!important;min-width:0!important;font-size:8.5px!important;line-height:1.2!important;padding:3px!important;margin-bottom:3px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+
+      .category-view{padding:11px}.category-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.category-card{padding:9px}
+      .category-row-item{grid-template-columns:70px minmax(0,1fr);gap:7px}.category-row-item>.task-menu{grid-column:2;justify-self:end}
+      .row2{grid-template-columns:1fr}.subrow{grid-template-columns:1fr}.subrow button{justify-self:end}
+      .bundle-item{grid-template-columns:auto 72px minmax(0,1fr)}.bundle-edit{grid-column:3;justify-self:end}
+      .completed-row{grid-template-columns:auto 72px minmax(0,1fr)}.completed-row>.task-menu{grid-column:3;justify-self:end}
+
+      #weekShell.planner-view-hidden,#monthView.planner-view-hidden,#categoryView.planner-view-hidden,#completedView.planner-view-hidden{display:none!important}
+      #weekShell.planner-view-active,#monthView.planner-view-active,#categoryView.planner-view-active,#completedView.planner-view-active{display:block!important}
+    }
 
     .auth-gate{
       min-height:100vh;display:flex;align-items:center;justify-content:center;
@@ -360,7 +326,7 @@
   <div class="topbar">
     <div class="title-wrap">
       <h1>🖥️ Jin's Work Planner</h1>
-      <p>일자별 업무 · 카테고리 · 우선순위 · 묶음 업무를 PC와 모바일에서 함께 관리하세요.</p>
+      <p>주간 업무 · 카테고리 · 진행상태 · 묶음 업무를 PC와 모바일에서 함께 관리하세요.</p>
     </div>
     <div class="actions">
       <span class="sync-status" id="syncStatus" title="Supabase 동기화 상태"><span class="sync-dot"></span><span id="syncText">연결 중</span></span>
@@ -385,32 +351,63 @@
     <div class="view-tabs">
       <button class="tab active" data-view="week">주간</button>
       <button class="tab" data-view="month">캘린더</button>
+      <button class="tab" data-view="category">카테고리</button>
       <button class="tab" data-view="completed">완료</button>
     </div>
   </div>
 
-  <section class="memo-panel">
-    <div class="memo-head">
-      <span class="memo-title">메모</span>
-      <span class="memo-hint">날짜와 관계없이 계속 보관됩니다.</span>
+  <section class="productivity-hub" id="productivityHub">
+    <div class="memo-panel hub-card" id="memoHubCard">
+      <div class="memo-head">
+        <span class="memo-title">메모</span>
+        <span class="memo-hint">날짜 없이 자유롭게 기록</span>
+      </div>
+      <textarea id="memoText" placeholder="날짜를 정하지 않은 업무, 아이디어, 확인할 내용 등을 자유롭게 적어두세요."></textarea>
     </div>
-    <textarea id="memoText" placeholder="날짜를 정하지 않은 업무, 아이디어, 확인할 내용 등을 자유롭게 적어두세요."></textarea>
+    <div class="hub-card status-card" id="overdueHubCard">
+      <div class="hub-head">
+        <span class="hub-title">⚠ 지연 업무</span>
+        <span class="hub-count" id="overdueCount">0</span>
+      </div>
+      <div class="hub-list" id="overdueList"></div>
+    </div>
+    <div class="hub-card status-card" id="waitingHubCard">
+      <div class="hub-head">
+        <span class="hub-title">⏳ 대기중 업무</span>
+        <span class="hub-count" id="waitingCount">0</span>
+      </div>
+      <div class="hub-list" id="waitingList"></div>
+    </div>
   </section>
 
-  <div class="filter-row">
-    <div class="filters" id="filters"></div>
+  <div class="quick-add-bar" id="quickAddBar">
+    <div class="quick-add-main">
+      <input id="quickTaskInput" placeholder="오늘 업무 빠르게 추가..." aria-label="오늘 업무 빠르게 추가" />
+      <button class="btn primary quick-add-btn" id="quickAddBtn" type="button">+ 추가</button>
+    </div>
     <div class="routine-inline">
       <span class="routine-label">루틴 업무</span>
       <button class="routine-btn" id="liveTemplateBtn">+ LIVE 업무</button>
       <button class="routine-btn" id="promoTemplateBtn">+ 프로모션</button>
     </div>
   </div>
+
   <section class="week-shell planner-view-active" id="weekShell">
     <div class="week-grid" id="weekView"></div>
   </section>
   <section class="calendar planner-view-hidden" id="monthView">
     <div class="cal-head"><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div><div>일</div></div>
     <div class="cal-grid" id="calendarGrid"></div>
+  </section>
+  <section class="category-view planner-view-hidden" id="categoryView">
+    <div class="category-page-head">
+      <div>
+        <div class="category-page-title">카테고리별 업무</div>
+        <div class="category-page-hint">카테고리를 선택하면 진행중·대기중 업무를 한곳에서 볼 수 있습니다.</div>
+      </div>
+    </div>
+    <div class="category-cards" id="categoryCards"></div>
+    <div class="category-detail" id="categoryDetail"></div>
   </section>
   <section class="completed-view planner-view-hidden" id="completedView">
     <div class="completed-head">
@@ -442,9 +439,18 @@
         </select>
       </div>
     </div>
-    <div class="field">
-      <label for="taskCategory">카테고리</label>
-      <select id="taskCategory"></select>
+    <div class="row2">
+      <div class="field">
+        <label for="taskCategory">카테고리</label>
+        <select id="taskCategory"></select>
+      </div>
+      <div class="field">
+        <label for="taskStatus">상태</label>
+        <select id="taskStatus">
+          <option value="active">진행중</option>
+          <option value="waiting">대기중</option>
+        </select>
+      </div>
     </div>
     <div class="field">
       <label for="taskNote">메모 / 링크</label>
@@ -661,15 +667,18 @@
   let currentView = 'week';
   let editingId = null;
   let activeCategories = new Set(data.categories);
+  let currentCategory = data.categories[0] || '기타';
+  let showCategoryCompleted = false;
 
   const weekView = document.getElementById('weekView'), weekShell = document.getElementById('weekShell'), monthView = document.getElementById('monthView'),
+    categoryView = document.getElementById('categoryView'), categoryCards = document.getElementById('categoryCards'), categoryDetail = document.getElementById('categoryDetail'),
     completedView = document.getElementById('completedView'), completedList = document.getElementById('completedList'),
     completedCount = document.getElementById('completedCount'), dateNav = document.getElementById('dateNav'),
     calendarGrid = document.getElementById('calendarGrid'), rangeTitle = document.getElementById('rangeTitle'),
-    filters = document.getElementById('filters'), taskDialog = document.getElementById('taskDialog'),
+    taskDialog = document.getElementById('taskDialog'), productivityHub = document.getElementById('productivityHub'), quickAddBar = document.getElementById('quickAddBar'),
     categoryDialog = document.getElementById('categoryDialog'), liveDialog = document.getElementById('liveDialog'),
     promoDialog = document.getElementById('promoDialog'), taskTitle = document.getElementById('taskTitle'),
-    taskDate = document.getElementById('taskDate'), taskCategory = document.getElementById('taskCategory'),
+    taskDate = document.getElementById('taskDate'), taskCategory = document.getElementById('taskCategory'), taskStatus = document.getElementById('taskStatus'),
     taskPriority = document.getElementById('taskPriority'), taskNote = document.getElementById('taskNote'),
     taskRecurrence = document.getElementById('taskRecurrence'), taskWeekday = document.getElementById('taskWeekday'),
     taskMonthday = document.getElementById('taskMonthday'), recurrenceSection = document.getElementById('recurrenceSection'),
@@ -704,8 +713,10 @@
     const extras=(raw.categories||[]).filter(c=>!FIXED_CATEGORIES.includes(c));
     raw.categories=[...FIXED_CATEGORIES,...extras];
     raw.tasks=(raw.tasks||[]).map(t=>({
-      priority:'medium',parentId:null,done:false,note:'',doneDates:[],skipDates:[],doneAtDates:{},completedAt:null,recurrence:{type:'none'},...t,
+      priority:'medium',parentId:null,done:false,note:'',status:'active',waitingSince:null,doneDates:[],skipDates:[],doneAtDates:{},completedAt:null,recurrence:{type:'none'},...t,
       note:typeof t.note==='string'?t.note:'',
+      status:t.status==='waiting'?'waiting':'active',
+      waitingSince:typeof t.waitingSince==='string'?t.waitingSince:null,
       doneDates:Array.isArray(t.doneDates)?t.doneDates:[],
       skipDates:Array.isArray(t.skipDates)?t.skipDates:[],
       doneAtDates:(t.doneAtDates&&typeof t.doneAtDates==='object'&&!Array.isArray(t.doneAtDates))?t.doneAtDates:{},
@@ -974,7 +985,7 @@
   function priorityText(p){return p==='high'?'높음':p==='low'?'낮음':'보통'}
   function taskById(id){return data.tasks.find(t=>t.id===id)}
   function childrenOf(id){return data.tasks.filter(t=>t.parentId===id)}
-  function filteredBaseTasks(){return data.tasks.filter(t=>activeCategories.has(t.category))}
+  function filteredBaseTasks(){return data.tasks}
   function hasRecurrence(t){return t.recurrence&&t.recurrence.type&&t.recurrence.type!=='none'}
   function recurrenceText(t){
     if(!hasRecurrence(t))return '';
@@ -1004,7 +1015,7 @@
   }
   function tasksForDate(key){
     return filteredBaseTasks()
-      .filter(t=>t.parentId?t.date===key:recurrenceMatches(t,key))
+      .filter(t=>t.status!=='waiting'&&(t.parentId?t.date===key:recurrenceMatches(t,key)))
       .sort((a,b)=>{
         const aDone=isTaskDone(a,key),bDone=isTaskDone(b,key);
         if(aDone!==bDone)return aDone?1:-1;
@@ -1038,21 +1049,49 @@
       t.done=value;
       t.completedAt=value?now:null;
     }
+    if(value){t.status='active';t.waitingSince=null}
+  }
+  function setTaskStatus(t,status){
+    if(!t)return;
+    const next=status==='waiting'?'waiting':'active';
+    if(next==='waiting'){
+      t.status='waiting';
+      if(!t.waitingSince)t.waitingSince=new Date().toISOString();
+    }else{
+      t.status='active';
+      t.waitingSince=null;
+    }
   }
   function displayTaskTitle(t){
-    if(!t||!t.parentId)return t?.title||'';
+    if(!t)return '';
+    const raw=String(t.title||'');
+    if(!t.parentId)return raw;
+
     const parent=taskById(t.parentId);
-    if(!parent)return t.title||'';
+    if(!parent)return raw;
 
     const parentRoot=String(parent.title||'')
-      .replace(/\s*·\s*LIVE 진행$/,'')
-      .replace(/\s*·\s*프로모션$/,'');
+      .replace(/\s*[·•]\s*LIVE 진행$/,'')
+      .replace(/\s*[·•]\s*프로모션$/,'')
+      .trim();
 
-    const prefix=parentRoot+' · ';
-    if(parentRoot && String(t.title||'').startsWith(prefix)){
-      return String(t.title).slice(prefix.length);
+    // Older routine data may have been saved as
+    // "상위업무명 · 하위업무명".  New routine data stores only the
+    // child name.  Support both formats without changing Supabase data.
+    const escaped=parentRoot.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    if(parentRoot){
+      const exactPrefix=new RegExp('^'+escaped+'\\s*[·•]\\s*');
+      if(exactPrefix.test(raw))return raw.replace(exactPrefix,'').trim();
     }
-    return t.title||'';
+
+    // LIVE / promotion routine children from very old versions can have a
+    // slightly different parent title. In that case the last segment is the
+    // actual child task name.
+    if((t.category==='LIVE'||/프로모션/.test(String(parent.title||'')))&&/[·•]/.test(raw)){
+      const parts=raw.split(/\s*[·•]\s*/).filter(Boolean);
+      if(parts.length>1)return parts[parts.length-1].trim();
+    }
+    return raw;
   }
 
   function appendLinkified(container,text){
@@ -1340,15 +1379,92 @@
     },{passive:true});
   }
 
-  function renderFilters(){
-    filters.innerHTML='';
-    data.categories.forEach(cat=>{
-      const label=document.createElement('label');label.className='filter-chip';
-      const cb=document.createElement('input');cb.type='checkbox';cb.checked=activeCategories.has(cat);
-      cb.addEventListener('change',()=>{cb.checked?activeCategories.add(cat):activeCategories.delete(cat);render()});
-      const dot=document.createElement('span'),[,color]=categoryStyle(cat);dot.style.cssText=`width:9px;height:9px;border-radius:50%;background:${color}`;
-      const tx=document.createElement('span');tx.textContent=cat;label.append(cb,dot,tx);filters.appendChild(label);
+  function renderFilters(){}
+
+  function daysBetween(fromKey,toKey){
+    const a=parseDate(fromKey),b=parseDate(toKey);
+    return Math.max(0,Math.floor((b-a)/86400000));
+  }
+  function waitDays(t){
+    if(!t.waitingSince)return 0;
+    const start=new Date(t.waitingSince),now=new Date();
+    start.setHours(0,0,0,0);now.setHours(0,0,0,0);
+    return Math.max(0,Math.floor((now-start)/86400000));
+  }
+  function latestRecurringOccurrenceBefore(t,todayKey){
+    if(!hasRecurrence(t))return null;
+    const today=parseDate(todayKey);
+    // Monthly recurrences need at most about one month, weekly recurrences
+    // at most one week. 62 days safely covers all supported patterns while
+    // avoiding a large historical backlog scan.
+    for(let offset=1;offset<=62;offset++){
+      const d=new Date(today);d.setDate(today.getDate()-offset);
+      const key=dateKey(d);
+      if(key<t.date)break;
+      if(recurrenceMatches(t,key))return key;
+    }
+    return null;
+  }
+  function overdueTasks(){
+    const today=dateKey(new Date()),items=[];
+    data.tasks.forEach(t=>{
+      if(t.status==='waiting')return;
+      if(hasRecurrence(t)){
+        // A repeating task is overdue when its most recent scheduled
+        // occurrence before today is still incomplete.
+        const occurrenceDate=latestRecurringOccurrenceBefore(t,today);
+        if(occurrenceDate&&!isTaskDone(t,occurrenceDate))items.push({task:t,occurrenceDate});
+      }else if(!t.done&&t.date<today){
+        items.push({task:t,occurrenceDate:t.date});
+      }
     });
+    return items.sort((a,b)=>a.occurrenceDate.localeCompare(b.occurrenceDate)||(PRIORITY_ORDER[a.task.priority]-PRIORITY_ORDER[b.task.priority])||displayTaskTitle(a.task).localeCompare(displayTaskTitle(b.task),'ko'));
+  }
+  function waitingTasks(){
+    return data.tasks.filter(t=>t.status==='waiting'&&!isTaskFullyCompleted(t))
+      .sort((a,b)=>(a.waitingSince||'').localeCompare(b.waitingSince||'')||a.date.localeCompare(b.date)||displayTaskTitle(a).localeCompare(displayTaskTitle(b),'ko'))
+      .map(t=>({task:t,occurrenceDate:t.date}));
+  }
+  function makeHubItem(entry,type){
+    const t=entry.task||entry,occurrenceDate=entry.occurrenceDate||t.date;
+    const item=document.createElement('div');item.className='hub-item';
+    const main=document.createElement('div');main.className='hub-item-main';
+    const title=document.createElement('button');title.type='button';title.className='hub-item-title';title.textContent=displayTaskTitle(t);title.addEventListener('click',()=>openTaskDialog(occurrenceDate,t.id));main.appendChild(title);item.appendChild(main);
+    const meta=document.createElement('div');meta.className='hub-item-meta';
+    const tag=document.createElement('button');tag.type='button';tag.className='tag category-link';tag.textContent=t.category;const [bg,tx]=categoryStyle(t.category);tag.style.setProperty('--tag-bg',bg);tag.style.setProperty('--tag-text',tx);tag.addEventListener('click',()=>openCategoryView(t.category));
+    const date=document.createElement('span');date.textContent=occurrenceDate;meta.append(tag,date);
+    if(type==='overdue'&&hasRecurrence(t)){
+      const repeat=document.createElement('span');repeat.className='repeat-chip';repeat.textContent='↻ '+recurrenceText(t);meta.appendChild(repeat);
+    }
+    const indicator=document.createElement('span');
+    if(type==='overdue'){
+      const n=daysBetween(occurrenceDate,dateKey(new Date()));indicator.className='overdue-days';indicator.textContent=`${n}일 지연`;
+    }else{
+      const n=waitDays(t);indicator.className='waiting-days';indicator.textContent=n?`대기 ${n}일`:'오늘부터 대기';
+    }
+    meta.appendChild(indicator);item.appendChild(meta);
+    const actions=document.createElement('div');actions.className='hub-item-actions';
+    if(type==='overdue'){
+      const wait=document.createElement('button');wait.type='button';wait.className='hub-mini-btn';wait.textContent='대기중';wait.addEventListener('click',()=>{setTaskStatus(t,'waiting');saveData();render()});actions.appendChild(wait);
+    }else{
+      const active=document.createElement('button');active.type='button';active.className='hub-mini-btn';active.textContent='진행중';active.addEventListener('click',()=>{setTaskStatus(t,'active');saveData();render()});actions.appendChild(active);
+    }
+    const done=document.createElement('button');done.type='button';done.className='hub-mini-btn';done.textContent='완료';done.addEventListener('click',()=>{setTaskDone(t,occurrenceDate,true);saveData();render()});actions.appendChild(done);
+    item.appendChild(actions);return item;
+  }
+  function renderProductivityHub(){
+    const overdue=overdueTasks(),waiting=waitingTasks();
+    const overdueList=document.getElementById('overdueList'),waitingList=document.getElementById('waitingList');
+    document.getElementById('overdueCount').textContent=String(overdue.length);document.getElementById('waitingCount').textContent=String(waiting.length);
+    overdueList.innerHTML='';waitingList.innerHTML='';
+    if(!overdue.length){const e=document.createElement('div');e.className='hub-empty';e.textContent='지연된 업무가 없습니다.';overdueList.appendChild(e)}else overdue.forEach(entry=>overdueList.appendChild(makeHubItem(entry,'overdue')));
+    if(!waiting.length){const e=document.createElement('div');e.className='hub-empty';e.textContent='대기중인 업무가 없습니다.';waitingList.appendChild(e)}else waiting.forEach(entry=>waitingList.appendChild(makeHubItem(entry,'waiting')));
+  }
+  function openCategoryView(category){
+    if(category&&data.categories.includes(category))currentCategory=category;
+    showCategoryCompleted=false;currentView='category';
+    document.querySelectorAll('.tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.view==='category'));
+    render();
   }
 
   function makeTask(t,occurrenceDate){
@@ -1361,9 +1477,10 @@
     const title=document.createElement('div');title.className='task-title';title.textContent=displayTaskTitle(t);body.appendChild(title);
     if(t.note){const note=document.createElement('div');note.className='task-note';appendLinkified(note,t.note);body.appendChild(note)}
     const meta=document.createElement('div');meta.className='meta';
-    const tag=document.createElement('span');tag.className='tag';tag.textContent=t.category;
-    const [bg,tx]=categoryStyle(t.category);tag.style.setProperty('--tag-bg',bg);tag.style.setProperty('--tag-text',tx);
+    const tag=document.createElement('button');tag.type='button';tag.className='tag category-link';tag.textContent=t.category;
+    const [bg,tx]=categoryStyle(t.category);tag.style.setProperty('--tag-bg',bg);tag.style.setProperty('--tag-text',tx);tag.addEventListener('click',e=>{e.stopPropagation();openCategoryView(t.category)});
     const pri=document.createElement('span');pri.className='priority '+t.priority;pri.textContent=priorityText(t.priority);meta.append(tag,pri);
+    if(t.status==='waiting'){const w=document.createElement('span');w.className='waiting-chip';w.textContent='⏳ 대기중';meta.appendChild(w)}
     if(hasRecurrence(t)){const r=document.createElement('span');r.className='repeat-chip';r.textContent='↻ '+recurrenceText(t);meta.appendChild(r)}
     if(parent){
       const pc=document.createElement('button');pc.type='button';pc.className='parent-chip parent-link';pc.textContent='↳ '+parent.title;pc.title='묶음 업무 전체보기';
@@ -1417,6 +1534,51 @@
     }
   }
 
+  function isTaskFullyCompleted(t){return !hasRecurrence(t)&&!!t.done}
+  function categoryTaskCounts(cat){
+    const tasks=data.tasks.filter(t=>t.category===cat),active=tasks.filter(t=>!isTaskFullyCompleted(t)&&t.status!=='waiting').length,waiting=tasks.filter(t=>!isTaskFullyCompleted(t)&&t.status==='waiting').length,done=tasks.filter(t=>isTaskFullyCompleted(t)).length;
+    return {active,waiting,done};
+  }
+  function makeCategoryRow(t,doneMode=false){
+    const row=document.createElement('div');row.className='category-row-item';
+    const d=document.createElement('div');d.className='category-row-date';d.textContent=t.date;
+    const body=document.createElement('div');body.className='category-row-body';
+    const title=document.createElement('button');title.type='button';title.className='category-row-title';title.textContent=displayTaskTitle(t);title.addEventListener('click',()=>openTaskDialog(t.date,t.id));body.appendChild(title);
+    const meta=document.createElement('div');meta.className='category-row-meta';
+    const pri=document.createElement('span');pri.className='priority '+t.priority;pri.textContent=priorityText(t.priority);meta.appendChild(pri);
+    if(t.status==='waiting'&&!doneMode){const w=document.createElement('span');w.className='waiting-chip';w.textContent=`⏳ 대기 ${waitDays(t)}일`;meta.appendChild(w)}
+    else if(!doneMode){
+      const today=dateKey(new Date());
+      const overdueDate=hasRecurrence(t)?latestRecurringOccurrenceBefore(t,today):(!t.done&&t.date<today?t.date:null);
+      if(overdueDate&&!isTaskDone(t,overdueDate)){const o=document.createElement('span');o.className='overdue-chip';o.textContent=`⚠ ${daysBetween(overdueDate,today)}일 지연`;meta.appendChild(o)}
+    }
+    if(hasRecurrence(t)){const r=document.createElement('span');r.className='repeat-chip';r.textContent='↻ '+recurrenceText(t);meta.appendChild(r)}
+    const parent=t.parentId?taskById(t.parentId):null;if(parent){const p=document.createElement('button');p.type='button';p.className='parent-link';p.textContent='↳ '+parent.title;p.addEventListener('click',()=>openBundleDialog(parent.id));meta.appendChild(p)}
+    body.appendChild(meta);
+    const menu=document.createElement('button');menu.type='button';menu.className='task-menu';menu.textContent='⋯';menu.title='수정';menu.addEventListener('click',()=>openTaskDialog(t.date,t.id));
+    row.append(d,body,menu);return row;
+  }
+  function renderCategoryPage(){
+    if(!data.categories.includes(currentCategory))currentCategory=data.categories[0]||'기타';
+    rangeTitle.textContent='카테고리별 업무';categoryCards.innerHTML='';categoryDetail.innerHTML='';
+    data.categories.forEach(cat=>{
+      const counts=categoryTaskCounts(cat),card=document.createElement('button');card.type='button';card.className='category-card'+(cat===currentCategory?' selected':'');
+      const name=document.createElement('div');name.className='category-card-name';const dot=document.createElement('span');dot.className='category-card-dot';const [,tx]=categoryStyle(cat);dot.style.background=tx;const label=document.createElement('span');label.textContent=cat;name.append(dot,label);
+      const countsEl=document.createElement('div');countsEl.className='category-card-counts';countsEl.innerHTML=`<span>진행 ${counts.active}</span><span>대기 ${counts.waiting}</span><span>완료 ${counts.done}</span>`;
+      card.append(name,countsEl);card.addEventListener('click',()=>{currentCategory=cat;showCategoryCompleted=false;renderCategoryPage()});categoryCards.appendChild(card);
+    });
+    const tasks=data.tasks.filter(t=>t.category===currentCategory&&!isTaskFullyCompleted(t));
+    tasks.sort((a,b)=>{
+      const aw=a.status==='waiting',bw=b.status==='waiting';if(aw!==bw)return aw?1:-1;
+      const ao=!hasRecurrence(a)&&a.date<dateKey(new Date()),bo=!hasRecurrence(b)&&b.date<dateKey(new Date());if(ao!==bo)return ao?-1:1;
+      return a.date.localeCompare(b.date)||(PRIORITY_ORDER[a.priority]-PRIORITY_ORDER[b.priority])||displayTaskTitle(a).localeCompare(displayTaskTitle(b),'ko');
+    });
+    const head=document.createElement('div');head.className='category-detail-head';const title=document.createElement('div');title.className='category-detail-title';title.textContent=currentCategory;const doneCount=data.tasks.filter(t=>t.category===currentCategory&&isTaskFullyCompleted(t)).length;const toggle=document.createElement('button');toggle.type='button';toggle.className='category-completed-toggle';toggle.textContent=`완료 ${doneCount}개 ${showCategoryCompleted?'접기':'보기'} ›`;toggle.disabled=doneCount===0;toggle.addEventListener('click',()=>{showCategoryCompleted=!showCategoryCompleted;renderCategoryPage()});head.append(title,toggle);categoryDetail.appendChild(head);
+    const list=document.createElement('div');list.className='category-list';
+    if(!tasks.length){const e=document.createElement('div');e.className='empty';e.textContent='진행중이거나 대기중인 업무가 없습니다.';list.appendChild(e)}else tasks.forEach(t=>list.appendChild(makeCategoryRow(t,false)));categoryDetail.appendChild(list);
+    if(showCategoryCompleted&&doneCount){const section=document.createElement('div');section.className='category-completed-section';const completed=data.tasks.filter(t=>t.category===currentCategory&&isTaskFullyCompleted(t)).sort((a,b)=>b.date.localeCompare(a.date));completed.forEach(t=>section.appendChild(makeCategoryRow(t,true)));categoryDetail.appendChild(section)}
+  }
+
   function completedOccurrences(){
     const items=[];
     filteredBaseTasks().forEach(t=>{
@@ -1459,30 +1621,17 @@
   }
 
   function render(){
-    renderFilters();
-    const isWeek=currentView==='week',isMonth=currentView==='month',completed=currentView==='completed';
-
-    const views=[
-      [weekShell,isWeek],
-      [monthView,isMonth],
-      [completedView,completed]
-    ];
-    views.forEach(([el,active])=>{
-      el.classList.toggle('planner-view-active',active);
-      el.classList.toggle('planner-view-hidden',!active);
-      el.style.removeProperty('display');
-    });
-
-    document.getElementById('prevBtn').style.display=completed?'none':'flex';
-    document.getElementById('nextBtn').style.display=completed?'none':'flex';
-    document.getElementById('todayBtn').style.display=completed?'none':'inline-flex';
-    document.getElementById('prevBtn').title=isWeek?'이전 주':'이전 달';
-    document.getElementById('nextBtn').title=isWeek?'다음 주':'다음 달';
-    document.getElementById('prevBtn').setAttribute('aria-label',isWeek?'이전 주':'이전 달');
-    document.getElementById('nextBtn').setAttribute('aria-label',isWeek?'다음 주':'다음 달');
-
-    if(isWeek)renderWeek();
+    const isWeek=currentView==='week',isMonth=currentView==='month',isCategory=currentView==='category',completed=currentView==='completed';
+    const views=[[weekShell,isWeek],[monthView,isMonth],[categoryView,isCategory],[completedView,completed]];
+    views.forEach(([el,active])=>{el.classList.toggle('planner-view-active',active);el.classList.toggle('planner-view-hidden',!active);el.style.removeProperty('display')});
+    productivityHub.classList.toggle('hidden',!isWeek);quickAddBar.classList.toggle('hidden',!isWeek);
+    const noDateNav=isCategory||completed;
+    document.getElementById('prevBtn').style.display=noDateNav?'none':'flex';document.getElementById('nextBtn').style.display=noDateNav?'none':'flex';document.getElementById('todayBtn').style.display=noDateNav?'none':'inline-flex';
+    document.getElementById('prevBtn').title=isWeek?'이전 주':'이전 달';document.getElementById('nextBtn').title=isWeek?'다음 주':'다음 달';
+    document.getElementById('prevBtn').setAttribute('aria-label',isWeek?'이전 주':'이전 달');document.getElementById('nextBtn').setAttribute('aria-label',isWeek?'다음 주':'다음 달');
+    if(isWeek){renderProductivityHub();renderWeek()}
     else if(isMonth)renderMonth();
+    else if(isCategory)renderCategoryPage();
     else renderCompleted();
   }
 
@@ -1518,14 +1667,14 @@
     deleteTaskBtn.classList.toggle('hidden',!id);duplicateTaskBtn.classList.toggle('hidden',!id);
     taskRecurrence.disabled=false;taskWeekday.disabled=false;taskMonthday.disabled=false;recurrenceSection.classList.remove('hidden');recurrenceHint.textContent='반복 업무는 시작일 이후 매주·평일(월~금) 또는 매월 자동 표시되고, 완료 여부는 날짜별로 따로 저장됩니다.';
     if(id){
-      const t=taskById(id),children=childrenOf(id);taskTitle.value=t.title;taskDate.value=t.date;taskCategory.value=t.category;taskPriority.value=t.priority||'medium';taskNote.value=t.note||'';
+      const t=taskById(id),children=childrenOf(id);taskTitle.value=t.title;taskDate.value=t.date;taskCategory.value=t.category;taskStatus.value=t.status==='waiting'?'waiting':'active';taskPriority.value=t.priority||'medium';taskNote.value=t.note||'';
       taskRecurrence.value=t.recurrence?.type||'none';taskWeekday.value=String(t.recurrence?.weekday??parseDate(t.date).getDay());taskMonthday.value=String(t.recurrence?.day??parseDate(t.date).getDate());
       children.sort((a,b)=>a.date.localeCompare(b.date)).forEach(c=>makeSubRow(c.title,c.date,c.id));
       if(t.parentId){recurrenceSection.classList.add('hidden');document.getElementById('subtaskSection').classList.add('hidden')}
       else if(children.length){taskRecurrence.value='none';taskRecurrence.disabled=true;taskWeekday.disabled=true;taskMonthday.disabled=true;recurrenceHint.textContent='하위 업무가 있는 묶음 업무는 반복 설정을 사용할 수 없습니다.';document.getElementById('subtaskSection').classList.remove('hidden')}
       else updateRecurrenceUI();
     }else{
-      taskTitle.value='';taskDate.value=date||dateKey(new Date());taskCategory.value=data.categories[0];taskPriority.value='medium';taskNote.value='';taskRecurrence.value='none';
+      taskTitle.value='';taskDate.value=date||dateKey(new Date());taskCategory.value=data.categories[0];taskStatus.value='active';taskPriority.value='medium';taskNote.value='';taskRecurrence.value='none';
       const d=parseDate(taskDate.value);taskWeekday.value=String(d.getDay());taskMonthday.value=String(d.getDate());document.getElementById('subtaskSection').classList.remove('hidden');updateRecurrenceUI();
     }
     taskDialog.showModal();setTimeout(()=>taskTitle.focus(),0);
@@ -1535,30 +1684,30 @@
     const existing=new Map(childrenOf(parentId).map(c=>[c.id,c])),keep=new Set();
     rows.forEach(s=>{
       if(s.id&&existing.has(s.id)){const c=existing.get(s.id);Object.assign(c,{title:s.title,date:s.date,category,priority});keep.add(s.id)}
-      else{const id=newId();data.tasks.push({id,title:s.title,date:s.date,category,priority,parentId,note:'',done:false,doneDates:[],recurrence:{type:'none'}});keep.add(id)}
+      else{const id=newId();data.tasks.push({id,title:s.title,date:s.date,category,priority,parentId,note:'',status:'active',waitingSince:null,done:false,completedAt:null,doneDates:[],doneAtDates:{},skipDates:[],recurrence:{type:'none'}});keep.add(id)}
     });
     data.tasks=data.tasks.filter(t=>t.parentId!==parentId||keep.has(t.id));
   }
   function saveTask(){
-    const title=taskTitle.value.trim(),date=taskDate.value,category=taskCategory.value||'기타',priority=taskPriority.value,note=taskNote.value.trim();if(!title||!date)return;
+    const title=taskTitle.value.trim(),date=taskDate.value,category=taskCategory.value||'기타',priority=taskPriority.value,note=taskNote.value.trim(),status=taskStatus.value==='waiting'?'waiting':'active';if(!title||!date)return;
     const recurrence=recurrenceSection.classList.contains('hidden')?{type:'none'}:readRecurrence();
     if(editingId){
-      const t=taskById(editingId),oldRec=JSON.stringify(t.recurrence||{type:'none'});Object.assign(t,{title,date,category,priority,note,recurrence});
+      const t=taskById(editingId),oldRec=JSON.stringify(t.recurrence||{type:'none'}),wasWaiting=t.status==='waiting';Object.assign(t,{title,date,category,priority,note,recurrence,status});t.waitingSince=status==='waiting'?(wasWaiting&&t.waitingSince?t.waitingSince:new Date().toISOString()):null;
       if(oldRec!==JSON.stringify(recurrence))t.doneDates=[];
       if(!t.parentId){
         if(recurrence.type==='none')syncChildren(editingId,readSubRows(),category,priority);
         else data.tasks=data.tasks.filter(x=>x.parentId!==editingId);
       }
     }else{
-      const id=newId();data.tasks.push({id,title,date,category,priority,parentId:null,note,done:false,doneDates:[],recurrence});
+      const id=newId();data.tasks.push({id,title,date,category,priority,parentId:null,note,status,waitingSince:status==='waiting'?new Date().toISOString():null,done:false,completedAt:null,doneDates:[],doneAtDates:{},skipDates:[],recurrence});
       if(recurrence.type==='none')syncChildren(id,readSubRows(),category,priority);
     }
     saveData();closeTaskDialog();render();
   }
   function duplicateTask(){
     if(!editingId)return;const src=taskById(editingId),newParentId=newId();
-    const copy={...clone(src),id:newParentId,title:src.title+' (복사)',done:false,doneDates:[],parentId:src.parentId?src.parentId:null};data.tasks.push(copy);
-    if(!src.parentId)childrenOf(src.id).forEach(c=>data.tasks.push({...clone(c),id:newId(),parentId:newParentId,done:false,doneDates:[]}));
+    const copy={...clone(src),id:newParentId,title:src.title+' (복사)',status:'active',waitingSince:null,done:false,completedAt:null,doneDates:[],doneAtDates:{},parentId:src.parentId?src.parentId:null};data.tasks.push(copy);
+    if(!src.parentId)childrenOf(src.id).forEach(c=>data.tasks.push({...clone(c),id:newId(),parentId:newParentId,status:'active',waitingSince:null,done:false,completedAt:null,doneDates:[],doneAtDates:{}}));
     saveData();closeTaskDialog();render();openTaskDialog(copy.date,newParentId);
   }
 
@@ -1585,7 +1734,7 @@
     document.getElementById('bundleDialog').showModal();
   }
 
-  function baseTask(id,title,date,category,priority,parentId=null){return {id,title,date,category,priority,parentId,note:'',done:false,completedAt:null,doneDates:[],doneAtDates:{},skipDates:[],recurrence:{type:'none'}}}
+  function baseTask(id,title,date,category,priority,parentId=null){return {id,title,date,category,priority,parentId,note:'',status:'active',waitingSince:null,done:false,completedAt:null,doneDates:[],doneAtDates:{},skipDates:[],recurrence:{type:'none'}}}
   function createLiveBundle(){
     const title=document.getElementById('liveTitle').value.trim(),date=document.getElementById('liveDate').value,priority=document.getElementById('livePriority').value;if(!title||!date)return;
     const parentId=newId();data.tasks.push(baseTask(parentId,`${title} · LIVE 진행`,date,'LIVE',priority));
@@ -1607,7 +1756,7 @@
       const row=document.createElement('div');row.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line)';
       const left=document.createElement('div');left.style.cssText='display:flex;align-items:center;gap:9px;font-weight:650';const dot=document.createElement('span'),[,tx]=categoryStyle(cat);dot.style.cssText=`width:10px;height:10px;border-radius:50%;background:${tx}`;
       const name=document.createElement('span');name.textContent=cat;left.append(dot,name);const locked=FIXED_CATEGORIES.includes(cat);const del=document.createElement('button');del.className='btn';del.textContent=locked?'기본':'삭제';del.disabled=locked;del.style.padding='5px 9px';
-      if(!locked)del.addEventListener('click',()=>{data.tasks.forEach(t=>{if(t.category===cat)t.category='기타'});data.categories=data.categories.filter(c=>c!==cat);activeCategories.delete(cat);activeCategories.add('기타');saveData();renderCategoryList();render()});
+      if(!locked)del.addEventListener('click',()=>{data.tasks.forEach(t=>{if(t.category===cat)t.category='기타'});data.categories=data.categories.filter(c=>c!==cat);if(currentCategory===cat)currentCategory='기타';saveData();renderCategoryList();render()});
       row.append(left,del);wrap.appendChild(row);
     });
   }
@@ -1632,6 +1781,8 @@
   document.getElementById('logoutBtn').addEventListener('click',signOut);
 
   const memoText=document.getElementById('memoText');memoText.value=data.memo||'';memoText.addEventListener('input',()=>{data.memo=memoText.value;saveData()});
+  function quickAddTask(){const input=document.getElementById('quickTaskInput'),title=input.value.trim();if(!title)return;data.tasks.push(baseTask(newId(),title,dateKey(new Date()),'기타','medium'));input.value='';saveData();render();input.focus()}
+  document.getElementById('quickAddBtn').addEventListener('click',quickAddTask);document.getElementById('quickTaskInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();quickAddTask()}});
   document.getElementById('closeBundleBtn').addEventListener('click',()=>document.getElementById('bundleDialog').close());
   document.getElementById('addTaskBtn').addEventListener('click',()=>openTaskDialog(dateKey(new Date())));
   document.getElementById('addSubtaskBtn').addEventListener('click',()=>makeSubRow('',taskDate.value||dateKey(new Date())));
@@ -1639,7 +1790,7 @@
   taskRecurrence.addEventListener('change',updateRecurrenceUI);taskDate.addEventListener('change',()=>{if(taskRecurrence.value==='weekly'&&taskWeekday.value!=='weekdays')taskWeekday.value=String(parseDate(taskDate.value).getDay());if(taskRecurrence.value==='monthly')taskMonthday.value=String(parseDate(taskDate.value).getDate())});
   deleteTaskBtn.addEventListener('click',()=>{if(!editingId)return;const ids=new Set([editingId,...childrenOf(editingId).map(x=>x.id)]);data.tasks=data.tasks.filter(t=>!ids.has(t.id));saveData();closeTaskDialog();render()});
 
-  document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{currentView=tab.dataset.view;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===tab));render()}));
+  document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{currentView=tab.dataset.view;if(currentView==='category')showCategoryCompleted=false;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===tab));render()}));
   document.getElementById('prevBtn').addEventListener('click',()=>{
     if(currentView==='week') currentDate.setDate(currentDate.getDate()-7);
     else currentDate.setMonth(currentDate.getMonth()-1);
@@ -1653,7 +1804,7 @@
   document.getElementById('todayBtn').addEventListener('click',()=>{currentDate=new Date();render()});
 
   document.getElementById('manageCategories').addEventListener('click',()=>{renderCategoryList();categoryDialog.showModal()});document.getElementById('closeCategoryBtn').addEventListener('click',()=>categoryDialog.close());
-  document.getElementById('addCategoryBtn').addEventListener('click',()=>{const input=document.getElementById('newCategory'),name=input.value.trim();if(name&&!data.categories.includes(name)){data.categories.push(name);activeCategories.add(name);input.value='';saveData();renderCategoryList();render()}});
+  document.getElementById('addCategoryBtn').addEventListener('click',()=>{const input=document.getElementById('newCategory'),name=input.value.trim();if(name&&!data.categories.includes(name)){data.categories.push(name);input.value='';saveData();renderCategoryList();render()}});
 
   document.getElementById('liveTemplateBtn').addEventListener('click',()=>{document.getElementById('liveTitle').value='';document.getElementById('liveDate').value=dateKey(new Date());document.getElementById('livePriority').value='high';liveDialog.showModal()});
   document.getElementById('cancelLiveBtn').addEventListener('click',()=>liveDialog.close());document.getElementById('createLiveBtn').addEventListener('click',createLiveBundle);
@@ -1661,7 +1812,7 @@
   document.getElementById('cancelPromoBtn').addEventListener('click',()=>promoDialog.close());document.getElementById('createPromoBtn').addEventListener('click',createPromoBundle);
 
   document.getElementById('exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`work-planner-backup-${dateKey(new Date())}.json`;a.click();URL.revokeObjectURL(a.href)});
-  document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());document.getElementById('importFile').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{data=normalize(JSON.parse(reader.result));activeCategories=new Set(data.categories);memoText.value=data.memo||'';saveData();render()}catch(err){alert('올바른 백업 파일이 아닙니다.')}};reader.readAsText(file);e.target.value=''});
+  document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());document.getElementById('importFile').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{data=normalize(JSON.parse(reader.result));activeCategories=new Set(data.categories);currentCategory=data.categories.includes(currentCategory)?currentCategory:(data.categories[0]||'기타');memoText.value=data.memo||'';saveData();render()}catch(err){alert('올바른 백업 파일이 아닙니다.')}};reader.readAsText(file);e.target.value=''});
 
   initializeAuth();
 })();
