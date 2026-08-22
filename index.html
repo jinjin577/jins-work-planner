@@ -1772,15 +1772,28 @@
   }
   function setAdStatus(el,type,text){el.className='ad-file-status'+(type?' '+type:'');el.textContent=text}
   let selectedAdProduct=null;
+  const AD_PRODUCT_ORDER=['콘드로이친','MBP','콜라겐','하스카프베리','HW-3','오메가3','하스카프베리액상','애드부스트','통합'];
   function normalizeAdProductName(name){
     const s=String(name||'').trim();
+    if(!s)return '';
+    // Campaign families must be checked before product words inside parentheses.
+    if(/애드부스트|advoost/i.test(s))return '애드부스트';
+    if(/하스카프.*액상|액상.*하스카프/i.test(s))return '하스카프베리액상';
+    if(/하스카프/i.test(s))return '하스카프베리';
     if(/콘드로이친|콘트로이친/i.test(s))return '콘드로이친';
-    if(/MBP|엠비피/i.test(s))return 'MBP';
-    if(/콜라겐/i.test(s))return '콜라겐';
+    if(/MBP|엠비피|뼈엔엠비피/i.test(s))return 'MBP';
+    if(/콜라겐3270|모발콜라겐|콜라겐|쿠라겐/i.test(s))return '콜라겐';
     if(/HW[-_ ]?3/i.test(s))return 'HW-3';
     if(/오메가\s*3|OMEGA\s*3/i.test(s))return '오메가3';
-    if(/하스카프/i.test(s))return '하스카프';
+    if(/통합/i.test(s))return '통합';
     return s;
+  }
+  function adProductSort(a,b){
+    const ai=AD_PRODUCT_ORDER.indexOf(a),bi=AD_PRODUCT_ORDER.indexOf(b);
+    if(ai!==-1||bi!==-1){
+      if(ai===-1)return 1;if(bi===-1)return -1;return ai-bi;
+    }
+    return String(a).localeCompare(String(b),'ko');
   }
   function makeKpi(label,value){return `<div class="ad-kpi"><small>${label}</small><b>${value}</b></div>`}
   function renderImportPreview(container,kind,payload){
@@ -1793,7 +1806,7 @@
       const productNames=[...new Set(payload.products.map(x=>x.product_name))];
       container.innerHTML=`<div class="ad-preview-head"><div class="ad-preview-title">${payload.meta.date_from} ~ ${payload.meta.date_to}</div><div class="ad-preview-meta">${payload.meta.file_name}</div></div>
         <div class="ad-kpi-grid">${makeKpi('7일 광고비',formatWon(spend))}${makeKpi('7일 매출',formatWon(revenue))}${makeKpi('7일 ROAS',formatPct(roas))}${makeKpi('제품',productNames.length.toLocaleString('ko-KR')+'개')}</div>
-        <div class="ad-preview-note">검색광고 주간 HTML에서 일별 ${payload.daily.length}행 · 제품별 일자 ${payload.products.length}행을 저장합니다. 캠페인명 기준으로 제품을 묶고, HW3→HW-3 · 엠비피→MBP로 통일합니다.</div>
+        <div class="ad-preview-note">검색광고 주간 HTML에서 일별 ${payload.daily.length}행 · 제품별 일자 ${payload.products.length}행을 저장합니다. 캠페인명 기준으로 제품을 묶고, 콜라겐3270→콜라겐 · 엠비피→MBP · HW3→HW-3 · 하스카프 분말/액상 분리 · 애드부스트/ADVoost→애드부스트로 통일합니다.</div>
         <div class="ad-save-row"><button class="ad-save-btn" id="saveSearchReportBtn" type="button">Supabase에 저장</button></div>`;
       container.querySelector('#saveSearchReportBtn').addEventListener('click',()=>saveAdImport('search'));
     }else{
@@ -1816,7 +1829,8 @@
     const rawPeriod=Array.isArray(model?.raw?.period)?model.raw.period:[];
     if(!rawPeriod.length)throw new Error('검색광고 주간 리포트에서 일별 원천 데이터를 찾지 못했습니다.');
 
-    // 검색광고 원천행만 사용. 주간 통합 HTML 안에 별도 GFA/파워컨텐츠 데이터가 있어도 여기서는 제외한다.
+    // SEARCH 일별 합계에는 검색광고만 사용하고, 제품별 성과에는 주간 HTML의
+    // GFA 애드부스트 캠페인도 별도 제품군으로 보존한다. 파워컨텐츠는 전환 미측정이라 제외한다.
     const searchRows=rawPeriod.filter(r=>{
       const type=String(r?.type||'').trim();
       return type && type!=='GFA' && type!=='파워컨텐츠';
@@ -1825,7 +1839,9 @@
 
     const dailyMap=new Map();
     const productMap=new Map();
-    for(const r of searchRows){
+    for(const r of rawPeriod){
+      const type=String(r?.type||'').trim();
+      if(!type||type==='파워컨텐츠')continue;
       let date;
       try{date=normalizeReportDate(r.date)}catch(e){continue}
       const impressions=Math.round(Number(r.impressions)||0);
@@ -1834,16 +1850,30 @@
       const conversions=Math.round(Number(r.conversions)||0);
       const revenue=Math.round(Number(r.revenue)||0);
 
-      if(!dailyMap.has(date))dailyMap.set(date,{report_date:date,media:'SEARCH',spend:0,revenue:0,conversions:0,impressions:0,clicks:0});
-      const d=dailyMap.get(date);
-      d.spend+=spend; d.revenue+=revenue; d.conversions+=conversions; d.impressions+=impressions; d.clicks+=clicks;
+      // 통합 SEARCH 일별 성과에는 GFA를 섞지 않는다.
+      if(type!=='GFA'){
+        if(!dailyMap.has(date))dailyMap.set(date,{report_date:date,media:'SEARCH',spend:0,revenue:0,conversions:0,impressions:0,clicks:0});
+        const d=dailyMap.get(date);
+        d.spend+=spend; d.revenue+=revenue; d.conversions+=conversions; d.impressions+=impressions; d.clicks+=clicks;
+      }
 
       const campaign=String(r.campaign||'').trim();
-      const product=normalizeAdProductName(campaign);
-      const recognized=/(콘드로이친|콘트로이친|MBP|엠비피|콜라겐|HW[-_ ]?3|오메가\s*3|하스카프)/i.test(campaign);
-      if(!recognized||!product)continue;
-      const key=date+'\u0000'+product;
-      if(!productMap.has(key))productMap.set(key,{report_date:date,media:'SEARCH',product_name:product,spend:0,revenue:0,conversions:0,impressions:0,clicks:0});
+      let product=normalizeAdProductName(campaign);
+      let media=type==='GFA'?'GFA':'SEARCH';
+
+      // GFA는 애드부스트/ADVoost 계열만 주간 HTML에서 가져온다.
+      if(type==='GFA' && product!=='애드부스트')continue;
+
+      // 검색광고 중 제품명이 없는 브랜드검색/신제품검색은 통합으로 묶는다.
+      const recognizedProducts=['콘드로이친','MBP','콜라겐','하스카프베리','HW-3','오메가3','하스카프베리액상','애드부스트','통합'];
+      if(type!=='GFA' && !recognizedProducts.includes(product)){
+        if(type==='브랜드검색/신제품검색')product='통합';
+        else continue;
+      }
+      if(!product)continue;
+
+      const key=date+'\u0000'+media+'\u0000'+product;
+      if(!productMap.has(key))productMap.set(key,{report_date:date,media,product_name:product,spend:0,revenue:0,conversions:0,impressions:0,clicks:0});
       const p=productMap.get(key);
       p.spend+=spend; p.revenue+=revenue; p.conversions+=conversions; p.impressions+=impressions; p.clicks+=clicks;
     }
@@ -1856,7 +1886,7 @@
       cpa:safeRatio(x.spend,x.conversions)
     });
     const daily=[...dailyMap.values()].sort((a,b)=>a.report_date.localeCompare(b.report_date)).map(x=>({...finalize(x),source_type:'SEARCH_HTML'}));
-    const products=[...productMap.values()].sort((a,b)=>a.report_date.localeCompare(b.report_date)||a.product_name.localeCompare(b.product_name,'ko')).map(finalize);
+    const products=[...productMap.values()].sort((a,b)=>a.report_date.localeCompare(b.report_date)||adProductSort(a.product_name,b.product_name)).map(finalize);
     if(!daily.length)throw new Error('검색광고 주간 일별 데이터를 만들지 못했습니다.');
     if(!products.length)throw new Error('제품으로 분류할 수 있는 검색광고 캠페인을 찾지 못했습니다.');
 
@@ -1864,7 +1894,7 @@
     const dateFrom=dates[0], dateTo=dates[dates.length-1];
     return {daily,products,meta:{
       report_date:dateTo,date_from:dateFrom,date_to:dateTo,
-      report_type:'SEARCH_HTML',file_name:file.name,source_hash:await sha256File(file),
+      report_type:'SEARCH_HTML',file_name:file.name,source_hash:(await sha256File(file))+':map-v31',
       note:`주간 파싱 성공: ${dateFrom}~${dateTo} / 검색광고 일별 ${daily.length}행 / 제품별 일자 ${products.length}행`
     }};
   }
@@ -1905,7 +1935,7 @@
       if(!agg.has(key))agg.set(key,{report_date:date,media:'GFA',product_name:product,spend:0,revenue:0,conversions:0,impressions:0,clicks:0});
       const x=agg.get(key);x.spend+=Math.round(Number(r[rc('총 비용')]||0));x.impressions+=Math.round(Number(r[rc('노출')]||0));x.clicks+=Math.round(Number(r[rc('클릭')]||0));x.conversions+=Math.round(Number(r[rc('총 전환수')]||0));x.revenue+=Math.round(Number(r[rc('구매완료 전환 매출액')]||0));
     }
-    const products=[...agg.values()].sort((a,b)=>a.report_date.localeCompare(b.report_date)||a.product_name.localeCompare(b.product_name,'ko')).map(x=>({...x,ctr:safeRatio(x.clicks,x.impressions,100),cpc:safeRatio(x.spend,x.clicks),cvr:safeRatio(x.conversions,x.clicks,100),roas:safeRatio(x.revenue,x.spend,100),cpa:safeRatio(x.spend,x.conversions)}));
+    const products=[...agg.values()].sort((a,b)=>a.report_date.localeCompare(b.report_date)||adProductSort(a.product_name,b.product_name)).map(x=>({...x,ctr:safeRatio(x.clicks,x.impressions,100),cpc:safeRatio(x.spend,x.clicks),cvr:safeRatio(x.conversions,x.clicks,100),roas:safeRatio(x.revenue,x.spend,100),cpa:safeRatio(x.spend,x.conversions)}));
     const sum=new Map();products.forEach(x=>{if(!sum.has(x.report_date))sum.set(x.report_date,{spend:0,revenue:0,conversions:0,impressions:0,clicks:0});const y=sum.get(x.report_date);['spend','revenue','conversions','impressions','clicks'].forEach(k=>y[k]+=Number(x[k]||0))});
     for(const d of daily){const y=sum.get(d.report_date);if(!y)throw new Error(`${d.report_date} 제품별 데이터가 없습니다.`);for(const k of ['spend','revenue','conversions','impressions','clicks'])if(Math.round(Number(d[k]||0))!==Math.round(Number(y[k]||0)))throw new Error(`${d.report_date} ${k} 합계 검증에 실패했습니다.`)}
     const dates=daily.map(x=>x.report_date).sort();
@@ -1960,8 +1990,20 @@
     try{
       const res=await fetch(`${SUPABASE_URL}/rest/v1/ad_report_product_daily?select=report_date,media,product_name,spend,revenue,conversions,impressions,clicks,roas,cpa&order=report_date.desc&limit=1200`,{headers:authHeaders()});
       if(!res.ok)throw new Error(await res.text());
-      const rows=(await res.json()).map(r=>({...r,product_name:normalizeAdProductName(r.product_name)}));
-      const products=[...new Set(rows.map(r=>r.product_name).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ko'));
+      const rawRows=await res.json();
+      const deduped=new Map();
+      rawRows.forEach(r=>{
+        const normalized=normalizeAdProductName(r.product_name);
+        if(!normalized)return;
+        const key=[r.report_date,r.media,normalized].join('\u0000');
+        const candidate={...r,product_name:normalized};
+        const existing=deduped.get(key);
+        const canonical=String(r.product_name||'').trim()===normalized;
+        const existingCanonical=existing&&String(existing._rawProduct||'').trim()===normalized;
+        if(!existing||(!existingCanonical&&canonical))deduped.set(key,{...candidate,_rawProduct:r.product_name});
+      });
+      const rows=[...deduped.values()].map(({_rawProduct,...r})=>r);
+      const products=[...new Set(rows.map(r=>r.product_name).filter(Boolean))].sort(adProductSort);
       if(!products.length){adProductTabs.innerHTML='';adProductContent.innerHTML='<div class="ad-product-empty">저장된 제품별 광고 데이터가 없습니다.</div>';return}
       if(!selectedAdProduct||!products.includes(selectedAdProduct))selectedAdProduct=products[0];
       adProductTabs.innerHTML=products.map(p=>`<button type="button" class="ad-product-tab${p===selectedAdProduct?' active':''}" data-product="${p.replace(/"/g,'&quot;')}">${p}</button>`).join('');
