@@ -384,6 +384,11 @@
       .account-actions{justify-content:flex-start;width:100%;gap:6px}
       .account-actions #logoutBtn{display:none}
       .sync-status{font-size:9.5px;padding:5px 8px}
+      /* v4.3 mobile visibility fix: base .mobile-only uses !important, so mobile components need explicit important display values */
+      .mobile-work-switcher.mobile-only{display:grid!important}
+      .mobile-work-home.mobile-only{display:grid!important}
+      .mobile-bottom-nav.mobile-only{display:grid!important}
+      .mobile-settings-view.mobile-only{display:block!important}
       .mobile-only.planner-view-hidden{display:none!important}
 
       .mobile-work-switcher{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;padding:4px;margin:0 0 11px;background:#fff;border:1px solid #e6eaf0;border-radius:14px;box-shadow:0 3px 14px rgba(25,31,40,.04)}
