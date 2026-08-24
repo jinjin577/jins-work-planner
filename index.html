@@ -133,7 +133,11 @@
     .weekend-stack .day{min-width:0;min-height:0;height:100%;scroll-snap-align:none}
     .day.today{outline:2px solid var(--accent);outline-offset:-2px}
     .day-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
-    .weekday{font-size:13px;color:var(--muted);font-weight:700}.date{font-size:22px;font-weight:750;margin-top:2px}
+    .day-date-line{display:flex;align-items:baseline;gap:5px;min-width:0;line-height:1.2}
+    .date{font-size:14px;font-weight:650;color:var(--text);margin:0;white-space:nowrap}
+    .day-sep{font-size:12px;color:#a3a9b2;font-weight:400}
+    .weekday{font-size:13px;color:var(--muted);font-weight:600;white-space:nowrap}
+    .day-open-count{font-size:11px;color:#8f97a3;font-weight:500;margin-left:1px;white-space:nowrap}
     .holiday-name{font-size:10px;color:#d54b4b;font-weight:750;margin-top:3px;line-height:1.25;overflow-wrap:anywhere}
     .day.holiday .weekday,.day.holiday .date,.day.sunday .weekday,.day.sunday .date{color:#d54b4b}
     .day.saturday:not(.holiday) .weekday,.day.saturday:not(.holiday) .date{color:#4776c5}
@@ -1671,14 +1675,20 @@
       const day=new Date(start);day.setDate(start.getDate()+i);const key=dateKey(day),holiday=holidayInfo(key);
       const classes=['day'];if(isSameDay(day,today))classes.push('today');if(day.getDay()===0)classes.push('sunday');if(day.getDay()===6)classes.push('saturday');if(holiday)classes.push('holiday');
       const el=document.createElement('div');el.className=classes.join(' ');setupDropZone(el,key);
+      const dayTasks=tasksForDate(key);
+      const openCount=dayTasks.filter(t=>!isTaskDone(t,key)).length;
       const head=document.createElement('div');head.className='day-head';
       const hleft=document.createElement('div');
-      const weekday=document.createElement('div');weekday.className='weekday';weekday.textContent=names[i];
-      const date=document.createElement('div');date.className='date';date.textContent=day.getDate();hleft.append(weekday,date);
+      const dateLine=document.createElement('div');dateLine.className='day-date-line';
+      const date=document.createElement('span');date.className='date';date.textContent=`${day.getDate()}일`;
+      const sep=document.createElement('span');sep.className='day-sep';sep.textContent='·';
+      const weekday=document.createElement('span');weekday.className='weekday';weekday.textContent=names[i]+'요일';
+      const open=document.createElement('span');open.className='day-open-count';open.textContent=String(openCount);open.title=`미완료 업무 ${openCount}개`;
+      dateLine.append(date,sep,weekday,open);hleft.appendChild(dateLine);
       if(holiday){const hn=document.createElement('div');hn.className='holiday-name';hn.textContent=holiday;hleft.appendChild(hn)}
       const add=document.createElement('button');add.className='day-add';add.textContent='+';add.title='이 날짜에 업무 추가';add.addEventListener('click',()=>openTaskDialog(key));
       head.append(hleft,add);el.appendChild(head);
-      const list=document.createElement('div');list.className='task-list';const dayTasks=tasksForDate(key);
+      const list=document.createElement('div');list.className='task-list';
       if(!dayTasks.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='업무 없음';list.appendChild(empty)}
       else dayTasks.forEach(t=>list.appendChild(makeTask(t,key)));
       el.appendChild(list);
