@@ -261,6 +261,47 @@
     #completedView.planner-view-active{display:block!important}
     #adReportView.planner-view-active{display:block!important}
     #rankView.planner-view-active{display:block!important}
+
+    .range-wrap{display:grid;grid-template-columns:auto auto minmax(180px,auto) auto;align-items:center;justify-content:center;gap:8px;min-width:0}
+    .range-wrap .month-nav-btn{display:flex}
+    .range-wrap .today-inline{order:2}
+    .range-wrap .range-title{order:3;min-width:180px}
+
+    .productivity-hub{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr)}
+    #overdueHubCard{display:none}
+    .quick-overdue-panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:14px;box-shadow:0 4px 18px rgba(25,31,40,.035)}
+    .quick-overdue-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+    .quick-overdue-head .hub-head{margin-bottom:0}
+    .quick-actions-compact{display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+    .btn.compact,.routine-btn.compact{padding:6px 10px;font-size:11px;border-radius:9px;font-weight:700}
+    .quick-open-btn{box-shadow:none}
+    .quick-inline-form{display:flex;align-items:center;gap:7px;margin-bottom:10px}
+    .quick-inline-form.hidden{display:none!important}
+    .quick-inline-form input{flex:1;min-width:160px;border:1px solid var(--line);border-radius:9px;padding:8px 10px;outline:none;background:#fbfcfe}
+    .quick-inline-form input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+    .quick-overdue-list{max-height:188px}
+    .task-title-row{display:flex;align-items:center;gap:6px;min-width:0}
+    .task-title-row .priority{flex:0 0 auto}
+    .mobile-only{display:none!important}
+    .mobile-section-tabs,.mobile-bottom-nav,.mobile-work-home,.mobile-settings-view,.mobile-work-switcher{display:none}
+    .mobile-home-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 13px;box-shadow:0 4px 18px rgba(25,31,40,.035)}
+    .mobile-home-card .hub-head{margin-bottom:8px}
+    .mobile-home-list{display:flex;flex-direction:column;gap:7px}
+    .mobile-task-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:9px;align-items:flex-start;padding:10px 10px;border:1px solid var(--line);border-radius:10px;background:#fbfcfe}
+    .mobile-task-row.done{opacity:.58}
+    .mobile-task-check{margin-top:2px;accent-color:var(--accent)}
+    .mobile-task-main{min-width:0}
+    .mobile-task-title{font-size:13px;font-weight:500;line-height:1.4;overflow-wrap:anywhere}
+    .mobile-task-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:5px;font-size:10.5px;color:var(--muted)}
+    .mobile-task-date{font-size:11px;color:#68717e;font-weight:650;white-space:nowrap}
+    .mobile-task-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+    .mobile-home-empty{padding:10px 2px;font-size:12px;color:#98a0aa}
+    .settings-grid{display:grid;gap:10px}
+    .settings-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 4px 18px rgba(25,31,40,.035)}
+    .settings-card h3{margin:0 0 6px;font-size:13px;font-weight:800}
+    .settings-card p{margin:0 0 11px;font-size:11px;color:var(--muted);line-height:1.55}
+    .settings-actions{display:flex;gap:7px;flex-wrap:wrap}
+    .settings-actions .btn{padding:8px 10px;font-size:11px}
     @media(max-width:1100px){.week-grid{grid-template-columns:repeat(6,280px)}.day{min-width:280px;min-height:495px}.weekend-stack{min-width:280px;min-height:495px;grid-template-rows:repeat(2,minmax(235px,1fr))}.weekend-stack .day{min-width:0;min-height:0}}
     @media(max-width:700px){
       .app{padding:16px}
@@ -328,6 +369,34 @@
       .cal-holiday{font-size:7.5px!important;line-height:1.15!important;margin-bottom:3px!important;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
       .cal-task{width:100%!important;min-width:0!important;font-size:8.5px!important;line-height:1.2!important;padding:3px!important;margin-bottom:3px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
 
+
+      .topbar{margin-bottom:10px}
+      .planner-actions{display:none}
+      .toolbar{display:none}
+      #productivityHub{display:none!important}
+      #quickAddBar{display:none!important}
+      #plannerApp{padding:14px 14px 96px}
+      .title-wrap h1{font-size:20px}
+      .account-actions{justify-content:space-between;width:100%}
+      .account-actions #logoutBtn{display:none}
+      .mobile-only{display:block!important}
+      .mobile-work-switcher{display:flex;gap:6px;overflow-x:auto;padding:2px 1px 10px;margin-bottom:6px}
+      .mobile-work-tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap;box-shadow:0 1px 2px rgba(25,31,40,.03)}
+      .mobile-work-tab.active{background:var(--accent-soft);color:#315f94;border-color:#cddff5}
+      .mobile-work-home{display:grid;gap:10px;margin-bottom:10px}
+      .mobile-home-card textarea{width:100%;min-height:92px;border:1px solid var(--line);border-radius:10px;padding:10px 11px;background:#fbfcfe;color:var(--text);font:inherit;line-height:1.5;outline:none}
+      .mobile-home-card textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+      .mobile-quick-form{display:flex;gap:7px;align-items:center}
+      .mobile-quick-form input{flex:1;min-width:0;border:1px solid var(--line);border-radius:10px;padding:10px 11px;background:#fbfcfe;font-size:15px;outline:none}
+      .mobile-quick-form input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+      .mobile-quick-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+      .mobile-quick-actions .routine-btn{padding:7px 10px;font-size:11px}
+      .mobile-bottom-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:40;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-top:1px solid var(--line);box-shadow:0 -6px 24px rgba(25,31,40,.08)}
+      .mobile-nav-btn{border:0;background:transparent;border-radius:12px;padding:8px 4px;color:#7a828c;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;text-align:center}
+      .mobile-nav-btn.active{background:#edf3ff;color:#2f6fed}
+      .mobile-settings-view{display:block;padding-bottom:4px}
+      .mobile-settings-view.planner-view-hidden{display:none!important}
+      .mobile-home-card .hub-list{max-height:none}
       .category-view{padding:11px}.category-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.category-card{padding:9px}
       .category-row-item{grid-template-columns:70px minmax(0,1fr);gap:7px}.category-row-item>.task-menu{grid-column:2;justify-self:end}
       .row2{grid-template-columns:1fr}.subrow{grid-template-columns:1fr}.subrow button{justify-self:end}
@@ -443,8 +512,8 @@
     <div class="report-nav-wrap"><button class="report-nav-btn" id="adReportBtn" type="button">광고 리포트</button><button class="report-nav-btn" id="rankBtn" type="button">네이버 랭킹</button><button class="report-nav-btn" id="orderSummaryBtn" type="button" title="내 PC의 주문 집계 도구 열기">주문 집계</button></div>
     <div class="range-wrap" id="dateNav">
       <button class="month-nav-btn" id="prevBtn" title="이전" aria-label="이전">‹</button>
-      <div class="range-title" id="rangeTitle"></div>
       <button class="today-inline" id="todayBtn">오늘</button>
+      <div class="range-title" id="rangeTitle"></div>
       <button class="month-nav-btn" id="nextBtn" title="다음" aria-label="다음">›</button>
     </div>
     <div class="view-tabs">
@@ -479,17 +548,99 @@
     </div>
   </section>
 
-  <div class="quick-add-bar" id="quickAddBar">
-    <div class="quick-add-main">
+  <div class="quick-overdue-panel" id="quickAddBar">
+    <div class="quick-overdue-head">
+      <div class="hub-head">
+        <span class="hub-title">⚠ 지연 업무</span>
+        <span class="hub-count" id="overdueCountInline">0</span>
+      </div>
+      <div class="quick-actions-compact">
+        <button class="btn primary compact quick-open-btn" id="quickTaskOpenBtn" type="button">+ 빠른업무</button>
+        <button class="routine-btn compact" id="liveTemplateBtn" type="button">LIVE 업무</button>
+        <button class="routine-btn compact" id="promoTemplateBtn" type="button">프로모션</button>
+      </div>
+    </div>
+    <div class="quick-inline-form hidden" id="quickInlineForm">
       <input id="quickTaskInput" placeholder="오늘 업무 빠르게 추가..." aria-label="오늘 업무 빠르게 추가" />
-      <button class="btn primary quick-add-btn" id="quickAddBtn" type="button">+ 추가</button>
+      <button class="btn primary compact quick-add-btn" id="quickAddBtn" type="button">추가</button>
     </div>
-    <div class="routine-inline">
-      <span class="routine-label">루틴 업무</span>
-      <button class="routine-btn" id="liveTemplateBtn">+ LIVE 업무</button>
-      <button class="routine-btn" id="promoTemplateBtn">+ 프로모션</button>
-    </div>
+    <div class="hub-list quick-overdue-list" id="overdueQuickList"></div>
   </div>
+
+  <div class="mobile-work-switcher mobile-only" id="mobileWorkTabs">
+    <button class="mobile-work-tab active" data-mobile-work-view="home" type="button">홈</button>
+    <button class="mobile-work-tab" data-mobile-work-view="week" type="button">주간</button>
+    <button class="mobile-work-tab" data-mobile-work-view="month" type="button">캘린더</button>
+    <button class="mobile-work-tab" data-mobile-work-view="category" type="button">카테고리</button>
+    <button class="mobile-work-tab" data-mobile-work-view="completed" type="button">완료</button>
+  </div>
+
+  <section class="mobile-work-home mobile-only" id="mobileWorkHome">
+    <div class="mobile-home-card">
+      <div class="hub-head">
+        <span class="hub-title">빠른 업무 추가</span>
+        <span class="memo-hint">생각난 업무를 바로 기록</span>
+      </div>
+      <div class="mobile-quick-form">
+        <input id="mobileQuickTaskInput" placeholder="오늘 업무 빠르게 추가..." aria-label="오늘 업무 빠르게 추가" />
+        <button class="btn primary compact" id="mobileQuickAddBtn" type="button">추가</button>
+      </div>
+      <div class="mobile-quick-actions">
+        <button class="routine-btn" id="mobileLiveTemplateBtn" type="button">+ LIVE 업무</button>
+        <button class="routine-btn" id="mobilePromoTemplateBtn" type="button">+ 프로모션</button>
+      </div>
+    </div>
+    <div class="mobile-home-card">
+      <div class="memo-head">
+        <span class="memo-title">메모</span>
+        <span class="memo-hint">날짜 없이 자유롭게 기록</span>
+      </div>
+      <textarea id="mobileMemoText" placeholder="날짜를 정하지 않은 업무, 아이디어, 확인할 내용 등을 자유롭게 적어두세요."></textarea>
+    </div>
+    <div class="mobile-home-card">
+      <div class="hub-head">
+        <span class="hub-title">⚠ 지연 업무</span>
+        <span class="hub-count" id="mobileOverdueCount">0</span>
+      </div>
+      <div class="mobile-home-list" id="mobileOverdueList"></div>
+    </div>
+    <div class="mobile-home-card">
+      <div class="hub-head">
+        <span class="hub-title">예정된 업무</span>
+        <span class="hub-count" id="mobileUpcomingCount">0</span>
+      </div>
+      <div class="mobile-home-list" id="mobileUpcomingList"></div>
+    </div>
+  </section>
+
+  <section class="mobile-settings-view planner-view-hidden mobile-only" id="mobileSettingsView">
+    <div class="settings-grid">
+      <div class="settings-card">
+        <h3>설정</h3>
+        <p>백업, 불러오기, 카테고리 관리 등 자주 쓰는 설정 기능을 모바일에서도 빠르게 실행할 수 있습니다.</p>
+        <div class="settings-actions">
+          <button class="btn" id="mobileManageCategoriesBtn" type="button">카테고리 관리</button>
+          <button class="btn" id="mobileExportBtn" type="button">백업</button>
+          <button class="btn" id="mobileImportBtn" type="button">불러오기</button>
+          <button class="btn" id="mobileLogoutBtn" type="button">로그아웃</button>
+        </div>
+      </div>
+      <div class="settings-card">
+        <h3>안내</h3>
+        <p>모바일에서는 하단 메뉴를 통해 업무, 광고, 랭킹, 설정 화면을 이동합니다. 주문 집계 메뉴는 PC에서만 유지됩니다.</p>
+        <div class="settings-actions">
+          <span class="sync-status" id="mobileSyncStatusBadge"><span class="sync-dot"></span><span id="mobileSyncText">연결 중</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="mobile-bottom-nav mobile-only" id="mobileBottomNav" aria-label="모바일 하단 메뉴">
+    <button class="mobile-nav-btn active" data-mobile-section="work" type="button">업무</button>
+    <button class="mobile-nav-btn" data-mobile-section="ads" type="button">광고</button>
+    <button class="mobile-nav-btn" data-mobile-section="rank" type="button">랭킹</button>
+    <button class="mobile-nav-btn" data-mobile-section="settings" type="button">설정</button>
+  </nav>
 
   <section class="rank-view planner-view-hidden" id="rankView">
     <div class="rank-head">
@@ -818,6 +969,8 @@
   let data = loadData();
   let currentDate = new Date();
   let currentView = 'week';
+  let mobileMainSection = 'work';
+  let mobileWorkView = 'home';
   let editingId = null;
   let activeCategories = new Set(data.categories);
   let currentCategory = data.categories[0] || '기타';
@@ -844,7 +997,8 @@
     searchReportStatus = document.getElementById('searchReportStatus'), gfaReportStatus = document.getElementById('gfaReportStatus'),
     searchReportPreview = document.getElementById('searchReportPreview'), gfaReportPreview = document.getElementById('gfaReportPreview'),
     adHistoryList = document.getElementById('adHistoryList'), adProductTabs = document.getElementById('adProductTabs'), adProductContent = document.getElementById('adProductContent'),
-    rankDateSelect = document.getElementById('rankDateSelect'), rankKpis = document.getElementById('rankKpis'), rankOwnList = document.getElementById('rankOwnList'), rankOwnMeta = document.getElementById('rankOwnMeta'), rankEventList = document.getElementById('rankEventList'), rankEventMeta = document.getElementById('rankEventMeta'), rankEventSummary = document.getElementById('rankEventSummary'), rankTableBody = document.getElementById('rankTableBody'), rankTableMeta = document.getElementById('rankTableMeta');
+    rankDateSelect = document.getElementById('rankDateSelect'), rankKpis = document.getElementById('rankKpis'), rankOwnList = document.getElementById('rankOwnList'), rankOwnMeta = document.getElementById('rankOwnMeta'), rankEventList = document.getElementById('rankEventList'), rankEventMeta = document.getElementById('rankEventMeta'), rankEventSummary = document.getElementById('rankEventSummary'), rankTableBody = document.getElementById('rankTableBody'), rankTableMeta = document.getElementById('rankTableMeta'),
+    mobileWorkHome = document.getElementById('mobileWorkHome'), mobileSettingsView = document.getElementById('mobileSettingsView');
 
   function clone(x){return JSON.parse(JSON.stringify(x))}
   function newId(){try{if(window.crypto&&typeof window.crypto.randomUUID==='function')return window.crypto.randomUUID()}catch(e){}return 'id-'+Date.now()+'-'+Math.random().toString(36).slice(2)}
@@ -1602,7 +1756,9 @@
     const t=entry.task||entry,occurrenceDate=entry.occurrenceDate||t.date;
     const item=document.createElement('div');item.className='hub-item';
     const main=document.createElement('div');main.className='hub-item-main';
-    const title=document.createElement('button');title.type='button';title.className='hub-item-title';title.textContent=displayTaskTitle(t);title.addEventListener('click',()=>openTaskDialog(occurrenceDate,t.id));main.appendChild(title);item.appendChild(main);
+    const titleWrap=document.createElement('div');titleWrap.className='task-title-row';
+    const pri=document.createElement('span');pri.className='priority '+normalizePriority(t.priority);pri.title=priorityText(t.priority);pri.setAttribute('aria-label',priorityText(t.priority));
+    const title=document.createElement('button');title.type='button';title.className='hub-item-title';title.textContent=displayTaskTitle(t);title.addEventListener('click',()=>openTaskDialog(occurrenceDate,t.id));titleWrap.append(pri,title);main.appendChild(titleWrap);item.appendChild(main);
     const meta=document.createElement('div');meta.className='hub-item-meta';
     const tag=document.createElement('button');tag.type='button';tag.className='tag category-link';tag.textContent=t.category;const [bg,tx]=categoryStyle(t.category);tag.style.setProperty('--tag-bg',bg);tag.style.setProperty('--tag-text',tx);tag.addEventListener('click',()=>openCategoryView(t.category));
     const date=document.createElement('span');date.textContent=occurrenceDate;meta.append(tag,date);
@@ -1627,15 +1783,78 @@
   }
   function renderProductivityHub(){
     const overdue=overdueTasks(),waiting=waitingTasks();
-    const overdueList=document.getElementById('overdueList'),waitingList=document.getElementById('waitingList');
+    const overdueList=document.getElementById('overdueList'),waitingList=document.getElementById('waitingList'),overdueQuickList=document.getElementById('overdueQuickList');
     document.getElementById('overdueCount').textContent=String(overdue.length);document.getElementById('waitingCount').textContent=String(waiting.length);
-    overdueList.innerHTML='';waitingList.innerHTML='';
-    if(!overdue.length){const e=document.createElement('div');e.className='hub-empty';e.textContent='지연된 업무가 없습니다.';overdueList.appendChild(e)}else overdue.forEach(entry=>overdueList.appendChild(makeHubItem(entry,'overdue')));
+    const overdueInlineCount=document.getElementById('overdueCountInline');if(overdueInlineCount)overdueInlineCount.textContent=String(overdue.length);
+    overdueList.innerHTML='';waitingList.innerHTML='';if(overdueQuickList)overdueQuickList.innerHTML='';
+    if(!overdue.length){
+      const e=document.createElement('div');e.className='hub-empty';e.textContent='지연된 업무가 없습니다.';overdueList.appendChild(e.cloneNode(true));
+      if(overdueQuickList)overdueQuickList.appendChild(e.cloneNode(true));
+    }else overdue.forEach(entry=>{overdueList.appendChild(makeHubItem(entry,'overdue'));if(overdueQuickList)overdueQuickList.appendChild(makeHubItem(entry,'overdue'))});
     if(!waiting.length){const e=document.createElement('div');e.className='hub-empty';e.textContent='대기중인 업무가 없습니다.';waitingList.appendChild(e)}else waiting.forEach(entry=>waitingList.appendChild(makeHubItem(entry,'waiting')));
+    renderMobileHome();
+  }
+  function upcomingTasks(limit=10){
+    const today=new Date();today.setHours(0,0,0,0);
+    const rows=[];const seen=new Set();
+    for(let offset=0;offset<60 && rows.length<limit;offset++){
+      const d=new Date(today);d.setDate(today.getDate()+offset);const key=dateKey(d);
+      const dayRows=tasksForDate(key).filter(t=>!isTaskDone(t,key));
+      dayRows.sort((a,b)=>(PRIORITY_ORDER[a.priority]-PRIORITY_ORDER[b.priority])||displayTaskTitle(a).localeCompare(displayTaskTitle(b),'ko'));
+      dayRows.forEach(t=>{const token=t.id+'|'+key;if(!seen.has(token)&&rows.length<limit){seen.add(token);rows.push({task:t,occurrenceDate:key});}});
+    }
+    return rows;
+  }
+  function makeMobileTaskItem(entry,kind='upcoming'){
+    const t=entry.task||entry,occurrenceDate=entry.occurrenceDate||t.date;const done=isTaskDone(t,occurrenceDate);
+    const row=document.createElement('div');row.className='mobile-task-row'+(done?' done':'');
+    const cb=document.createElement('input');cb.type='checkbox';cb.className='mobile-task-check';cb.checked=done;cb.addEventListener('change',()=>{setTaskDone(t,occurrenceDate,cb.checked);saveData();render()});
+    const main=document.createElement('div');main.className='mobile-task-main';
+    const titleRow=document.createElement('div');titleRow.className='task-title-row';
+    const pri=document.createElement('span');pri.className='priority '+normalizePriority(t.priority);pri.title=priorityText(t.priority);pri.setAttribute('aria-label',priorityText(t.priority));
+    const title=document.createElement('button');title.type='button';title.className='hub-item-title mobile-task-title';title.textContent=displayTaskTitle(t);title.addEventListener('click',()=>openTaskDialog(occurrenceDate,t.id));
+    titleRow.append(pri,title);main.appendChild(titleRow);
+    const meta=document.createElement('div');meta.className='mobile-task-meta';
+    const tag=document.createElement('button');tag.type='button';tag.className='tag category-link';tag.textContent=t.category;const [bg,tx]=categoryStyle(t.category);tag.style.setProperty('--tag-bg',bg);tag.style.setProperty('--tag-text',tx);tag.addEventListener('click',e=>{e.stopPropagation();openCategoryView(t.category)});
+    meta.appendChild(tag);
+    if(kind==='overdue'){
+      const overdue=document.createElement('span');overdue.className='overdue-days';overdue.textContent=`${daysBetween(occurrenceDate,dateKey(new Date()))}일 지연`;meta.appendChild(overdue);
+    }else if(hasRecurrence(t)){
+      const repeat=document.createElement('span');repeat.className='repeat-chip';repeat.textContent='↻ '+recurrenceText(t);meta.appendChild(repeat);
+    }
+    if(t.note){const note=document.createElement('div');note.className='task-note';appendLinkified(note,t.note);main.appendChild(note)}
+    main.appendChild(meta);
+    if(kind==='overdue'){
+      const actions=document.createElement('div');actions.className='mobile-task-actions';
+      const doneBtn=document.createElement('button');doneBtn.type='button';doneBtn.className='hub-mini-btn';doneBtn.textContent='완료';doneBtn.addEventListener('click',()=>{setTaskDone(t,occurrenceDate,true);saveData();render()});
+      const waitBtn=document.createElement('button');waitBtn.type='button';waitBtn.className='hub-mini-btn';waitBtn.textContent='대기중';waitBtn.addEventListener('click',()=>{setTaskStatus(t,'waiting');saveData();render()});
+      actions.append(waitBtn,doneBtn);main.appendChild(actions);
+    }
+    const date=document.createElement('div');date.className='mobile-task-date';date.textContent=formatShortKoreanDate(occurrenceDate);
+    row.append(cb,main,date);return row;
+  }
+  function formatShortKoreanDate(key){
+    const d=parseDate(key);const days=['일','월','화','수','목','금','토'];
+    return `${d.getMonth()+1}.${d.getDate()} ${days[d.getDay()]}`;
+  }
+  function syncMemoFields(){
+    const memoText=document.getElementById('memoText');const mobileMemoText=document.getElementById('mobileMemoText');
+    if(memoText&&memoText.value!==data.memo)memoText.value=data.memo||'';
+    if(mobileMemoText&&mobileMemoText.value!==data.memo)mobileMemoText.value=data.memo||'';
+  }
+  function renderMobileHome(){
+    syncMemoFields();
+    const mobileOverdueList=document.getElementById('mobileOverdueList'),mobileUpcomingList=document.getElementById('mobileUpcomingList');
+    if(!mobileOverdueList||!mobileUpcomingList)return;
+    const overdue=overdueTasks(),upcoming=upcomingTasks(10);
+    document.getElementById('mobileOverdueCount').textContent=String(overdue.length);document.getElementById('mobileUpcomingCount').textContent=String(upcoming.length);
+    mobileOverdueList.innerHTML='';mobileUpcomingList.innerHTML='';
+    if(!overdue.length){const e=document.createElement('div');e.className='mobile-home-empty';e.textContent='지연된 업무가 없습니다.';mobileOverdueList.appendChild(e)}else overdue.forEach(entry=>mobileOverdueList.appendChild(makeMobileTaskItem(entry,'overdue')));
+    if(!upcoming.length){const e=document.createElement('div');e.className='mobile-home-empty';e.textContent='예정된 업무가 없습니다.';mobileUpcomingList.appendChild(e)}else upcoming.forEach(entry=>mobileUpcomingList.appendChild(makeMobileTaskItem(entry,'upcoming')));
   }
   function openCategoryView(category){
     if(category&&data.categories.includes(category))currentCategory=category;
-    showCategoryCompleted=false;currentView='category';
+    showCategoryCompleted=false;currentView='category';mobileMainSection='work';mobileWorkView='category';
     document.querySelectorAll('.tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.view==='category'));
     render();
   }
@@ -1647,12 +1866,14 @@
     const cb=document.createElement('input');cb.type='checkbox';cb.checked=done;
     cb.addEventListener('change',()=>{setTaskDone(t,occurrenceDate,cb.checked);saveData();render()});
     const body=document.createElement('div');
-    const title=document.createElement('div');title.className='task-title';title.textContent=displayTaskTitle(t);body.appendChild(title);
+    const titleRow=document.createElement('div');titleRow.className='task-title-row';
+    const priTitle=document.createElement('span');priTitle.className='priority '+normalizePriority(t.priority);priTitle.title=priorityText(t.priority);priTitle.setAttribute('aria-label',priorityText(t.priority));
+    const title=document.createElement('div');title.className='task-title';title.textContent=displayTaskTitle(t);titleRow.append(priTitle,title);body.appendChild(titleRow);
     if(t.note){const note=document.createElement('div');note.className='task-note';appendLinkified(note,t.note);body.appendChild(note)}
     const meta=document.createElement('div');meta.className='meta';
     const tag=document.createElement('button');tag.type='button';tag.className='tag category-link';tag.textContent=t.category;
     const [bg,tx]=categoryStyle(t.category);tag.style.setProperty('--tag-bg',bg);tag.style.setProperty('--tag-text',tx);tag.addEventListener('click',e=>{e.stopPropagation();openCategoryView(t.category)});
-    const pri=document.createElement('span');pri.className='priority '+normalizePriority(t.priority);pri.title=priorityText(t.priority);pri.setAttribute('aria-label',priorityText(t.priority));meta.append(pri,tag);
+    meta.append(tag);
     if(t.status==='waiting'){const w=document.createElement('span');w.className='waiting-chip';w.textContent='⏳ 대기중';meta.appendChild(w)}
     if(hasRecurrence(t)){const r=document.createElement('span');r.className='repeat-chip';r.textContent='↻ '+recurrenceText(t);meta.appendChild(r)}
     body.appendChild(meta);
@@ -2233,22 +2454,69 @@
     }catch(err){console.error(err);const msg=escHtml(err.message||'알 수 없는 오류');rankKpis.innerHTML=`<div class="rank-empty" style="grid-column:1/-1">선택한 기준일 데이터를 불러오지 못했습니다. ${msg}</div>`;rankOwnList.innerHTML=`<div class="rank-empty">데이터를 불러오지 못했습니다.</div>`;rankEventList.innerHTML=`<div class="rank-empty">데이터를 불러오지 못했습니다.</div>`;rankTableBody.innerHTML=`<tr><td colspan="5" class="rank-empty">데이터를 불러오지 못했습니다.</td></tr>`}
   }
 
-  function render(){
-    const isWeek=currentView==='week',isMonth=currentView==='month',isCategory=currentView==='category',isAds=currentView==='ads',isRank=currentView==='rank',completed=currentView==='completed';
-    const views=[[weekShell,isWeek],[monthView,isMonth],[categoryView,isCategory],[adReportView,isAds],[rankView,isRank],[completedView,completed]];
-    views.forEach(([el,active])=>{el.classList.toggle('planner-view-active',active);el.classList.toggle('planner-view-hidden',!active);el.style.removeProperty('display')});
-    productivityHub.classList.toggle('hidden',!isWeek);quickAddBar.classList.toggle('hidden',!isWeek);
+  function isMobileLayout(){return window.matchMedia('(max-width:700px)').matches}
+  function setStandardViewVisibility(activeView){
+    const isWeek=activeView==='week',isMonth=activeView==='month',isCategory=activeView==='category',isAds=activeView==='ads',isRank=activeView==='rank',completed=activeView==='completed';
+    const views=[[weekShell,isWeek],[monthView,isMonth],[categoryView,isCategory],[adReportView,isAds],[rankView,isRank],[completedView,completed],[mobileSettingsView,false]];
+    views.forEach(([el,active])=>{if(!el)return;el.classList.toggle('planner-view-active',active);el.classList.toggle('planner-view-hidden',!active);el.style.removeProperty('display')});
     adReportBtn.classList.toggle('active',isAds);rankBtn.classList.toggle('active',isRank);
+    document.querySelectorAll('.tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.view===activeView));
     const noDateNav=isCategory||isAds||isRank||completed;
     document.getElementById('prevBtn').style.display=noDateNav?'none':'flex';document.getElementById('nextBtn').style.display=noDateNav?'none':'flex';document.getElementById('todayBtn').style.display=noDateNav?'none':'inline-flex';
     document.getElementById('prevBtn').title=isWeek?'이전 주':'이전 달';document.getElementById('nextBtn').title=isWeek?'다음 주':'다음 달';
     document.getElementById('prevBtn').setAttribute('aria-label',isWeek?'이전 주':'이전 달');document.getElementById('nextBtn').setAttribute('aria-label',isWeek?'다음 주':'다음 달');
+    productivityHub.classList.toggle('hidden',!isWeek);quickAddBar.classList.toggle('hidden',!isWeek);
     if(isWeek){renderProductivityHub();renderWeek()}
     else if(isMonth)renderMonth();
     else if(isCategory)renderCategoryPage();
     else if(isAds)rangeTitle.textContent='광고 리포트';
     else if(isRank)rangeTitle.textContent='네이버 랭킹';
     else renderCompleted();
+  }
+  function syncMobileNavUI(){
+    document.querySelectorAll('[data-mobile-section]').forEach(btn=>btn.classList.toggle('active',btn.dataset.mobileSection===mobileMainSection));
+    document.querySelectorAll('[data-mobile-work-view]').forEach(btn=>btn.classList.toggle('active',btn.dataset.mobileWorkView===mobileWorkView));
+  }
+  function render(){
+    syncMemoFields();
+    const mobile=isMobileLayout();
+    const mobileTabs=document.getElementById('mobileWorkTabs');
+    if(mobile){
+      document.getElementById('dateNav').classList.toggle('hidden',mobileMainSection==='settings');
+      if(mobileMainSection==='work'){
+        mobileTabs.classList.remove('planner-view-hidden');
+        if(mobileWorkView==='home'){
+          [weekShell,monthView,categoryView,adReportView,rankView,completedView,mobileSettingsView].forEach(el=>{el.classList.add('planner-view-hidden');el.classList.remove('planner-view-active')});
+          mobileWorkHome.classList.remove('planner-view-hidden');mobileWorkHome.classList.add('planner-view-active');
+          productivityHub.classList.add('hidden');quickAddBar.classList.add('hidden');
+          rangeTitle.textContent='업무 홈';
+          renderProductivityHub();
+        }else{
+          mobileWorkHome.classList.add('planner-view-hidden');mobileWorkHome.classList.remove('planner-view-active');
+          setStandardViewVisibility(mobileWorkView);
+        }
+      }else if(mobileMainSection==='ads'){
+        mobileWorkHome.classList.add('planner-view-hidden');
+        mobileTabs.classList.add('planner-view-hidden');
+        setStandardViewVisibility('ads');
+      }else if(mobileMainSection==='rank'){
+        mobileWorkHome.classList.add('planner-view-hidden');
+        mobileTabs.classList.add('planner-view-hidden');
+        setStandardViewVisibility('rank');
+      }else{
+        mobileWorkHome.classList.add('planner-view-hidden');
+        mobileTabs.classList.add('planner-view-hidden');
+        [weekShell,monthView,categoryView,adReportView,rankView,completedView].forEach(el=>{el.classList.add('planner-view-hidden');el.classList.remove('planner-view-active')});
+        productivityHub.classList.add('hidden');quickAddBar.classList.add('hidden');
+        mobileSettingsView.classList.remove('planner-view-hidden');mobileSettingsView.classList.add('planner-view-active');
+        rangeTitle.textContent='설정';
+      }
+      syncMobileNavUI();
+    }else{
+      mobileWorkHome.classList.add('planner-view-hidden');mobileSettingsView.classList.add('planner-view-hidden');mobileTabs.classList.add('planner-view-hidden');
+      document.getElementById('dateNav').classList.remove('hidden');
+      setStandardViewVisibility(currentView);
+    }
   }
 
   function fillCategorySelect(select,selected){
@@ -2396,9 +2664,16 @@
   document.getElementById('loginEmail').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('loginPassword').focus()});
   document.getElementById('logoutBtn').addEventListener('click',signOut);
 
-  const memoText=document.getElementById('memoText');memoText.value=data.memo||'';memoText.addEventListener('input',()=>{data.memo=memoText.value;saveData()});
-  function quickAddTask(){const input=document.getElementById('quickTaskInput'),title=input.value.trim();if(!title)return;data.tasks.push(baseTask(newId(),title,dateKey(new Date()),'기타','p4'));input.value='';saveData();render();input.focus()}
-  document.getElementById('quickAddBtn').addEventListener('click',quickAddTask);document.getElementById('quickTaskInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();quickAddTask()}});
+  const memoText=document.getElementById('memoText'),mobileMemoText=document.getElementById('mobileMemoText');
+  syncMemoFields();
+  memoText.addEventListener('input',()=>{data.memo=memoText.value;saveData();syncMemoFields()});
+  if(mobileMemoText)mobileMemoText.addEventListener('input',()=>{data.memo=mobileMemoText.value;saveData();syncMemoFields()});
+  function quickAddTask(inputId='quickTaskInput'){const input=document.getElementById(inputId),title=input.value.trim();if(!title)return;data.tasks.push(baseTask(newId(),title,dateKey(new Date()),'기타','p4'));input.value='';saveData();render();input.focus()}
+  document.getElementById('quickAddBtn').addEventListener('click',()=>quickAddTask('quickTaskInput'));
+  document.getElementById('quickTaskInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();quickAddTask('quickTaskInput')}});
+  document.getElementById('mobileQuickAddBtn').addEventListener('click',()=>quickAddTask('mobileQuickTaskInput'));
+  document.getElementById('mobileQuickTaskInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();quickAddTask('mobileQuickTaskInput')}});
+  document.getElementById('quickTaskOpenBtn').addEventListener('click',()=>{const form=document.getElementById('quickInlineForm');form.classList.toggle('hidden');if(!form.classList.contains('hidden'))document.getElementById('quickTaskInput').focus()});
   document.getElementById('closeBundleBtn').addEventListener('click',()=>document.getElementById('bundleDialog').close());
   document.getElementById('addTaskBtn').addEventListener('click',()=>openTaskDialog(dateKey(new Date())));
   document.getElementById('addSubtaskBtn').addEventListener('click',()=>makeSubRow('',taskDate.value||dateKey(new Date())));
@@ -2429,9 +2704,9 @@
     render();
   });
 
-  document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{currentView=tab.dataset.view;if(currentView==='category')showCategoryCompleted=false;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===tab));render()}));
+  document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{currentView=tab.dataset.view;mobileMainSection='work';mobileWorkView=tab.dataset.view;if(currentView==='category')showCategoryCompleted=false;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===tab));render()}));
   adReportBtn.addEventListener('click',()=>{
-    currentView='ads';
+    currentView='ads';mobileMainSection='ads';
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
     render();
     loadAdHistory();
@@ -2441,7 +2716,7 @@
     window.location.href='order-summary://open';
   });
   rankBtn.addEventListener('click',()=>{
-    currentView='rank';
+    currentView='rank';mobileMainSection='rank';
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
     render();
     loadRankDashboard(rankDateSelect.value);
@@ -2466,6 +2741,25 @@
 
   document.getElementById('manageCategories').addEventListener('click',()=>{renderCategoryList();categoryDialog.showModal()});document.getElementById('closeCategoryBtn').addEventListener('click',()=>categoryDialog.close());
   document.getElementById('addCategoryBtn').addEventListener('click',()=>{const input=document.getElementById('newCategory'),name=input.value.trim();if(name&&!data.categories.includes(name)){data.categories.push(name);input.value='';saveData();renderCategoryList();render()}});
+  document.querySelectorAll('[data-mobile-section]').forEach(btn=>btn.addEventListener('click',()=>{
+    mobileMainSection=btn.dataset.mobileSection;
+    if(mobileMainSection==='work'&&mobileWorkView==='home')currentView='week';
+    if(mobileMainSection==='ads')loadAdHistory(),loadAdProductDashboard();
+    if(mobileMainSection==='rank')loadRankDashboard(rankDateSelect.value);
+    render();
+  }));
+  document.querySelectorAll('[data-mobile-work-view]').forEach(btn=>btn.addEventListener('click',()=>{
+    mobileMainSection='work';mobileWorkView=btn.dataset.mobileWorkView;
+    if(mobileWorkView!=='home')currentView=mobileWorkView;
+    render();
+  }));
+  document.getElementById('mobileManageCategoriesBtn').addEventListener('click',()=>document.getElementById('manageCategories').click());
+  document.getElementById('mobileExportBtn').addEventListener('click',()=>document.getElementById('exportBtn').click());
+  document.getElementById('mobileImportBtn').addEventListener('click',()=>document.getElementById('importBtn').click());
+  document.getElementById('mobileLogoutBtn').addEventListener('click',()=>document.getElementById('logoutBtn').click());
+  document.getElementById('mobileLiveTemplateBtn').addEventListener('click',()=>document.getElementById('liveTemplateBtn').click());
+  document.getElementById('mobilePromoTemplateBtn').addEventListener('click',()=>document.getElementById('promoTemplateBtn').click());
+  window.addEventListener('resize',render);
 
   document.getElementById('liveTemplateBtn').addEventListener('click',()=>{document.getElementById('liveTitle').value='';document.getElementById('liveDate').value=dateKey(new Date());document.getElementById('livePriority').value='p4';liveDialog.showModal()});
   document.getElementById('cancelLiveBtn').addEventListener('click',()=>liveDialog.close());document.getElementById('createLiveBtn').addEventListener('click',createLiveBundle);
