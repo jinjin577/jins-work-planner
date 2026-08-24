@@ -38,7 +38,7 @@
     .view-tabs{display:flex;gap:4px;background:#f1f3f6;padding:4px;border-radius:10px}
     .tab{border:0;background:transparent;padding:7px 12px;border-radius:8px;color:var(--muted);font-weight:700}
     .tab.active{background:#fff;color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.06)}
-    .report-nav-wrap{justify-self:start}
+    .report-nav-wrap{justify-self:start;display:flex;gap:8px;align-items:center}
     .report-nav-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:800;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.035)}
     .report-nav-btn:hover{background:#f8fafb}.report-nav-btn.active{background:var(--accent-soft);border-color:#cddff5;color:#315f94}
     .ad-report-view{display:none;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
@@ -118,8 +118,10 @@
     .routine-btn:active{transform:translateY(1px)}
     .week-shell{display:block}
 
-    .week-grid{display:grid;grid-template-columns:repeat(7,minmax(235px,1fr));gap:12px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x proximity;overscroll-behavior-x:contain;min-width:0}
-    .day{min-width:235px;min-height:430px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px;box-shadow:0 4px 18px rgba(25,31,40,.045);scroll-snap-align:start}
+    .week-grid{display:grid;grid-template-columns:repeat(6,minmax(250px,1fr));gap:12px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x proximity;overscroll-behavior-x:contain;min-width:0}
+    .day{min-width:250px;min-height:495px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px;box-shadow:0 4px 18px rgba(25,31,40,.045);scroll-snap-align:start}
+    .weekend-stack{display:grid;grid-template-rows:repeat(2,minmax(235px,1fr));gap:12px;min-width:250px;min-height:495px;scroll-snap-align:start}
+    .weekend-stack .day{min-width:0;min-height:0;height:100%;scroll-snap-align:none}
     .day.today{outline:2px solid var(--accent);outline-offset:-2px}
     .day-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
     .weekday{font-size:13px;color:var(--muted);font-weight:700}.date{font-size:22px;font-weight:750;margin-top:2px}
@@ -243,7 +245,7 @@
     #categoryView.planner-view-active{display:block!important}
     #completedView.planner-view-active{display:block!important}
     #adReportView.planner-view-active{display:block!important}
-    @media(max-width:1100px){.week-grid{grid-template-columns:repeat(7,260px)}.day{min-width:260px;min-height:360px}}
+    @media(max-width:1100px){.week-grid{grid-template-columns:repeat(6,280px)}.day{min-width:280px;min-height:495px}.weekend-stack{min-width:280px;min-height:495px;grid-template-rows:repeat(2,minmax(235px,1fr))}.weekend-stack .day{min-width:0;min-height:0}}
     @media(max-width:700px){
       .app{padding:16px}
       .topbar{align-items:flex-start;flex-direction:column;gap:10px;margin-bottom:14px}
@@ -257,7 +259,7 @@
       .actions .btn{padding:6px 8px;border-radius:999px;font-size:10.5px;font-weight:700;line-height:1.2;white-space:nowrap}
       .actions .btn.primary{padding:6px 9px}
       .toolbar{grid-template-columns:1fr;justify-items:stretch;padding:10px 11px}
-      .report-nav-wrap{justify-self:stretch}
+      .report-nav-wrap{justify-self:stretch;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
       .report-nav-btn{width:100%;padding:7px 10px}
       .range-wrap{order:-1}.range-title{font-size:13px}
       .view-tabs{justify-content:center;justify-self:stretch;overflow-x:auto}
@@ -286,6 +288,8 @@
 
       .week-shell{width:100%!important}
       .week-grid{display:grid!important;grid-template-columns:1fr!important;gap:10px!important;overflow-x:visible!important;margin:0!important;padding:0!important;scroll-snap-type:none!important;width:100%!important}
+      .weekend-stack{display:contents!important}
+      .week-grid .day,.weekend-stack .day{min-width:0!important;min-height:420px!important;height:auto!important}
       .day{min-width:0!important;width:100%!important;min-height:auto!important;scroll-snap-align:none!important}
 
       .quick-add-bar{flex-direction:column;align-items:stretch;margin-top:12px;margin-bottom:10px;padding:9px}
@@ -419,7 +423,7 @@
   </div>
 
   <div class="toolbar">
-    <div class="report-nav-wrap"><button class="report-nav-btn" id="adReportBtn" type="button">광고 리포트</button></div>
+    <div class="report-nav-wrap"><button class="report-nav-btn" id="adReportBtn" type="button">광고 리포트</button><button class="report-nav-btn" id="orderSummaryBtn" type="button" title="내 PC의 주문 집계 도구 열기">주문 집계</button></div>
     <div class="range-wrap" id="dateNav">
       <button class="month-nav-btn" id="prevBtn" title="이전" aria-label="이전">‹</button>
       <div class="range-title" id="rangeTitle"></div>
@@ -789,7 +793,7 @@
   let pendingGfaImport = null;
 
   const weekView = document.getElementById('weekView'), weekShell = document.getElementById('weekShell'), monthView = document.getElementById('monthView'),
-    adReportView = document.getElementById('adReportView'), adReportBtn = document.getElementById('adReportBtn'),
+    adReportView = document.getElementById('adReportView'), adReportBtn = document.getElementById('adReportBtn'), orderSummaryBtn = document.getElementById('orderSummaryBtn'),
     categoryView = document.getElementById('categoryView'), categoryCards = document.getElementById('categoryCards'), categoryDetail = document.getElementById('categoryDetail'),
     completedView = document.getElementById('completedView'), completedList = document.getElementById('completedList'),
     completedCount = document.getElementById('completedCount'), dateNav = document.getElementById('dateNav'),
@@ -1635,7 +1639,13 @@
       const list=document.createElement('div');list.className='task-list';const dayTasks=tasksForDate(key);
       if(!dayTasks.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='업무 없음';list.appendChild(empty)}
       else dayTasks.forEach(t=>list.appendChild(makeTask(t,key)));
-      el.appendChild(list);weekView.appendChild(el);
+      el.appendChild(list);
+      if(i===5){
+        const weekend=document.createElement('div');weekend.className='weekend-stack';weekend.appendChild(el);weekView.appendChild(weekend);
+      }else if(i===6){
+        const weekend=weekView.querySelector('.weekend-stack');
+        if(weekend)weekend.appendChild(el);else weekView.appendChild(el);
+      }else{weekView.appendChild(el)}
     }
   }
 
@@ -2326,6 +2336,9 @@
     render();
     loadAdHistory();
     loadAdProductDashboard();
+  });
+  orderSummaryBtn.addEventListener('click',()=>{
+    window.location.href='order-summary://open';
   });
   searchReportFile.addEventListener('change',e=>handleSearchReportFile(e.target.files?.[0]));
   gfaReportFile.addEventListener('change',e=>handleGfaReportFile(e.target.files?.[0]));
