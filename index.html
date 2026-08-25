@@ -34,23 +34,24 @@
     .month-nav-btn{border:1px solid var(--line);background:#fff;color:var(--muted);width:34px;height:34px;border-radius:10px;font-size:20px;line-height:1;padding:0;display:none;align-items:center;justify-content:center}
     .month-nav-btn:hover{background:#f9fafb;color:var(--text)}
     .today-inline{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:9px;padding:7px 10px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
-    .view-tabs{justify-self:end}
-    .view-tabs{display:flex;gap:4px;background:#f1f3f6;padding:4px;border-radius:10px}
-    .tab{border:0;background:transparent;padding:7px 12px;border-radius:8px;color:var(--muted);font-weight:700}
-    .tab.active{background:#fff;color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    .view-tabs{justify-self:start;display:flex;gap:24px;align-items:center;padding:0}
+    .tab{border:0;background:transparent;padding:0 2px 10px;color:#8b93a0;font-size:13px;font-weight:700;border-bottom:2px solid transparent}
+    .tab:hover{color:#4a5563}
+    .tab.active{color:#2f6fed;border-bottom-color:#2f6fed;box-shadow:none}
     .report-nav-wrap{justify-self:start;display:flex;gap:8px;align-items:center}
     .report-nav-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:800;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.035)}
     .report-nav-btn:hover{background:#f8fafb}.report-nav-btn.active{background:var(--accent-soft);border-color:#cddff5;color:#315f94}
-    .pc-main-nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:2px 0 10px;border-bottom:1px solid #eef0f3}
-    .pc-main-btn{border:0;background:transparent;color:#5f6874;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700;white-space:nowrap}
-    .pc-main-btn:hover{background:#f4f6f9;color:var(--text)}
-    .pc-main-btn.active{background:var(--accent-soft);color:#2f6fed;box-shadow:inset 0 0 0 1px #d8e5ff}
-    .work-toolbar{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:12px;width:100%;padding-top:1px}
+    .version-badge{display:inline-flex;align-items:center;margin-left:8px;padding:3px 7px;border-radius:999px;background:#edf3ff;color:#2f6fed;font-size:11px;font-weight:800;vertical-align:middle}
+    .toolbar.pc-toolbar{display:grid;grid-template-columns:1fr;gap:0;padding:0;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+    .pc-main-nav{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:12px 18px 0;border-bottom:1px solid #eef0f3}
+    .pc-main-btn{display:inline-flex;align-items:center;gap:7px;border:0;background:transparent;color:#697381;border-radius:0;padding:14px 14px 12px;font-size:14px;font-weight:700;white-space:nowrap;border-bottom:2px solid transparent}
+    .pc-main-icon{font-size:14px;line-height:1;opacity:.9}
+    .pc-main-btn:hover{background:transparent;color:#2f3a49}
+    .pc-main-btn.active{background:transparent;color:#2f6fed;box-shadow:none;border-bottom-color:#2f6fed}
+    .work-toolbar{display:grid;grid-template-columns:auto 1fr;align-items:end;gap:14px;width:100%;padding:12px 18px 10px}
     .work-toolbar.hidden{display:none!important}
-    .toolbar.pc-toolbar{grid-template-columns:1fr;gap:9px;padding:11px 14px}
-    .view-tabs{gap:2px;background:#f5f6f8;padding:3px;border-radius:9px}
-    .tab{padding:6px 10px;border-radius:7px;font-size:11.5px;font-weight:650;color:#7b8490}
-    .tab.active{background:#fff;color:#374151;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+    .toolbar-spacer{display:none}
+    .range-wrap{justify-self:end}
     .pc-settings-view{display:none;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
     .pc-settings-view.planner-view-active{display:block!important}
     .pc-settings-title{font-size:17px;font-weight:800;margin-bottom:5px}
@@ -515,7 +516,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner</h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v4.6</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -541,7 +542,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner</h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v4.6</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -558,11 +559,11 @@
 
   <div class="toolbar pc-toolbar">
     <div class="pc-main-nav" id="pcMainNav">
-      <button class="pc-main-btn active" id="workMainBtn" type="button">업무</button>
-      <button class="pc-main-btn" id="adReportBtn" type="button">광고</button>
-      <button class="pc-main-btn" id="rankBtn" type="button">랭킹</button>
-      <button class="pc-main-btn" id="orderSummaryBtn" type="button" title="내 PC의 주문 집계 도구 열기">주문 집계</button>
-      <button class="pc-main-btn" id="settingsMainBtn" type="button">설정</button>
+      <button class="pc-main-btn active" id="workMainBtn" type="button"><span class="pc-main-icon">🗓️</span><span>업무</span></button>
+      <button class="pc-main-btn" id="adReportBtn" type="button"><span class="pc-main-icon">📺</span><span>광고</span></button>
+      <button class="pc-main-btn" id="rankBtn" type="button"><span class="pc-main-icon">🏆</span><span>랭킹</span></button>
+      <button class="pc-main-btn" id="orderSummaryBtn" type="button" title="내 PC의 주문 집계 도구 열기"><span class="pc-main-icon">🧾</span><span>주문 집계</span></button>
+      <button class="pc-main-btn" id="settingsMainBtn" type="button"><span class="pc-main-icon">⚙️</span><span>설정</span></button>
     </div>
     <div class="work-toolbar" id="workToolbar">
       <div class="toolbar-spacer"></div>
