@@ -508,7 +508,7 @@
       .bundle-item{grid-template-columns:auto 72px minmax(0,1fr)}.bundle-edit{grid-column:3;justify-self:end}
       .completed-row{grid-template-columns:auto 72px minmax(0,1fr)}.completed-row>.task-menu{grid-column:3;justify-self:end}
 
-      /* v6.4 mobile dialog refinement */
+      /* v6.5 mobile dialog refinement */
       dialog{width:min(400px,calc(100vw - 40px));max-width:calc(100vw - 40px);max-height:84dvh;border-radius:15px;overflow:auto;margin:auto}
       #taskDialog .modal{padding:14px}
       #taskDialog .modal h2{font-size:16px;margin-bottom:13px}
@@ -533,7 +533,7 @@
       #taskDialog .category-multi-options{position:static;max-height:150px;margin-top:5px;box-shadow:none}
       #taskDialog .category-multi-option{font-size:11px;padding:6px 7px}
 
-      /* v6.4 mobile task dialog compact layout: keep the form within one viewport */
+      /* v6.5 mobile task dialog compact layout: keep the form within one viewport */
       #taskDialog{width:min(420px,calc(100vw - 20px));max-width:calc(100vw - 20px);max-height:calc(100dvh - 18px);overflow:hidden;border-radius:14px}
       #taskDialog .modal{padding:12px 13px 11px;max-height:calc(100dvh - 18px);overflow:hidden}
       #taskDialog .modal h2{font-size:15px;margin:0 0 10px}
@@ -554,7 +554,7 @@
       #taskDialog .right-actions{gap:5px}
       #taskDialog .category-multi-picker{position:relative}
       #taskDialog .category-multi-options{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:50;max-height:135px;margin-top:0;box-shadow:0 10px 28px rgba(25,31,40,.16)}
-      /* v6.4 mobile dialog alignment */
+      /* v6.5 mobile dialog alignment */
       #taskDialog .row2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
       #taskDialog .row2>.field{min-width:0!important;width:auto!important;max-width:none!important;margin-bottom:8px!important}
       #taskDialog .task-date-field{min-width:0!important;width:auto!important;max-width:none!important;overflow:hidden}
@@ -633,7 +633,7 @@
     }
 
 
-    /* v6.4 mobile task-dialog form system: UI only */
+    /* v6.5 mobile task-dialog form system: UI only */
     @media(max-width:700px){
       #taskDialog{
         width:min(400px,calc(100vw - 24px))!important;
@@ -821,7 +821,7 @@
     }
 
 
-    /* v6.4 mobile task-dialog hardening: layout only, desktop untouched */
+    /* v6.5 mobile task-dialog hardening: layout only, desktop untouched */
     @media(max-width:700px){
       /* Keep both two-column rows inside their own grid tracks. */
       #taskDialog .row2{
@@ -939,7 +939,7 @@
     }
 
 
-    /* v6.4 mobile task-dialog polish: requested items only */
+    /* v6.5 mobile task-dialog polish: requested items only */
     @media(max-width:700px){
       /* Vertically center the iOS date value inside the existing field. */
       #taskDialog #taskDate{
@@ -1029,7 +1029,7 @@
     }
 
 
-    /* v6.4 mobile category dropdown alignment only */
+    /* v6.5 mobile category dropdown alignment only */
     @media(max-width:700px){
       #taskDialog .category-multi-option{
         display:flex!important;
@@ -1083,7 +1083,7 @@
     }
 
 
-    /* v6.4 mobile-only: category dropdown + quick-add card cleanup */
+    /* v6.5 mobile-only: category dropdown + quick-add card cleanup */
     @media(max-width:700px){
       /* Keep only the quick task input on the mobile quick-add card. */
       .mobile-quick-actions{display:none!important}
@@ -1155,7 +1155,7 @@
     }
 
 
-    /* v6.4 mobile only: priority / status / category share one custom dropdown UI */
+    /* v6.5 mobile only: priority / status / category share one custom dropdown UI */
     @media(max-width:700px){
       /* Native priority/status controls are data stores only on mobile. */
       #taskDialog #taskPriority,
@@ -1281,12 +1281,26 @@
       }
     }
 
+
+    /* v6.5 mobile only: category dropdown auto-direction */
+    @media(max-width:700px){
+      #taskDialog.category-menu-open,
+      #taskDialog.category-menu-open .modal{overflow:visible!important}
+      #taskDialog .category-multi-picker.open-up .category-multi-options{
+        top:auto!important;
+        bottom:calc(100% + 4px)!important;
+      }
+      #taskDialog .category-multi-picker.open-down .category-multi-options{
+        top:calc(100% + 4px)!important;
+        bottom:auto!important;
+      }
+    }
 </style>
 </head>
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v6.4</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v6.5</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1312,7 +1326,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v6.4</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v6.5</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -3481,9 +3495,26 @@
     });
     updateTaskCategoryLabel();
   }
+  function positionMobileCategoryDropdown(){
+    if(!isMobileLayout())return;
+    const picker=document.getElementById('taskCategoryPicker');
+    const toggle=document.getElementById('taskCategoryToggle');
+    const menu=document.getElementById('taskCategoryOptions');
+    if(!picker||!toggle||!menu)return;
+    picker.classList.remove('open-up','open-down');
+    const rect=toggle.getBoundingClientRect();
+    const gap=8;
+    const below=Math.max(0,window.innerHeight-rect.bottom-gap);
+    const above=Math.max(0,rect.top-gap);
+    const openUp=above>below && above>=120;
+    picker.classList.add(openUp?'open-up':'open-down');
+    const available=openUp?above:below;
+    const maxHeight=Math.max(96,Math.min(260,available-8));
+    menu.style.setProperty('max-height',`${maxHeight}px`,'important');
+  }
   function closeMobileSinglePickers(except=null){
     ['taskPriorityPicker','taskStatusPicker'].forEach(id=>{const el=document.getElementById(id);if(el&&el!==except){el.classList.remove('open');const btn=el.querySelector('[aria-expanded]');if(btn)btn.setAttribute('aria-expanded','false')}});
-    const cat=document.getElementById('taskCategoryPicker');if(cat&&cat!==except){cat.classList.remove('open');document.getElementById('taskCategoryToggle')?.setAttribute('aria-expanded','false')}
+    const cat=document.getElementById('taskCategoryPicker');if(cat&&cat!==except){cat.classList.remove('open','open-up','open-down');document.getElementById('taskCategoryToggle')?.setAttribute('aria-expanded','false');document.getElementById('taskDialog')?.classList.remove('category-menu-open')}
   }
   function renderMobileSinglePicker(selectId,pickerId,toggleId,labelId,optionsId){
     const select=document.getElementById(selectId),picker=document.getElementById(pickerId),toggle=document.getElementById(toggleId),label=document.getElementById(labelId),options=document.getElementById(optionsId);
@@ -3701,11 +3732,12 @@
   document.getElementById('cancelTaskBtn').addEventListener('click',closeTaskDialog);document.getElementById('saveTaskBtn').addEventListener('click',saveTask);document.getElementById('duplicateTaskBtn').addEventListener('click',duplicateTask);
   const taskCategoryPicker=document.getElementById('taskCategoryPicker'),taskCategoryToggle=document.getElementById('taskCategoryToggle');
   function bindMobilePickerToggle(picker,toggle){if(!picker||!toggle)return;toggle.addEventListener('click',e=>{e.stopPropagation();const willOpen=!picker.classList.contains('open');closeMobileSinglePickers(picker);picker.classList.toggle('open',willOpen);toggle.setAttribute('aria-expanded',String(willOpen))})}
-  bindMobilePickerToggle(taskCategoryPicker,taskCategoryToggle);
+  if(taskCategoryPicker&&taskCategoryToggle){taskCategoryToggle.addEventListener('click',e=>{e.stopPropagation();const willOpen=!taskCategoryPicker.classList.contains('open');closeMobileSinglePickers(taskCategoryPicker);taskCategoryPicker.classList.toggle('open',willOpen);taskCategoryToggle.setAttribute('aria-expanded',String(willOpen));if(willOpen){document.getElementById('taskDialog')?.classList.add('category-menu-open');requestAnimationFrame(positionMobileCategoryDropdown)}else{taskCategoryPicker.classList.remove('open-up','open-down');document.getElementById('taskDialog')?.classList.remove('category-menu-open')}})}
   bindMobilePickerToggle(document.getElementById('taskPriorityPicker'),document.getElementById('taskPriorityToggle'));
   bindMobilePickerToggle(document.getElementById('taskStatusPicker'),document.getElementById('taskStatusToggle'));
   document.addEventListener('click',e=>{if(!e.target.closest('#taskDialog .category-multi-picker')&&!e.target.closest('#taskDialog .mobile-single-picker'))closeMobileSinglePickers()});
   taskPriority.addEventListener('change',syncMobileTaskPickers);taskStatus.addEventListener('change',syncMobileTaskPickers);
+  window.addEventListener('resize',()=>{if(taskCategoryPicker?.classList.contains('open'))positionMobileCategoryDropdown()});
   taskRecurrence.addEventListener('change',updateRecurrenceUI);taskDate.addEventListener('change',()=>{if(taskRecurrence.value==='weekly'&&taskWeekday.value!=='weekdays')taskWeekday.value=String(parseDate(taskDate.value).getDay());if(taskRecurrence.value==='monthly')taskMonthday.value=String(parseDate(taskDate.value).getDate())});
   taskDialog.addEventListener('close',()=>unlockMobileTaskDialogViewport());
   taskDate.addEventListener('click',e=>{if(!isMobileLayout()){e.preventDefault();e.stopPropagation();openTaskDateDistribution()}});
