@@ -506,7 +506,7 @@
       .bundle-item{grid-template-columns:auto 72px minmax(0,1fr)}.bundle-edit{grid-column:3;justify-self:end}
       .completed-row{grid-template-columns:auto 72px minmax(0,1fr)}.completed-row>.task-menu{grid-column:3;justify-self:end}
 
-      /* v5.4 mobile dialog refinement */
+      /* v5.5 mobile dialog refinement */
       dialog{width:min(400px,calc(100vw - 40px));max-width:calc(100vw - 40px);max-height:84dvh;border-radius:15px;overflow:auto;margin:auto}
       #taskDialog .modal{padding:14px}
       #taskDialog .modal h2{font-size:16px;margin-bottom:13px}
@@ -531,7 +531,7 @@
       #taskDialog .category-multi-options{position:static;max-height:150px;margin-top:5px;box-shadow:none}
       #taskDialog .category-multi-option{font-size:11px;padding:6px 7px}
 
-      /* v5.4 mobile task dialog compact layout: keep the form within one viewport */
+      /* v5.5 mobile task dialog compact layout: keep the form within one viewport */
       #taskDialog{width:min(420px,calc(100vw - 20px));max-width:calc(100vw - 20px);max-height:calc(100dvh - 18px);overflow:hidden;border-radius:14px}
       #taskDialog .modal{padding:12px 13px 11px;max-height:calc(100dvh - 18px);overflow:hidden}
       #taskDialog .modal h2{font-size:15px;margin:0 0 10px}
@@ -552,6 +552,22 @@
       #taskDialog .right-actions{gap:5px}
       #taskDialog .category-multi-picker{position:relative}
       #taskDialog .category-multi-options{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:50;max-height:135px;margin-top:0;box-shadow:0 10px 28px rgba(25,31,40,.16)}
+      /* v5.5 mobile dialog alignment */
+      #taskDialog .row2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
+      #taskDialog .row2>.field{min-width:0!important;width:auto!important;max-width:none!important;margin-bottom:8px!important}
+      #taskDialog .task-date-field{min-width:0!important;width:auto!important;max-width:none!important;overflow:hidden}
+      #taskDialog #taskDate{display:block!important;inline-size:100%!important;width:100%!important;max-inline-size:100%!important;max-width:100%!important;min-inline-size:0!important;min-width:0!important;box-sizing:border-box!important;overflow:hidden;text-overflow:clip}
+      #taskDialog .field{margin-bottom:8px!important}
+      #taskDialog .field label{margin-bottom:4px!important}
+      #taskDialog .field input,#taskDialog .field select,#taskDialog .field textarea,#taskDialog .category-multi-toggle{font-size:15px!important}
+      #taskDialog .field textarea{font-size:14.5px!important}
+      #taskDialog .category-multi-summary .mini-cat{font-size:9.5px}
+      #taskDialog #recurrenceSection{margin-bottom:8px!important}
+      #taskDialog #subtaskSection{margin-bottom:6px!important}
+      #taskDialog #subtaskSection>label{display:block;margin-bottom:4px!important}
+      #taskDialog #subtaskEditor:empty{display:none}
+      #taskDialog #addSubtaskBtn{margin-top:2px!important}
+      #taskDialog #subtaskSection .hint{margin-top:4px!important}
       @media(max-width:380px){
         #taskDialog{width:calc(100vw - 14px);max-width:calc(100vw - 14px)}
         #taskDialog .modal{padding:10px}
@@ -619,7 +635,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.4</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.5</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -645,7 +661,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.4</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.5</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -2830,8 +2846,7 @@
   function updateRecurrenceUI(){
     const type=taskRecurrence.value;
     taskWeekday.classList.toggle('hidden',type!=='weekly');taskMonthday.classList.toggle('hidden',type!=='monthly');
-    const hideSub=type!=='none';
-    if(!recurrenceSection.classList.contains('hidden'))document.getElementById('subtaskSection').classList.toggle('hidden',hideSub);
+    if(!recurrenceSection.classList.contains('hidden'))document.getElementById('subtaskSection').classList.remove('hidden');
   }
   function readRecurrence(){
     if(taskRecurrence.value==='weekly'){
@@ -2850,9 +2865,13 @@
       const t=taskById(id),children=childrenOf(id);taskTitle.value=t.title;taskDate.value=t.date;setSelectedTaskCategories(taskCategories(t));taskStatus.value=t.status==='waiting'?'waiting':'active';taskPriority.value=normalizePriority(t.priority);taskNote.value=t.note||'';
       taskRecurrence.value=t.recurrence?.type||'none';taskWeekday.value=String(t.recurrence?.weekday??parseDate(t.date).getDay());taskMonthday.value=String(t.recurrence?.day??parseDate(t.date).getDate());
       children.sort((a,b)=>a.date.localeCompare(b.date)).forEach(c=>makeSubRow(c.title,c.date,c.id));
-      if(t.parentId){recurrenceSection.classList.add('hidden');document.getElementById('subtaskSection').classList.add('hidden')}
-      else if(children.length){taskRecurrence.value='none';taskRecurrence.disabled=true;taskWeekday.disabled=true;taskMonthday.disabled=true;recurrenceHint.textContent='하위 업무가 있는 묶음 업무는 반복 설정을 사용할 수 없습니다.';document.getElementById('subtaskSection').classList.remove('hidden')}
-      else updateRecurrenceUI();
+      if(t.parentId){
+        recurrenceSection.classList.add('hidden');
+        document.getElementById('subtaskSection').classList.add('hidden');
+      }else{
+        document.getElementById('subtaskSection').classList.remove('hidden');
+        updateRecurrenceUI();
+      }
     }else{
       taskTitle.value='';taskDate.value=date||dateKey(new Date());setSelectedTaskCategories(data.categories[0]||'기타');taskStatus.value='active';taskPriority.value='p4';taskNote.value='';taskRecurrence.value='none';
       const d=parseDate(taskDate.value);taskWeekday.value=String(d.getDay());taskMonthday.value=String(d.getDate());document.getElementById('subtaskSection').classList.remove('hidden');updateRecurrenceUI();
@@ -2876,13 +2895,10 @@
     if(editingId){
       const t=taskById(editingId),oldRec=JSON.stringify(t.recurrence||{type:'none'}),wasWaiting=t.status==='waiting';Object.assign(t,{title,date,category,priority,note,recurrence,status});setTaskCategories(t,cats);t.waitingSince=status==='waiting'?(wasWaiting&&t.waitingSince?t.waitingSince:new Date().toISOString()):null;
       if(oldRec!==JSON.stringify(recurrence))t.doneDates=[];
-      if(!t.parentId){
-        if(recurrence.type==='none')syncChildren(editingId,readSubRows(),cats,priority);
-        else data.tasks=data.tasks.filter(x=>x.parentId!==editingId);
-      }
+      if(!t.parentId)syncChildren(editingId,readSubRows(),cats,priority);
     }else{
       const id=newId();data.tasks.push({id,title,date,category,categories:[...cats],priority,parentId:null,note,status,waitingSince:status==='waiting'?new Date().toISOString():null,done:false,completedAt:null,doneDates:[],doneAtDates:{},skipDates:[],recurrence});
-      if(recurrence.type==='none')syncChildren(id,readSubRows(),cats,priority);
+      syncChildren(id,readSubRows(),cats,priority);
     }
     saveData();closeTaskDialog();render();
   }
