@@ -506,7 +506,7 @@
       .bundle-item{grid-template-columns:auto 72px minmax(0,1fr)}.bundle-edit{grid-column:3;justify-self:end}
       .completed-row{grid-template-columns:auto 72px minmax(0,1fr)}.completed-row>.task-menu{grid-column:3;justify-self:end}
 
-      /* v5.3 mobile dialog refinement */
+      /* v5.4 mobile dialog refinement */
       dialog{width:min(400px,calc(100vw - 40px));max-width:calc(100vw - 40px);max-height:84dvh;border-radius:15px;overflow:auto;margin:auto}
       #taskDialog .modal{padding:14px}
       #taskDialog .modal h2{font-size:16px;margin-bottom:13px}
@@ -530,6 +530,34 @@
       @media(max-width:430px){#taskDialog .subrow{grid-template-columns:1fr auto!important}#taskDialog .subrow .sub-date-wrap{grid-column:1}#taskDialog .subrow>button{grid-column:2;grid-row:2}#taskDialog .subrow>input[data-kind="title"]{grid-column:1/-1}#taskDialog .subrow input[type="date"],#taskDialog .subrow input[data-kind="date"]{width:100%!important;max-width:none!important}}
       #taskDialog .category-multi-options{position:static;max-height:150px;margin-top:5px;box-shadow:none}
       #taskDialog .category-multi-option{font-size:11px;padding:6px 7px}
+
+      /* v5.4 mobile task dialog compact layout: keep the form within one viewport */
+      #taskDialog{width:min(420px,calc(100vw - 20px));max-width:calc(100vw - 20px);max-height:calc(100dvh - 18px);overflow:hidden;border-radius:14px}
+      #taskDialog .modal{padding:12px 13px 11px;max-height:calc(100dvh - 18px);overflow:hidden}
+      #taskDialog .modal h2{font-size:15px;margin:0 0 10px}
+      #taskDialog .field{margin-bottom:7px}
+      #taskDialog .field label{font-size:10px;margin-bottom:3px}
+      #taskDialog .field input,#taskDialog .field select,#taskDialog .field textarea,#taskDialog .category-multi-toggle{min-height:35px;padding:6px 8px;border-radius:8px;font-size:16px}
+      #taskDialog .field textarea{min-height:48px;height:48px;line-height:1.35;resize:none}
+      #taskDialog .row2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px!important;align-items:start;width:100%}
+      #taskDialog .row2>.field{min-width:0;width:100%;max-width:100%;margin-bottom:7px}
+      #taskDialog .task-date-field,#taskDialog #taskDate{min-width:0!important;width:100%!important;max-width:100%!important}
+      #taskDialog .hint{font-size:9px;line-height:1.25;margin-top:3px}
+      #taskDialog #recurrenceSection{margin-bottom:6px}
+      #taskDialog #subtaskSection{margin-bottom:5px}
+      #taskDialog #addSubtaskBtn{padding:6px 9px;font-size:10.5px}
+      #taskDialog .subtask-editor{max-height:88px;overflow:auto;gap:4px}
+      #taskDialog .modal-actions{margin-top:8px;gap:5px}
+      #taskDialog .modal-actions .btn,#taskDialog .right-actions .btn{font-size:11px;padding:6px 8px;border-radius:8px}
+      #taskDialog .right-actions{gap:5px}
+      #taskDialog .category-multi-picker{position:relative}
+      #taskDialog .category-multi-options{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:50;max-height:135px;margin-top:0;box-shadow:0 10px 28px rgba(25,31,40,.16)}
+      @media(max-width:380px){
+        #taskDialog{width:calc(100vw - 14px);max-width:calc(100vw - 14px)}
+        #taskDialog .modal{padding:10px}
+        #taskDialog .row2{gap:6px!important}
+        #taskDialog .field input,#taskDialog .field select,#taskDialog .field textarea,#taskDialog .category-multi-toggle{padding-left:7px;padding-right:7px}
+      }
 
       #weekShell.planner-view-hidden,#monthView.planner-view-hidden,#categoryView.planner-view-hidden,#completedView.planner-view-hidden,#rankView.planner-view-hidden{display:none!important}
       #weekShell.planner-view-active,#monthView.planner-view-active,#categoryView.planner-view-active,#completedView.planner-view-active,#rankView.planner-view-active{display:block!important}
@@ -591,7 +619,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.3</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.4</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -617,7 +645,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.3</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.4</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
