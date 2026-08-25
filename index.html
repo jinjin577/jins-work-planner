@@ -506,7 +506,7 @@
       .bundle-item{grid-template-columns:auto 72px minmax(0,1fr)}.bundle-edit{grid-column:3;justify-self:end}
       .completed-row{grid-template-columns:auto 72px minmax(0,1fr)}.completed-row>.task-menu{grid-column:3;justify-self:end}
 
-      /* v5.7 mobile dialog refinement */
+      /* v5.8 mobile dialog refinement */
       dialog{width:min(400px,calc(100vw - 40px));max-width:calc(100vw - 40px);max-height:84dvh;border-radius:15px;overflow:auto;margin:auto}
       #taskDialog .modal{padding:14px}
       #taskDialog .modal h2{font-size:16px;margin-bottom:13px}
@@ -531,7 +531,7 @@
       #taskDialog .category-multi-options{position:static;max-height:150px;margin-top:5px;box-shadow:none}
       #taskDialog .category-multi-option{font-size:11px;padding:6px 7px}
 
-      /* v5.7 mobile task dialog compact layout: keep the form within one viewport */
+      /* v5.8 mobile task dialog compact layout: keep the form within one viewport */
       #taskDialog{width:min(420px,calc(100vw - 20px));max-width:calc(100vw - 20px);max-height:calc(100dvh - 18px);overflow:hidden;border-radius:14px}
       #taskDialog .modal{padding:12px 13px 11px;max-height:calc(100dvh - 18px);overflow:hidden}
       #taskDialog .modal h2{font-size:15px;margin:0 0 10px}
@@ -552,7 +552,7 @@
       #taskDialog .right-actions{gap:5px}
       #taskDialog .category-multi-picker{position:relative}
       #taskDialog .category-multi-options{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:50;max-height:135px;margin-top:0;box-shadow:0 10px 28px rgba(25,31,40,.16)}
-      /* v5.7 mobile dialog alignment */
+      /* v5.8 mobile dialog alignment */
       #taskDialog .row2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
       #taskDialog .row2>.field{min-width:0!important;width:auto!important;max-width:none!important;margin-bottom:8px!important}
       #taskDialog .task-date-field{min-width:0!important;width:auto!important;max-width:none!important;overflow:hidden}
@@ -631,7 +631,7 @@
     }
 
 
-    /* v5.7 mobile task-dialog form system: UI only */
+    /* v5.8 mobile task-dialog form system: UI only */
     @media(max-width:700px){
       #taskDialog{
         width:min(400px,calc(100vw - 24px))!important;
@@ -819,7 +819,7 @@
     }
 
 
-    /* v5.7 mobile task-dialog hardening: layout only, desktop untouched */
+    /* v5.8 mobile task-dialog hardening: layout only, desktop untouched */
     @media(max-width:700px){
       /* Keep both two-column rows inside their own grid tracks. */
       #taskDialog .row2{
@@ -936,12 +936,102 @@
       }
     }
 
+
+    /* v5.8 mobile task-dialog polish: requested items only */
+    @media(max-width:700px){
+      /* Vertically center the iOS date value inside the existing field. */
+      #taskDialog #taskDate{
+        height:36px!important;
+        min-height:36px!important;
+        line-height:36px!important;
+      }
+      #taskDialog #taskDate::-webkit-datetime-edit,
+      #taskDialog #taskDate::-webkit-date-and-time-value{
+        height:100%!important;
+        min-height:100%!important;
+        display:flex!important;
+        align-items:center!important;
+        line-height:normal!important;
+        padding-top:0!important;
+        padding-bottom:0!important;
+      }
+      #taskDialog #taskDate::-webkit-datetime-edit-fields-wrapper{
+        display:flex!important;
+        align-items:center!important;
+        height:100%!important;
+      }
+
+      /* Keep category selection as one compact field: badges left, chevron fixed at the far right. */
+      #taskDialog .category-multi-toggle{
+        display:flex!important;
+        flex-direction:row!important;
+        align-items:center!important;
+        justify-content:space-between!important;
+        gap:7px!important;
+        white-space:nowrap!important;
+      }
+      #taskDialog #taskCategoryLabel{
+        display:flex!important;
+        align-items:center!important;
+        flex:1 1 auto!important;
+        min-width:0!important;
+        max-width:none!important;
+        overflow:hidden!important;
+      }
+      #taskDialog .category-multi-summary{
+        display:flex!important;
+        align-items:center!important;
+        flex-wrap:nowrap!important;
+        gap:4px!important;
+        min-width:0!important;
+        max-width:100%!important;
+        overflow:hidden!important;
+      }
+      #taskDialog .category-multi-summary .mini-cat{
+        flex:0 0 auto!important;
+        border-radius:999px!important;
+        padding:2px 7px!important;
+      }
+      #taskDialog .category-multi-chevron{
+        display:inline-flex!important;
+        align-items:center!important;
+        justify-content:center!important;
+        flex:0 0 16px!important;
+        width:16px!important;
+        margin-left:auto!important;
+        line-height:1!important;
+        transform:none!important;
+      }
+      #taskDialog .category-multi-option{
+        align-items:center!important;
+      }
+      #taskDialog .category-multi-option .category-multi-dot{
+        display:none!important;
+      }
+      #taskDialog .category-multi-option > span:last-child{
+        display:inline-flex!important;
+        align-items:center!important;
+        width:max-content!important;
+        max-width:calc(100% - 28px)!important;
+        padding:3px 8px!important;
+        border-radius:999px!important;
+        background:#f2f4f7!important;
+        color:#59616c!important;
+        font-size:10.5px!important;
+        font-weight:650!important;
+        line-height:1.2!important;
+        overflow:hidden!important;
+        text-overflow:ellipsis!important;
+        white-space:nowrap!important;
+      }
+    }
+
 </style>
 </head>
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.7</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.8</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -967,7 +1057,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.7</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.8</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -3161,7 +3251,23 @@
     if(taskRecurrence.value==='monthly')return {type:'monthly',day:Math.min(31,Math.max(1,Number(taskMonthday.value)||1))};
     return {type:'none'};
   }
+  let taskDialogViewportContent=null;
+  function lockMobileTaskDialogViewport(){
+    if(!isMobileLayout())return;
+    const meta=document.querySelector('meta[name="viewport"]');
+    if(!meta)return;
+    taskDialogViewportContent=meta.getAttribute('content')||'width=device-width, initial-scale=1.0';
+    if(document.activeElement&&typeof document.activeElement.blur==='function')document.activeElement.blur();
+    meta.setAttribute('content','width=device-width, initial-scale=1, maximum-scale=1');
+  }
+  function unlockMobileTaskDialogViewport(){
+    if(!isMobileLayout())return;
+    const meta=document.querySelector('meta[name="viewport"]');
+    if(meta&&taskDialogViewportContent!==null)meta.setAttribute('content',taskDialogViewportContent);
+    taskDialogViewportContent=null;
+  }
   function openTaskDialog(date,id=null){
+    lockMobileTaskDialogViewport();
     editingId=id;refreshCategorySelect();subtaskEditor.innerHTML='';document.getElementById('modalTitle').textContent=id?'업무 수정':'업무 추가';
     closeTaskDateDistribution();
     if(isMobileLayout()){taskDate.type='date';taskDate.readOnly=false}else{taskDate.type='text';taskDate.readOnly=true}
@@ -3184,7 +3290,7 @@
     }
     taskDialog.showModal();if(!isMobileLayout())setTimeout(()=>taskTitle.focus(),0);
   }
-  function closeTaskDialog(){closeTaskDateDistribution();document.getElementById('taskCategoryPicker')?.classList.remove('open');taskDialog.close();editingId=null}
+  function closeTaskDialog(){closeTaskDateDistribution();document.getElementById('taskCategoryPicker')?.classList.remove('open');taskDialog.close();editingId=null;unlockMobileTaskDialogViewport()}
   function syncChildren(parentId,rows,categories,priority){
     const existing=new Map(childrenOf(parentId).map(c=>[c.id,c])),keep=new Set();
     const cats=categories?.length?categories:['기타'];
@@ -3305,6 +3411,7 @@
   taskCategoryToggle.addEventListener('click',e=>{e.stopPropagation();const open=taskCategoryPicker.classList.toggle('open');taskCategoryToggle.setAttribute('aria-expanded',String(open))});
   document.addEventListener('click',e=>{if(taskCategoryPicker.classList.contains('open')&&!e.target.closest('#taskCategoryPicker')){taskCategoryPicker.classList.remove('open');taskCategoryToggle.setAttribute('aria-expanded','false')}});
   taskRecurrence.addEventListener('change',updateRecurrenceUI);taskDate.addEventListener('change',()=>{if(taskRecurrence.value==='weekly'&&taskWeekday.value!=='weekdays')taskWeekday.value=String(parseDate(taskDate.value).getDay());if(taskRecurrence.value==='monthly')taskMonthday.value=String(parseDate(taskDate.value).getDate())});
+  taskDialog.addEventListener('close',()=>unlockMobileTaskDialogViewport());
   taskDate.addEventListener('click',e=>{if(!isMobileLayout()){e.preventDefault();e.stopPropagation();openTaskDateDistribution()}});
   taskDate.addEventListener('focus',()=>{if(!isMobileLayout())openTaskDateDistribution()});
   document.addEventListener('click',e=>{if(taskDateDistribution?.classList.contains('open')&&!e.target.closest('.task-date-field'))closeTaskDateDistribution();if(!e.target.closest('.sub-date-wrap'))document.querySelectorAll('.sub-date-distribution.open').forEach(x=>x.classList.remove('open'))});
