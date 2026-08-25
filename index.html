@@ -367,6 +367,7 @@
       .ad-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .ad-history-item{grid-template-columns:78px 68px minmax(0,1fr);gap:6px}.ad-history-item>span:last-child{grid-column:3}
       .ad-product-summary{grid-template-columns:1fr}.ad-product-row{grid-template-columns:72px 58px minmax(90px,1fr) 78px}.ad-product-row>*:nth-child(4){display:none}.ad-product-row>*:nth-child(5){text-align:right}
+      .ad-product-history-grid{display:none!important}
 
       #plannerApp{display:flex;flex-direction:column}
       #plannerApp .topbar{order:0}
@@ -408,6 +409,13 @@
       .planner-actions{display:none}
       .pc-main-nav,.pc-settings-view{display:none!important}
       .toolbar{display:none}
+      .work-toolbar{display:none!important}
+      .work-toolbar.mobile-date-only{display:block!important;padding:10px 12px;margin:0 0 10px;background:#fff;border:1px solid #e6eaf0;border-radius:16px;box-shadow:0 4px 18px rgba(25,31,40,.045)}
+      .work-toolbar.mobile-date-only .work-header-actions,.work-toolbar.mobile-date-only .view-tabs{display:none!important}
+      .work-toolbar.mobile-date-only .range-wrap{display:grid!important;grid-template-columns:36px minmax(0,1fr) auto 36px;align-items:center;gap:8px;justify-self:stretch}
+      .work-toolbar.mobile-date-only .range-title{font-size:14px;font-weight:800;text-align:center;line-height:1.25}
+      .work-toolbar.mobile-date-only .month-nav-btn{width:36px;height:36px}
+      .work-toolbar.mobile-date-only .today-inline{height:36px;padding:0 12px;border-radius:10px}
       #productivityHub{display:none!important}
       #quickAddBar{display:none!important}
       #plannerApp{padding:13px 13px 104px;max-width:680px;margin:0 auto}
@@ -523,7 +531,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v4.7</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v4.8</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -549,7 +557,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v4.7</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v4.8</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -2562,39 +2570,50 @@
     const mobile=isMobileLayout();
     const mobileTabs=document.getElementById('mobileWorkTabs');
     if(mobile){
-      document.getElementById('dateNav').classList.toggle('hidden',mobileMainSection!=='work'||mobileWorkView==='home'||mobileWorkView==='category'||mobileWorkView==='completed');
+      const mobileShowDateBar=mobileMainSection==='work'&&(mobileWorkView==='week'||mobileWorkView==='month');
+      document.getElementById('dateNav').classList.toggle('hidden',!mobileShowDateBar);
+      workToolbar.classList.toggle('mobile-date-only',mobileShowDateBar);
       if(mobileMainSection==='work'){
         mobileTabs.classList.remove('planner-view-hidden');
         if(mobileWorkView==='home'){
           [weekShell,monthView,categoryView,adReportView,rankView,completedView,mobileSettingsView].forEach(el=>{el.classList.add('planner-view-hidden');el.classList.remove('planner-view-active')});
           mobileWorkHome.classList.remove('planner-view-hidden');mobileWorkHome.classList.add('planner-view-active');
           productivityHub.classList.add('hidden');quickAddBar.classList.add('hidden');
+          workToolbar.classList.add('hidden');
           rangeTitle.textContent='업무 홈';
           renderProductivityHub();
         }else{
           mobileWorkHome.classList.add('planner-view-hidden');mobileWorkHome.classList.remove('planner-view-active');
           setStandardViewVisibility(mobileWorkView);
+          workToolbar.classList.toggle('hidden',!mobileShowDateBar);
         }
       }else if(mobileMainSection==='ads'){
         mobileWorkHome.classList.add('planner-view-hidden');
         mobileTabs.classList.add('planner-view-hidden');
         setStandardViewVisibility('ads');
+        workToolbar.classList.add('hidden');
+        workToolbar.classList.remove('mobile-date-only');
       }else if(mobileMainSection==='rank'){
         mobileWorkHome.classList.add('planner-view-hidden');
         mobileTabs.classList.add('planner-view-hidden');
         setStandardViewVisibility('rank');
+        workToolbar.classList.add('hidden');
+        workToolbar.classList.remove('mobile-date-only');
       }else{
         mobileWorkHome.classList.add('planner-view-hidden');
         mobileTabs.classList.add('planner-view-hidden');
         [weekShell,monthView,categoryView,adReportView,rankView,completedView].forEach(el=>{el.classList.add('planner-view-hidden');el.classList.remove('planner-view-active')});
         productivityHub.classList.add('hidden');quickAddBar.classList.add('hidden');
         mobileSettingsView.classList.remove('planner-view-hidden');mobileSettingsView.classList.add('planner-view-active');
+        workToolbar.classList.add('hidden');
+        workToolbar.classList.remove('mobile-date-only');
         rangeTitle.textContent='설정';
       }
       syncMobileNavUI();
     }else{
       mobileWorkHome.classList.add('planner-view-hidden');mobileSettingsView.classList.add('planner-view-hidden');mobileTabs.classList.add('planner-view-hidden');
       document.getElementById('dateNav').classList.remove('hidden');
+      workToolbar.classList.remove('mobile-date-only');
       setStandardViewVisibility(currentView);
     }
   }
