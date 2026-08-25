@@ -506,27 +506,30 @@
       .bundle-item{grid-template-columns:auto 72px minmax(0,1fr)}.bundle-edit{grid-column:3;justify-self:end}
       .completed-row{grid-template-columns:auto 72px minmax(0,1fr)}.completed-row>.task-menu{grid-column:3;justify-self:end}
 
-      /* v5.2 mobile dialog refinement */
-      dialog{width:min(480px,calc(100vw - 18px));max-height:92dvh;border-radius:15px;overflow:auto}
-      .modal{padding:16px}
-      .modal h2{font-size:17px;margin-bottom:15px}
-      .field{margin-bottom:11px;min-width:0}
-      .field label{font-size:10.5px;margin-bottom:5px;font-weight:700}
-      .field input,.field select,.field textarea,.category-multi-toggle{font-size:12.5px;padding:9px 10px;border-radius:9px;min-height:39px}
-      .field textarea{min-height:76px}
-      .row2{grid-template-columns:1fr!important;gap:0;align-items:start}
-      .row2>.field{min-width:0;width:100%;margin-bottom:11px}
-      .row2>.field input,.row2>.field select,.task-date-field input{min-width:0!important;width:100%!important;max-width:100%!important}
-      .hint{font-size:10.5px;line-height:1.45;margin-top:7px}
-      .modal-actions{margin-top:15px;gap:6px}.modal-actions .btn,.right-actions .btn{font-size:12px;padding:8px 10px;border-radius:9px}
-      .subtask-editor{gap:6px}
-      .subrow{grid-template-columns:minmax(0,1fr) 150px auto!important;gap:6px;align-items:center}
-      .subrow input{min-width:0;width:100%;font-size:12px;padding:8px 9px}
-      .subrow input[type="date"],.subrow input[data-kind="date"]{min-width:0!important;width:150px!important;max-width:150px!important;padding-right:34px}
-      .subrow button{justify-self:stretch!important;font-size:10.5px;padding:8px 7px;white-space:nowrap}
-      @media(max-width:430px){.subrow{grid-template-columns:1fr auto!important}.subrow .sub-date-wrap{grid-column:1}.subrow>button{grid-column:2;grid-row:2}.subrow>input[data-kind="title"]{grid-column:1/-1}.subrow input[type="date"],.subrow input[data-kind="date"]{width:100%!important;max-width:none!important}}
-      .category-multi-options{position:static;max-height:170px;margin-top:5px;box-shadow:none}
-      .category-multi-option{font-size:11px;padding:6px 7px}
+      /* v5.3 mobile dialog refinement */
+      dialog{width:min(400px,calc(100vw - 40px));max-width:calc(100vw - 40px);max-height:84dvh;border-radius:15px;overflow:auto;margin:auto}
+      #taskDialog .modal{padding:14px}
+      #taskDialog .modal h2{font-size:16px;margin-bottom:13px}
+      #taskDialog .field{margin-bottom:9px;min-width:0;width:100%}
+      #taskDialog .field label{font-size:10.5px;margin-bottom:4px;font-weight:700}
+      #taskDialog .field input,#taskDialog .field select,#taskDialog .field textarea,#taskDialog .category-multi-toggle{font-size:16px;padding:8px 10px;border-radius:9px;min-height:38px;width:100%;max-width:100%;box-sizing:border-box}
+      #taskDialog .field textarea{min-height:64px;font-size:16px}
+      #taskDialog .row2{grid-template-columns:1fr!important;gap:0;align-items:start;width:100%}
+      #taskDialog .row2>.field{min-width:0;width:100%;max-width:100%;margin-bottom:9px}
+      #taskDialog .task-date-field{width:100%!important;max-width:100%!important;min-width:0!important}
+      #taskDialog #taskDate{display:block!important;inline-size:100%!important;width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important;box-sizing:border-box!important}
+      #taskDialog .hint{font-size:10px;line-height:1.4;margin-top:6px}
+      #taskDialog .modal-actions{margin-top:12px;gap:6px}
+      #taskDialog .modal-actions .btn,#taskDialog .right-actions .btn{font-size:11.5px;padding:7px 9px;border-radius:9px}
+      #taskDialog .right-actions{gap:6px}
+      #taskDialog .subtask-editor{gap:6px}
+      #taskDialog .subrow{grid-template-columns:minmax(0,1fr) 140px auto!important;gap:6px;align-items:center}
+      #taskDialog .subrow input{min-width:0;width:100%;font-size:16px;padding:8px 9px}
+      #taskDialog .subrow input[type="date"],#taskDialog .subrow input[data-kind="date"]{min-width:0!important;width:140px!important;max-width:140px!important;padding-right:34px}
+      #taskDialog .subrow button{justify-self:stretch!important;font-size:10.5px;padding:8px 7px;white-space:nowrap}
+      @media(max-width:430px){#taskDialog .subrow{grid-template-columns:1fr auto!important}#taskDialog .subrow .sub-date-wrap{grid-column:1}#taskDialog .subrow>button{grid-column:2;grid-row:2}#taskDialog .subrow>input[data-kind="title"]{grid-column:1/-1}#taskDialog .subrow input[type="date"],#taskDialog .subrow input[data-kind="date"]{width:100%!important;max-width:none!important}}
+      #taskDialog .category-multi-options{position:static;max-height:150px;margin-top:5px;box-shadow:none}
+      #taskDialog .category-multi-option{font-size:11px;padding:6px 7px}
 
       #weekShell.planner-view-hidden,#monthView.planner-view-hidden,#categoryView.planner-view-hidden,#completedView.planner-view-hidden,#rankView.planner-view-hidden{display:none!important}
       #weekShell.planner-view-active,#monthView.planner-view-active,#categoryView.planner-view-active,#completedView.planner-view-active,#rankView.planner-view-active{display:block!important}
@@ -588,7 +591,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.2</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.3</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -614,7 +617,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.2</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.3</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -2826,7 +2829,7 @@
       taskTitle.value='';taskDate.value=date||dateKey(new Date());setSelectedTaskCategories(data.categories[0]||'기타');taskStatus.value='active';taskPriority.value='p4';taskNote.value='';taskRecurrence.value='none';
       const d=parseDate(taskDate.value);taskWeekday.value=String(d.getDay());taskMonthday.value=String(d.getDate());document.getElementById('subtaskSection').classList.remove('hidden');updateRecurrenceUI();
     }
-    taskDialog.showModal();setTimeout(()=>taskTitle.focus(),0);
+    taskDialog.showModal();if(!isMobileLayout())setTimeout(()=>taskTitle.focus(),0);
   }
   function closeTaskDialog(){closeTaskDateDistribution();document.getElementById('taskCategoryPicker')?.classList.remove('open');taskDialog.close();editingId=null}
   function syncChildren(parentId,rows,categories,priority){
