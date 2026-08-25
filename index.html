@@ -506,7 +506,7 @@
       .bundle-item{grid-template-columns:auto 72px minmax(0,1fr)}.bundle-edit{grid-column:3;justify-self:end}
       .completed-row{grid-template-columns:auto 72px minmax(0,1fr)}.completed-row>.task-menu{grid-column:3;justify-self:end}
 
-      /* v5.5 mobile dialog refinement */
+      /* v5.6 mobile dialog refinement */
       dialog{width:min(400px,calc(100vw - 40px));max-width:calc(100vw - 40px);max-height:84dvh;border-radius:15px;overflow:auto;margin:auto}
       #taskDialog .modal{padding:14px}
       #taskDialog .modal h2{font-size:16px;margin-bottom:13px}
@@ -531,7 +531,7 @@
       #taskDialog .category-multi-options{position:static;max-height:150px;margin-top:5px;box-shadow:none}
       #taskDialog .category-multi-option{font-size:11px;padding:6px 7px}
 
-      /* v5.5 mobile task dialog compact layout: keep the form within one viewport */
+      /* v5.6 mobile task dialog compact layout: keep the form within one viewport */
       #taskDialog{width:min(420px,calc(100vw - 20px));max-width:calc(100vw - 20px);max-height:calc(100dvh - 18px);overflow:hidden;border-radius:14px}
       #taskDialog .modal{padding:12px 13px 11px;max-height:calc(100dvh - 18px);overflow:hidden}
       #taskDialog .modal h2{font-size:15px;margin:0 0 10px}
@@ -552,7 +552,7 @@
       #taskDialog .right-actions{gap:5px}
       #taskDialog .category-multi-picker{position:relative}
       #taskDialog .category-multi-options{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:50;max-height:135px;margin-top:0;box-shadow:0 10px 28px rgba(25,31,40,.16)}
-      /* v5.5 mobile dialog alignment */
+      /* v5.6 mobile dialog alignment */
       #taskDialog .row2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
       #taskDialog .row2>.field{min-width:0!important;width:auto!important;max-width:none!important;margin-bottom:8px!important}
       #taskDialog .task-date-field{min-width:0!important;width:auto!important;max-width:none!important;overflow:hidden}
@@ -630,12 +630,200 @@
       .task[draggable="true"],.cal-task[draggable="true"]{-webkit-touch-callout:none}
     }
 
+
+    /* v5.6 mobile task-dialog form system: UI only */
+    @media(max-width:700px){
+      #taskDialog{
+        width:min(400px,calc(100vw - 24px))!important;
+        max-width:calc(100vw - 24px)!important;
+        max-height:calc(100dvh - 20px)!important;
+        overflow:auto!important;
+        border-radius:15px!important;
+      }
+      #taskDialog .modal{
+        padding:14px!important;
+        max-height:none!important;
+        overflow:visible!important;
+      }
+      #taskDialog .modal h2{
+        margin:0 0 12px!important;
+        font-size:16px!important;
+        line-height:1.25!important;
+      }
+
+      #taskDialog .modal > .field,
+      #taskDialog .modal > .row2{
+        margin:0 0 10px!important;
+      }
+      #taskDialog .row2{
+        display:grid!important;
+        grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+        gap:8px!important;
+        align-items:start!important;
+        width:100%!important;
+        min-width:0!important;
+      }
+      #taskDialog .row2 > .field{
+        margin:0!important;
+        width:100%!important;
+        max-width:100%!important;
+        min-width:0!important;
+      }
+      #taskDialog .field{
+        width:100%!important;
+        max-width:100%!important;
+        min-width:0!important;
+      }
+      #taskDialog .field label{
+        display:block!important;
+        margin:0 0 4px!important;
+        font-size:10.5px!important;
+        line-height:1.25!important;
+        font-weight:700!important;
+      }
+
+      #taskDialog .field input,
+      #taskDialog .field select,
+      #taskDialog .field textarea,
+      #taskDialog .category-multi-toggle{
+        display:block;
+        width:100%!important;
+        max-width:100%!important;
+        min-width:0!important;
+        box-sizing:border-box!important;
+        border-radius:9px!important;
+        font-size:13px!important;
+        line-height:1.35!important;
+      }
+      #taskDialog .field input,
+      #taskDialog .field select,
+      #taskDialog .category-multi-toggle{
+        height:36px!important;
+        min-height:36px!important;
+        padding:0 9px!important;
+      }
+      #taskDialog .field textarea{
+        min-height:54px!important;
+        height:54px!important;
+        padding:8px 9px!important;
+        resize:none!important;
+        font-size:13px!important;
+      }
+
+      #taskDialog .task-date-field{overflow:visible!important}
+      #taskDialog input[type="date"],
+      #taskDialog #taskDate,
+      #taskDialog .subrow input[type="date"],
+      #taskDialog .subrow input[data-kind="date"]{
+        display:block!important;
+        inline-size:100%!important;
+        width:100%!important;
+        max-inline-size:100%!important;
+        max-width:100%!important;
+        min-inline-size:0!important;
+        min-width:0!important;
+        box-sizing:border-box!important;
+        padding-left:8px!important;
+        padding-right:30px!important;
+        font-size:12.5px!important;
+        overflow:hidden!important;
+      }
+      #taskDialog input[type="date"]::-webkit-date-and-time-value{
+        min-width:0!important;
+        width:auto!important;
+        text-align:left!important;
+      }
+      #taskDialog input[type="date"]::-webkit-datetime-edit{
+        min-width:0!important;
+        padding:0!important;
+      }
+      #taskDialog input[type="date"]::-webkit-calendar-picker-indicator{
+        margin:0!important;
+        padding:0!important;
+      }
+
+      #taskDialog .hint{
+        margin:4px 0 0!important;
+        font-size:9.5px!important;
+        line-height:1.35!important;
+      }
+      #taskDialog #recurrenceSection,
+      #taskDialog #subtaskSection{
+        margin:0 0 10px!important;
+      }
+      #taskDialog #recurrenceSection > .row2{
+        margin:0!important;
+      }
+      #taskDialog #recurrenceSection > .row2:has(#taskWeekday.hidden):has(#taskMonthday.hidden){
+        grid-template-columns:minmax(0,1fr)!important;
+      }
+      #taskDialog #subtaskSection > label{
+        margin:0 0 4px!important;
+      }
+      #taskDialog .subtask-editor{
+        margin-top:0!important;
+        gap:5px!important;
+      }
+      #taskDialog #subtaskEditor:empty{display:none!important}
+      #taskDialog #addSubtaskBtn{
+        margin:0!important;
+        padding:6px 9px!important;
+        font-size:10.5px!important;
+        border-radius:8px!important;
+      }
+      #taskDialog #subtaskSection .hint{margin-top:4px!important}
+
+      #taskDialog .subrow{
+        min-width:0!important;
+        gap:6px!important;
+      }
+      #taskDialog .subrow input{
+        min-width:0!important;
+        max-width:100%!important;
+        box-sizing:border-box!important;
+        font-size:12.5px!important;
+      }
+
+      #taskDialog .modal-actions{
+        margin-top:10px!important;
+        gap:6px!important;
+      }
+      #taskDialog .modal-actions .btn,
+      #taskDialog .right-actions .btn{
+        font-size:11px!important;
+        padding:6px 9px!important;
+        border-radius:8px!important;
+      }
+      #taskDialog .right-actions{gap:5px!important}
+      #taskDialog .category-multi-summary .mini-cat{font-size:9.5px!important}
+      #taskDialog .category-multi-option{font-size:10.5px!important}
+
+      @media(max-width:430px){
+        #taskDialog{width:calc(100vw - 20px)!important;max-width:calc(100vw - 20px)!important}
+        #taskDialog .modal{padding:12px!important}
+        #taskDialog .row2{gap:7px!important}
+        #taskDialog .field input,
+        #taskDialog .field select,
+        #taskDialog .category-multi-toggle{font-size:12.5px!important}
+      }
+      @media(max-width:380px){
+        #taskDialog{width:calc(100vw - 16px)!important;max-width:calc(100vw - 16px)!important}
+        #taskDialog .modal{padding:10px!important}
+        #taskDialog .row2{gap:6px!important}
+        #taskDialog .field label{font-size:10px!important}
+        #taskDialog .field input,
+        #taskDialog .field select,
+        #taskDialog .category-multi-toggle{font-size:12px!important;padding-left:7px!important;padding-right:7px!important}
+        #taskDialog input[type="date"],#taskDialog #taskDate{font-size:11.5px!important;padding-right:26px!important}
+      }
+    }
+
 </style>
 </head>
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.5</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.6</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -661,7 +849,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.5</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.6</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
