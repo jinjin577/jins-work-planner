@@ -507,7 +507,7 @@
       .bundle-item{grid-template-columns:auto 72px minmax(0,1fr)}.bundle-edit{grid-column:3;justify-self:end}
       .completed-row{grid-template-columns:auto 72px minmax(0,1fr)}.completed-row>.task-menu{grid-column:3;justify-self:end}
 
-      /* v6.2 mobile dialog refinement */
+      /* v6.3 mobile dialog refinement */
       dialog{width:min(400px,calc(100vw - 40px));max-width:calc(100vw - 40px);max-height:84dvh;border-radius:15px;overflow:auto;margin:auto}
       #taskDialog .modal{padding:14px}
       #taskDialog .modal h2{font-size:16px;margin-bottom:13px}
@@ -532,7 +532,7 @@
       #taskDialog .category-multi-options{position:static;max-height:150px;margin-top:5px;box-shadow:none}
       #taskDialog .category-multi-option{font-size:11px;padding:6px 7px}
 
-      /* v6.2 mobile task dialog compact layout: keep the form within one viewport */
+      /* v6.3 mobile task dialog compact layout: keep the form within one viewport */
       #taskDialog{width:min(420px,calc(100vw - 20px));max-width:calc(100vw - 20px);max-height:calc(100dvh - 18px);overflow:hidden;border-radius:14px}
       #taskDialog .modal{padding:12px 13px 11px;max-height:calc(100dvh - 18px);overflow:hidden}
       #taskDialog .modal h2{font-size:15px;margin:0 0 10px}
@@ -553,7 +553,7 @@
       #taskDialog .right-actions{gap:5px}
       #taskDialog .category-multi-picker{position:relative}
       #taskDialog .category-multi-options{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:50;max-height:135px;margin-top:0;box-shadow:0 10px 28px rgba(25,31,40,.16)}
-      /* v6.2 mobile dialog alignment */
+      /* v6.3 mobile dialog alignment */
       #taskDialog .row2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
       #taskDialog .row2>.field{min-width:0!important;width:auto!important;max-width:none!important;margin-bottom:8px!important}
       #taskDialog .task-date-field{min-width:0!important;width:auto!important;max-width:none!important;overflow:hidden}
@@ -632,7 +632,7 @@
     }
 
 
-    /* v6.2 mobile task-dialog form system: UI only */
+    /* v6.3 mobile task-dialog form system: UI only */
     @media(max-width:700px){
       #taskDialog{
         width:min(400px,calc(100vw - 24px))!important;
@@ -820,7 +820,7 @@
     }
 
 
-    /* v6.2 mobile task-dialog hardening: layout only, desktop untouched */
+    /* v6.3 mobile task-dialog hardening: layout only, desktop untouched */
     @media(max-width:700px){
       /* Keep both two-column rows inside their own grid tracks. */
       #taskDialog .row2{
@@ -938,7 +938,7 @@
     }
 
 
-    /* v6.2 mobile task-dialog polish: requested items only */
+    /* v6.3 mobile task-dialog polish: requested items only */
     @media(max-width:700px){
       /* Vertically center the iOS date value inside the existing field. */
       #taskDialog #taskDate{
@@ -1028,7 +1028,7 @@
     }
 
 
-    /* v6.2 mobile category dropdown alignment only */
+    /* v6.3 mobile category dropdown alignment only */
     @media(max-width:700px){
       #taskDialog .category-multi-option{
         display:flex!important;
@@ -1082,7 +1082,7 @@
     }
 
 
-    /* v6.2 mobile-only: category dropdown + quick-add card cleanup */
+    /* v6.3 mobile-only: category dropdown + quick-add card cleanup */
     @media(max-width:700px){
       /* Keep only the quick task input on the mobile quick-add card. */
       .mobile-quick-actions{display:none!important}
@@ -1153,12 +1153,137 @@
       }
     }
 
+
+    /* v6.3 mobile only: priority / status / category share one custom dropdown UI */
+    @media(max-width:700px){
+      /* Native priority/status controls are data stores only on mobile. */
+      #taskDialog #taskPriority,
+      #taskDialog #taskStatus{
+        display:none!important;
+      }
+
+      #taskDialog .mobile-single-picker,
+      #taskDialog .category-multi-picker{
+        display:block!important;
+        position:relative!important;
+        width:100%!important;
+        max-width:100%!important;
+        min-width:0!important;
+      }
+
+      #taskDialog .mobile-single-picker .category-multi-toggle,
+      #taskDialog .category-multi-picker .category-multi-toggle{
+        display:flex!important;
+        align-items:center!important;
+        justify-content:space-between!important;
+        width:100%!important;
+        min-width:0!important;
+        max-width:100%!important;
+        box-sizing:border-box!important;
+      }
+
+      #taskDialog .mobile-single-picker .category-multi-options,
+      #taskDialog .category-multi-picker .category-multi-options{
+        display:none!important;
+        position:absolute!important;
+        left:0!important;
+        right:0!important;
+        top:calc(100% + 4px)!important;
+        z-index:90!important;
+        padding:4px!important;
+        margin:0!important;
+        max-height:180px!important;
+        overflow-y:auto!important;
+        background:#fff!important;
+        border:1px solid var(--line)!important;
+        border-radius:9px!important;
+        box-shadow:0 10px 28px rgba(25,31,40,.16)!important;
+      }
+
+      #taskDialog .mobile-single-picker.open .category-multi-options,
+      #taskDialog .category-multi-picker.open .category-multi-options{
+        display:grid!important;
+        gap:0!important;
+      }
+
+      /* The same row language is used by all three dropdowns. */
+      #taskDialog .mobile-single-picker-option,
+      #taskDialog .category-multi-option{
+        position:relative!important;
+        display:flex!important;
+        flex-direction:row!important;
+        align-items:center!important;
+        justify-content:space-between!important;
+        gap:8px!important;
+        width:100%!important;
+        min-height:34px!important;
+        margin:0!important;
+        padding:7px 10px!important;
+        border:0!important;
+        border-radius:6px!important;
+        background:#fff!important;
+        color:var(--text)!important;
+        font-size:12.5px!important;
+        font-weight:500!important;
+        line-height:1.2!important;
+        box-sizing:border-box!important;
+        cursor:pointer!important;
+      }
+      #taskDialog .mobile-single-picker-option + .mobile-single-picker-option,
+      #taskDialog .category-multi-option + .category-multi-option{
+        border-top:1px solid #f1f2f4!important;
+      }
+      #taskDialog .mobile-single-picker-option:active,
+      #taskDialog .category-multi-option:active{
+        background:#f5f7fa!important;
+      }
+      #taskDialog .mobile-picker-check,
+      #taskDialog .category-picker-check{
+        display:inline-flex!important;
+        align-items:center!important;
+        justify-content:center!important;
+        flex:0 0 18px!important;
+        width:18px!important;
+        color:#2f6fed!important;
+        font-size:13px!important;
+        font-weight:800!important;
+      }
+      #taskDialog .category-multi-option.is-selected{
+        color:#2f6fed!important;
+        background:#f4f7ff!important;
+      }
+      /* Old checkbox/badge presentation must never leak into the unified mobile menu. */
+      #taskDialog .category-multi-option input[type="checkbox"]{
+        display:none!important;
+      }
+      #taskDialog .category-multi-option .category-option-badge{
+        display:block!important;
+        flex:1 1 auto!important;
+        width:auto!important;
+        max-width:calc(100% - 26px)!important;
+        min-width:0!important;
+        padding:0!important;
+        border-radius:0!important;
+        background:transparent!important;
+        color:inherit!important;
+        font-size:12.5px!important;
+        font-weight:500!important;
+        line-height:1.2!important;
+        overflow:hidden!important;
+        text-overflow:ellipsis!important;
+        white-space:nowrap!important;
+      }
+      #taskDialog .category-multi-option:has(input:checked)::after{
+        content:none!important;
+      }
+    }
+
 </style>
 </head>
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v6.2</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v6.3</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1184,7 +1309,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v6.2</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v6.3</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -3336,12 +3461,20 @@
     const options=document.getElementById('taskCategoryOptions');if(!options)return;
     options.innerHTML='';
     data.categories.forEach(cat=>{
-      const label=document.createElement('label');label.className='category-multi-option';
-      const cb=document.createElement('input');cb.type='checkbox';cb.checked=[...taskCategory.options].some(o=>o.value===cat&&o.selected);label.classList.toggle('is-selected',cb.checked);
+      const row=document.createElement('div');row.className='category-multi-option';
+      const opt=[...taskCategory.options].find(o=>o.value===cat);
+      const selected=!!opt?.selected;row.classList.toggle('is-selected',selected);
       const name=document.createElement('span');name.className='category-option-badge';name.textContent=cat;
-      const [badgeBg,badgeText]=categoryStyle(cat);name.style.background=badgeBg;name.style.color=badgeText;
-      cb.addEventListener('change',()=>{const opt=[...taskCategory.options].find(o=>o.value===cat);if(opt)opt.selected=cb.checked;if(!selectedTaskCategories().length){opt.selected=true;cb.checked=true}label.classList.toggle('is-selected',cb.checked);updateTaskCategoryLabel()});
-      label.append(cb,name);options.appendChild(label);
+      const check=document.createElement('span');check.className='category-picker-check';check.textContent=selected?'✓':'';
+      row.append(name,check);
+      row.addEventListener('click',e=>{
+        e.stopPropagation();
+        if(!opt)return;
+        opt.selected=!opt.selected;
+        if(!selectedTaskCategories().length)opt.selected=true;
+        renderTaskCategoryOptions();
+      });
+      options.appendChild(row);
     });
     updateTaskCategoryLabel();
   }
