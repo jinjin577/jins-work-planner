@@ -41,6 +41,22 @@
     .report-nav-wrap{justify-self:start;display:flex;gap:8px;align-items:center}
     .report-nav-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:800;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.035)}
     .report-nav-btn:hover{background:#f8fafb}.report-nav-btn.active{background:var(--accent-soft);border-color:#cddff5;color:#315f94}
+    .pc-main-nav{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+    .pc-main-btn{border:0;background:transparent;color:#737b86;border-radius:9px;padding:8px 13px;font-size:12px;font-weight:700;white-space:nowrap}
+    .pc-main-btn:hover{background:#f4f6f9;color:var(--text)}
+    .pc-main-btn.active{background:var(--accent-soft);color:#2f6fed}
+    .work-toolbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px;width:100%}
+    .work-toolbar.hidden{display:none!important}
+    .toolbar.pc-toolbar{grid-template-columns:1fr;gap:10px;padding:10px 14px}
+    .pc-settings-view{display:none;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+    .pc-settings-view.planner-view-active{display:block!important}
+    .pc-settings-title{font-size:17px;font-weight:800;margin-bottom:5px}
+    .pc-settings-hint{font-size:12px;color:var(--muted);margin-bottom:16px}
+    .pc-settings-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+    .pc-settings-card{border:1px solid var(--line);background:#fbfcfd;border-radius:12px;padding:14px}
+    .pc-settings-card b{display:block;font-size:13px;margin-bottom:5px}
+    .pc-settings-card p{margin:0 0 12px;font-size:11px;line-height:1.5;color:var(--muted)}
+    .pc-settings-card .btn{width:100%}
     .ad-report-view{display:none;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
     .ad-report-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
     .ad-report-title{font-size:17px;font-weight:850}.ad-report-hint{margin-top:5px;color:var(--muted);font-size:12px;line-height:1.6}
@@ -375,6 +391,7 @@
       body{background:#f5f7fb}
       .topbar{margin-bottom:12px;padding:0 2px}
       .planner-actions{display:none}
+      .pc-main-nav,.pc-settings-view{display:none!important}
       .toolbar{display:none}
       #productivityHub{display:none!important}
       #quickAddBar{display:none!important}
@@ -527,28 +544,33 @@
         <button class="btn" id="logoutBtn">로그아웃</button>
       </div>
       <div class="planner-actions">
-        <button class="btn" id="manageCategories">카테고리 관리</button>
-        <button class="btn" id="exportBtn">백업</button>
-        <button class="btn" id="importBtn">불러오기</button>
-        <input type="file" id="importFile" accept=".json" hidden />
         <button class="btn primary" id="addTaskBtn">+ 업무 추가</button>
       </div>
     </div>
   </div>
 
-  <div class="toolbar">
-    <div class="report-nav-wrap"><button class="report-nav-btn" id="adReportBtn" type="button">광고 리포트</button><button class="report-nav-btn" id="rankBtn" type="button">네이버 랭킹</button><button class="report-nav-btn" id="orderSummaryBtn" type="button" title="내 PC의 주문 집계 도구 열기">주문 집계</button></div>
-    <div class="range-wrap" id="dateNav">
-      <button class="month-nav-btn" id="prevBtn" title="이전" aria-label="이전">‹</button>
-      <button class="today-inline" id="todayBtn">오늘</button>
-      <div class="range-title" id="rangeTitle"></div>
-      <button class="month-nav-btn" id="nextBtn" title="다음" aria-label="다음">›</button>
+  <div class="toolbar pc-toolbar">
+    <div class="pc-main-nav" id="pcMainNav">
+      <button class="pc-main-btn active" id="workMainBtn" type="button">업무</button>
+      <button class="pc-main-btn" id="adReportBtn" type="button">광고</button>
+      <button class="pc-main-btn" id="rankBtn" type="button">랭킹</button>
+      <button class="pc-main-btn" id="orderSummaryBtn" type="button" title="내 PC의 주문 집계 도구 열기">주문 집계</button>
+      <button class="pc-main-btn" id="settingsMainBtn" type="button">설정</button>
     </div>
-    <div class="view-tabs">
-      <button class="tab active" data-view="week">주간</button>
-      <button class="tab" data-view="month">캘린더</button>
-      <button class="tab" data-view="category">카테고리</button>
-      <button class="tab" data-view="completed">완료</button>
+    <div class="work-toolbar" id="workToolbar">
+      <div class="toolbar-spacer"></div>
+      <div class="range-wrap" id="dateNav">
+        <button class="month-nav-btn" id="prevBtn" title="이전" aria-label="이전">‹</button>
+        <button class="today-inline" id="todayBtn">오늘</button>
+        <div class="range-title" id="rangeTitle"></div>
+        <button class="month-nav-btn" id="nextBtn" title="다음" aria-label="다음">›</button>
+      </div>
+      <div class="view-tabs">
+        <button class="tab active" data-view="week">주간</button>
+        <button class="tab" data-view="month">캘린더</button>
+        <button class="tab" data-view="category">카테고리</button>
+        <button class="tab" data-view="completed">완료</button>
+      </div>
     </div>
   </div>
 
@@ -717,6 +739,16 @@
         <button class="hub-mini-btn" id="refreshAdHistoryBtn" type="button">새로고침</button>
       </div>
       <div class="ad-history-list" id="adHistoryList"><div class="ad-history-empty">광고 리포트 화면을 열면 최근 저장 내역을 불러옵니다.</div></div>
+    </div>
+  </section>
+
+  <section class="pc-settings-view planner-view-hidden" id="pcSettingsView">
+    <div class="pc-settings-title">설정</div>
+    <div class="pc-settings-hint">백업, 불러오기, 카테고리 관리 기능을 한곳에서 관리합니다.</div>
+    <div class="pc-settings-grid">
+      <div class="pc-settings-card"><b>카테고리 관리</b><p>업무 카테고리를 추가하거나 정리합니다.</p><button class="btn" id="manageCategories">카테고리 관리</button></div>
+      <div class="pc-settings-card"><b>백업</b><p>현재 업무 데이터를 JSON 파일로 저장합니다.</p><button class="btn" id="exportBtn">백업</button></div>
+      <div class="pc-settings-card"><b>불러오기</b><p>저장해둔 백업 파일을 다시 불러옵니다.</p><button class="btn" id="importBtn">불러오기</button><input type="file" id="importFile" accept=".json" hidden /></div>
     </div>
   </section>
 
@@ -1007,7 +1039,7 @@
   let pendingGfaImport = null;
 
   const weekView = document.getElementById('weekView'), weekShell = document.getElementById('weekShell'), monthView = document.getElementById('monthView'),
-    adReportView = document.getElementById('adReportView'), adReportBtn = document.getElementById('adReportBtn'), rankView = document.getElementById('rankView'), rankBtn = document.getElementById('rankBtn'), orderSummaryBtn = document.getElementById('orderSummaryBtn'),
+    adReportView = document.getElementById('adReportView'), adReportBtn = document.getElementById('adReportBtn'), rankView = document.getElementById('rankView'), rankBtn = document.getElementById('rankBtn'), orderSummaryBtn = document.getElementById('orderSummaryBtn'), workMainBtn = document.getElementById('workMainBtn'), settingsMainBtn = document.getElementById('settingsMainBtn'), workToolbar = document.getElementById('workToolbar'), pcSettingsView = document.getElementById('pcSettingsView'),
     categoryView = document.getElementById('categoryView'), categoryCards = document.getElementById('categoryCards'), categoryDetail = document.getElementById('categoryDetail'),
     completedView = document.getElementById('completedView'), completedList = document.getElementById('completedList'),
     completedCount = document.getElementById('completedCount'), dateNav = document.getElementById('dateNav'),
@@ -2484,12 +2516,15 @@
 
   function isMobileLayout(){return window.matchMedia('(max-width:700px)').matches}
   function setStandardViewVisibility(activeView){
-    const isWeek=activeView==='week',isMonth=activeView==='month',isCategory=activeView==='category',isAds=activeView==='ads',isRank=activeView==='rank',completed=activeView==='completed';
-    const views=[[weekShell,isWeek],[monthView,isMonth],[categoryView,isCategory],[adReportView,isAds],[rankView,isRank],[completedView,completed],[mobileSettingsView,false]];
+    const isWeek=activeView==='week',isMonth=activeView==='month',isCategory=activeView==='category',isAds=activeView==='ads',isRank=activeView==='rank',completed=activeView==='completed',isSettings=activeView==='settings';
+    const isWork=isWeek||isMonth||isCategory||completed;
+    const views=[[weekShell,isWeek],[monthView,isMonth],[categoryView,isCategory],[adReportView,isAds],[rankView,isRank],[completedView,completed],[pcSettingsView,isSettings],[mobileSettingsView,false]];
     views.forEach(([el,active])=>{if(!el)return;el.classList.toggle('planner-view-active',active);el.classList.toggle('planner-view-hidden',!active);el.style.removeProperty('display')});
-    adReportBtn.classList.toggle('active',isAds);rankBtn.classList.toggle('active',isRank);
+    workMainBtn.classList.toggle('active',isWork);adReportBtn.classList.toggle('active',isAds);rankBtn.classList.toggle('active',isRank);settingsMainBtn.classList.toggle('active',isSettings);
     document.querySelectorAll('.tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.view===activeView));
-    const noDateNav=isCategory||isAds||isRank||completed;
+    workToolbar.classList.toggle('hidden',!isWork);
+    const noDateNav=isCategory||completed;
+    document.getElementById('dateNav').style.display=noDateNav?'none':'grid';
     document.getElementById('prevBtn').style.display=noDateNav?'none':'flex';document.getElementById('nextBtn').style.display=noDateNav?'none':'flex';document.getElementById('todayBtn').style.display=noDateNav?'none':'inline-flex';
     document.getElementById('prevBtn').title=isWeek?'이전 주':'이전 달';document.getElementById('nextBtn').title=isWeek?'다음 주':'다음 달';
     document.getElementById('prevBtn').setAttribute('aria-label',isWeek?'이전 주':'이전 달');document.getElementById('nextBtn').setAttribute('aria-label',isWeek?'다음 주':'다음 달');
@@ -2497,9 +2532,9 @@
     if(isWeek){renderProductivityHub();renderWeek()}
     else if(isMonth)renderMonth();
     else if(isCategory)renderCategoryPage();
-    else if(isAds)rangeTitle.textContent='광고 리포트';
-    else if(isRank)rangeTitle.textContent='네이버 랭킹';
-    else renderCompleted();
+    else if(isAds)rangeTitle.textContent='광고';
+    else if(isRank)rangeTitle.textContent='랭킹';
+    else if(completed)renderCompleted();
   }
   function syncMobileNavUI(){
     document.querySelectorAll('[data-mobile-section]').forEach(btn=>btn.classList.toggle('active',btn.dataset.mobileSection===mobileMainSection));
@@ -2733,6 +2768,13 @@
   });
 
   document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{currentView=tab.dataset.view;mobileMainSection='work';mobileWorkView=tab.dataset.view;if(currentView==='category')showCategoryCompleted=false;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===tab));render()}));
+  workMainBtn.addEventListener('click',()=>{
+    if(!['week','month','category','completed'].includes(currentView))currentView='week';
+    mobileMainSection='work';mobileWorkView=currentView;render();
+  });
+  settingsMainBtn.addEventListener('click',()=>{
+    currentView='settings';render();
+  });
   adReportBtn.addEventListener('click',()=>{
     currentView='ads';mobileMainSection='ads';
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
