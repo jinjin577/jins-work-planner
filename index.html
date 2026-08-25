@@ -506,7 +506,7 @@
       .bundle-item{grid-template-columns:auto 72px minmax(0,1fr)}.bundle-edit{grid-column:3;justify-self:end}
       .completed-row{grid-template-columns:auto 72px minmax(0,1fr)}.completed-row>.task-menu{grid-column:3;justify-self:end}
 
-      /* v5.6 mobile dialog refinement */
+      /* v5.7 mobile dialog refinement */
       dialog{width:min(400px,calc(100vw - 40px));max-width:calc(100vw - 40px);max-height:84dvh;border-radius:15px;overflow:auto;margin:auto}
       #taskDialog .modal{padding:14px}
       #taskDialog .modal h2{font-size:16px;margin-bottom:13px}
@@ -531,7 +531,7 @@
       #taskDialog .category-multi-options{position:static;max-height:150px;margin-top:5px;box-shadow:none}
       #taskDialog .category-multi-option{font-size:11px;padding:6px 7px}
 
-      /* v5.6 mobile task dialog compact layout: keep the form within one viewport */
+      /* v5.7 mobile task dialog compact layout: keep the form within one viewport */
       #taskDialog{width:min(420px,calc(100vw - 20px));max-width:calc(100vw - 20px);max-height:calc(100dvh - 18px);overflow:hidden;border-radius:14px}
       #taskDialog .modal{padding:12px 13px 11px;max-height:calc(100dvh - 18px);overflow:hidden}
       #taskDialog .modal h2{font-size:15px;margin:0 0 10px}
@@ -552,7 +552,7 @@
       #taskDialog .right-actions{gap:5px}
       #taskDialog .category-multi-picker{position:relative}
       #taskDialog .category-multi-options{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:50;max-height:135px;margin-top:0;box-shadow:0 10px 28px rgba(25,31,40,.16)}
-      /* v5.6 mobile dialog alignment */
+      /* v5.7 mobile dialog alignment */
       #taskDialog .row2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
       #taskDialog .row2>.field{min-width:0!important;width:auto!important;max-width:none!important;margin-bottom:8px!important}
       #taskDialog .task-date-field{min-width:0!important;width:auto!important;max-width:none!important;overflow:hidden}
@@ -631,7 +631,7 @@
     }
 
 
-    /* v5.6 mobile task-dialog form system: UI only */
+    /* v5.7 mobile task-dialog form system: UI only */
     @media(max-width:700px){
       #taskDialog{
         width:min(400px,calc(100vw - 24px))!important;
@@ -818,12 +818,130 @@
       }
     }
 
+
+    /* v5.7 mobile task-dialog hardening: layout only, desktop untouched */
+    @media(max-width:700px){
+      /* Keep both two-column rows inside their own grid tracks. */
+      #taskDialog .row2{
+        display:grid!important;
+        grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+        column-gap:10px!important;
+        row-gap:0!important;
+        width:100%!important;
+        max-width:100%!important;
+        min-width:0!important;
+      }
+      #taskDialog .row2 > .field{
+        width:100%!important;
+        max-width:100%!important;
+        min-width:0!important;
+        box-sizing:border-box!important;
+      }
+
+      /* iOS date controls have an intrinsic width; remove it so the date field cannot enter the priority track. */
+      #taskDialog .task-date-field{
+        width:100%!important;
+        max-width:100%!important;
+        min-width:0!important;
+        overflow:hidden!important;
+        box-sizing:border-box!important;
+      }
+      #taskDialog #taskDate{
+        -webkit-appearance:none!important;
+        appearance:none!important;
+        display:block!important;
+        inline-size:100%!important;
+        width:100%!important;
+        max-inline-size:100%!important;
+        max-width:100%!important;
+        min-inline-size:0!important;
+        min-width:0!important;
+        box-sizing:border-box!important;
+        margin:0!important;
+        padding:0 9px!important;
+        overflow:hidden!important;
+      }
+      #taskDialog #taskDate::-webkit-datetime-edit,
+      #taskDialog #taskDate::-webkit-date-and-time-value{
+        min-width:0!important;
+        max-width:100%!important;
+        width:100%!important;
+        overflow:hidden!important;
+        padding:0!important;
+        margin:0!important;
+        text-align:left!important;
+      }
+      #taskDialog #taskDate::-webkit-calendar-picker-indicator{
+        position:absolute!important;
+        right:8px!important;
+        width:16px!important;
+        height:16px!important;
+        margin:0!important;
+        padding:0!important;
+        opacity:.7!important;
+      }
+      #taskDialog .task-date-field{position:relative!important}
+      #taskDialog #taskDate{position:relative!important}
+
+      /* The real multiple select is data storage only. Only the single picker field is visible. */
+      #taskDialog #taskCategory[hidden]{display:none!important}
+      #taskDialog .category-multi-picker{
+        width:100%!important;
+        max-width:100%!important;
+        min-width:0!important;
+        position:relative!important;
+      }
+      #taskDialog .category-multi-toggle{
+        width:100%!important;
+        max-width:100%!important;
+        min-width:0!important;
+        box-sizing:border-box!important;
+        overflow:hidden!important;
+      }
+      #taskDialog #taskCategoryLabel{
+        min-width:0!important;
+        max-width:calc(100% - 18px)!important;
+        overflow:hidden!important;
+      }
+      #taskDialog .category-multi-summary{
+        max-width:100%!important;
+        overflow:hidden!important;
+      }
+      #taskDialog .category-multi-options{
+        display:none!important;
+        position:absolute!important;
+        left:0!important;
+        right:0!important;
+        top:calc(100% + 4px)!important;
+        z-index:60!important;
+        max-height:150px!important;
+        overflow:auto!important;
+        margin:0!important;
+        background:#fff!important;
+        border:1px solid var(--line)!important;
+        border-radius:9px!important;
+        box-shadow:0 10px 28px rgba(25,31,40,.16)!important;
+      }
+      #taskDialog .category-multi-picker.open .category-multi-options{
+        display:grid!important;
+        gap:2px!important;
+      }
+
+      @media(max-width:430px){
+        #taskDialog .row2{column-gap:8px!important}
+      }
+      @media(max-width:380px){
+        #taskDialog .row2{column-gap:7px!important}
+        #taskDialog #taskDate{padding-left:7px!important;padding-right:7px!important}
+      }
+    }
+
 </style>
 </head>
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.6</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.7</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -849,7 +967,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.6</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.7</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
