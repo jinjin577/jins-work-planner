@@ -55,10 +55,11 @@
     .work-toolbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;width:100%;padding:12px 18px 12px}
     .work-toolbar.hidden{display:none!important}
     .toolbar-spacer{display:none}
-    .work-header-actions{display:flex;align-items:center;gap:8px;justify-self:start;flex-wrap:wrap}
+    .work-header-actions{display:flex;align-items:center;gap:8px;justify-self:start;flex-wrap:wrap;grid-column:1}
     .work-header-label{font-size:11px;color:var(--muted);font-weight:700;margin-right:4px}
-    .range-wrap{justify-self:center;gap:10px}
-    .view-tabs{justify-self:end}
+    .range-wrap{justify-self:center;gap:10px;grid-column:2}
+    .view-tabs{justify-self:end;grid-column:3}
+    #logoutBtn{padding:6px 9px;font-size:11px;border-radius:8px;font-weight:650}
     .pc-settings-view{display:none;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
     .pc-settings-view.planner-view-active{display:block!important}
     .pc-settings-title{font-size:17px;font-weight:800;margin-bottom:5px}
@@ -490,14 +491,13 @@
       .mobile-task-meta{margin-top:4px}
       .mobile-home-empty{padding:8px 2px;color:#a0a7b0}
 
-      .mobile-bottom-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:40;min-height:74px;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.98);backdrop-filter:blur(18px);border-top:1px solid #e6e9ee;box-shadow:0 -8px 26px rgba(25,31,40,.08)}
-      .mobile-nav-btn{min-width:0;border:0;background:transparent;border-radius:16px;padding:4px 2px;color:#98a3b3;font-size:10.5px;font-weight:700;display:flex;flex-direction:column;gap:5px;align-items:center;justify-content:center;text-align:center;line-height:1.1;transition:color .18s ease,transform .18s ease}
-      .mobile-nav-icon{position:relative;width:31px;height:31px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:#f5f7fb;box-shadow:inset 0 0 0 1px #edf0f5;transition:background .18s ease,box-shadow .18s ease,transform .18s ease,color .18s ease}
-      .mobile-nav-icon::after{content:'';position:absolute;right:3px;top:3px;width:4px;height:4px;border-radius:50%;background:#d6dce6;transition:background .18s ease}
+      .mobile-bottom-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:fixed;left:10px;right:10px;bottom:8px;z-index:40;min-height:70px;padding:7px 8px calc(7px + env(safe-area-inset-bottom));background:rgba(249,250,252,.92);backdrop-filter:blur(22px) saturate(135%);-webkit-backdrop-filter:blur(22px) saturate(135%);border:1px solid rgba(255,255,255,.78);border-radius:24px;box-shadow:0 12px 34px rgba(22,28,38,.16),inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(205,211,220,.34)}
+      .mobile-nav-btn{min-width:0;border:0;background:transparent;border-radius:16px;padding:5px 2px 4px;color:#8f98a7;font-size:10px;font-weight:700;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;text-align:center;line-height:1.05;transition:color .18s ease,transform .18s ease}
+      .mobile-nav-icon{position:relative;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:linear-gradient(180deg,#ffffff 0%,#f0f3f7 100%);border:1px solid rgba(220,225,232,.95);box-shadow:0 3px 8px rgba(34,43,55,.10),inset 0 1px 0 rgba(255,255,255,.95);transition:background .18s ease,box-shadow .18s ease,transform .18s ease,color .18s ease,border-color .18s ease}
+      .mobile-nav-icon::after{display:none}
       .mobile-nav-icon svg{width:18px;height:18px;display:block;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
       .mobile-nav-btn.active{background:transparent;color:#2f6fed;font-weight:800}
-      .mobile-nav-btn.active .mobile-nav-icon{background:#edf4ff;box-shadow:inset 0 0 0 1px #d7e5ff,0 4px 10px rgba(47,111,237,.10);color:#2f6fed;transform:translateY(-1px)}
-      .mobile-nav-btn.active .mobile-nav-icon::after{background:#5b8cff}
+      .mobile-nav-btn.active .mobile-nav-icon{background:linear-gradient(180deg,#4d83f5 0%,#2f6fed 100%);border-color:#2f6fed;color:#fff;box-shadow:0 7px 14px rgba(47,111,237,.28),inset 0 1px 0 rgba(255,255,255,.34),inset 0 -1px 0 rgba(20,73,184,.26);transform:translateY(-2px)}
       .mobile-settings-view{display:block;padding-bottom:4px}
       .mobile-settings-view.planner-view-hidden{display:none!important}
       .settings-grid{gap:10px}.settings-card{border-color:#e6eaf0;border-radius:17px;padding:15px;box-shadow:0 4px 18px rgba(25,31,40,.045)}
@@ -509,7 +509,7 @@
       .bundle-item{grid-template-columns:auto 72px minmax(0,1fr)}.bundle-edit{grid-column:3;justify-self:end}
       .completed-row{grid-template-columns:auto 72px minmax(0,1fr)}.completed-row>.task-menu{grid-column:3;justify-self:end}
 
-      /* v6.6 mobile dialog refinement */
+      /* v6.8 mobile dialog refinement */
       dialog{width:min(400px,calc(100vw - 40px));max-width:calc(100vw - 40px);max-height:84dvh;border-radius:15px;overflow:auto;margin:auto}
       #taskDialog .modal{padding:14px}
       #taskDialog .modal h2{font-size:16px;margin-bottom:13px}
@@ -534,7 +534,7 @@
       #taskDialog .category-multi-options{position:static;max-height:150px;margin-top:5px;box-shadow:none}
       #taskDialog .category-multi-option{font-size:11px;padding:6px 7px}
 
-      /* v6.6 mobile task dialog compact layout: keep the form within one viewport */
+      /* v6.8 mobile task dialog compact layout: keep the form within one viewport */
       #taskDialog{width:min(420px,calc(100vw - 20px));max-width:calc(100vw - 20px);max-height:calc(100dvh - 18px);overflow:hidden;border-radius:14px}
       #taskDialog .modal{padding:12px 13px 11px;max-height:calc(100dvh - 18px);overflow:hidden}
       #taskDialog .modal h2{font-size:15px;margin:0 0 10px}
@@ -555,7 +555,7 @@
       #taskDialog .right-actions{gap:5px}
       #taskDialog .category-multi-picker{position:relative}
       #taskDialog .category-multi-options{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:50;max-height:135px;margin-top:0;box-shadow:0 10px 28px rgba(25,31,40,.16)}
-      /* v6.6 mobile dialog alignment */
+      /* v6.8 mobile dialog alignment */
       #taskDialog .row2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
       #taskDialog .row2>.field{min-width:0!important;width:auto!important;max-width:none!important;margin-bottom:8px!important}
       #taskDialog .task-date-field{min-width:0!important;width:auto!important;max-width:none!important;overflow:hidden}
@@ -634,7 +634,7 @@
     }
 
 
-    /* v6.6 mobile task-dialog form system: UI only */
+    /* v6.8 mobile task-dialog form system: UI only */
     @media(max-width:700px){
       #taskDialog{
         width:min(400px,calc(100vw - 24px))!important;
@@ -822,7 +822,7 @@
     }
 
 
-    /* v6.6 mobile task-dialog hardening: layout only, desktop untouched */
+    /* v6.8 mobile task-dialog hardening: layout only, desktop untouched */
     @media(max-width:700px){
       /* Keep both two-column rows inside their own grid tracks. */
       #taskDialog .row2{
@@ -940,7 +940,7 @@
     }
 
 
-    /* v6.6 mobile task-dialog polish: requested items only */
+    /* v6.8 mobile task-dialog polish: requested items only */
     @media(max-width:700px){
       /* Vertically center the iOS date value inside the existing field. */
       #taskDialog #taskDate{
@@ -1030,7 +1030,7 @@
     }
 
 
-    /* v6.6 mobile category dropdown alignment only */
+    /* v6.8 mobile category dropdown alignment only */
     @media(max-width:700px){
       #taskDialog .category-multi-option{
         display:flex!important;
@@ -1084,7 +1084,7 @@
     }
 
 
-    /* v6.6 mobile-only: category dropdown + quick-add card cleanup */
+    /* v6.8 mobile-only: category dropdown + quick-add card cleanup */
     @media(max-width:700px){
       /* Keep only the quick task input on the mobile quick-add card. */
       .mobile-quick-actions{display:none!important}
@@ -1156,7 +1156,7 @@
     }
 
 
-    /* v6.6 mobile only: priority / status / category share one custom dropdown UI */
+    /* v6.8 mobile only: priority / status / category share one custom dropdown UI */
     @media(max-width:700px){
       /* Native priority/status controls are data stores only on mobile. */
       #taskDialog #taskPriority,
@@ -1283,7 +1283,7 @@
     }
 
 
-    /* v6.6 mobile only: category dropdown auto-direction */
+    /* v6.8 mobile only: category dropdown auto-direction */
     @media(max-width:700px){
       #taskDialog.category-menu-open,
       #taskDialog.category-menu-open .modal{overflow:visible!important}
@@ -1301,7 +1301,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v6.6</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v6.8</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1327,7 +1327,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v6.6</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v6.8</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -2658,14 +2658,8 @@
     }else{
       const n=waitDays(t);indicator.className='waiting-days';indicator.textContent=n?`대기 ${n}일`:'오늘부터 대기';
     }
-    meta.appendChild(indicator);item.appendChild(meta);
-    const actions=document.createElement('div');actions.className='hub-item-actions';
-    const statusLabel=document.createElement('span');
-    statusLabel.className=t.status==='waiting'?'waiting-chip':'active-chip';
-    statusLabel.textContent=t.status==='waiting'?'대기중':'진행중';
-    actions.appendChild(statusLabel);
-    const done=document.createElement('button');done.type='button';done.className='hub-mini-btn';done.textContent='완료';done.addEventListener('click',()=>{setTaskDone(t,occurrenceDate,true);saveData();render()});actions.appendChild(done);
-    item.appendChild(actions);return item;
+    const done=document.createElement('button');done.type='button';done.className='hub-mini-btn';done.textContent='완료';done.addEventListener('click',()=>{setTaskDone(t,occurrenceDate,true);saveData();render()});
+    meta.append(indicator,done);item.appendChild(meta);return item;
   }
   function renderProductivityHub(){
     const overdue=overdueTasks(),waiting=waitingTasks();
@@ -2712,17 +2706,12 @@
     meta.appendChild(tag);
     if(kind==='overdue'){
       const overdue=document.createElement('span');overdue.className='overdue-days';overdue.textContent=`${daysBetween(occurrenceDate,dateKey(new Date()))}일 지연`;meta.appendChild(overdue);
+      const doneBtn=document.createElement('button');doneBtn.type='button';doneBtn.className='hub-mini-btn';doneBtn.textContent='완료';doneBtn.addEventListener('click',()=>{setTaskDone(t,occurrenceDate,true);saveData();render()});meta.appendChild(doneBtn);
     }else if(hasRecurrence(t)){
       const repeat=document.createElement('span');repeat.className='repeat-chip';repeat.textContent='↻ '+recurrenceText(t);meta.appendChild(repeat);
     }
     if(t.note){const note=document.createElement('div');note.className='task-note';appendLinkified(note,t.note);main.appendChild(note)}
     main.appendChild(meta);
-    if(kind==='overdue'){
-      const actions=document.createElement('div');actions.className='mobile-task-actions';
-      const statusLabel=document.createElement('span');statusLabel.className=t.status==='waiting'?'waiting-chip':'active-chip';statusLabel.textContent=t.status==='waiting'?'대기중':'진행중';
-      const doneBtn=document.createElement('button');doneBtn.type='button';doneBtn.className='hub-mini-btn';doneBtn.textContent='완료';doneBtn.addEventListener('click',()=>{setTaskDone(t,occurrenceDate,true);saveData();render()});
-      actions.append(statusLabel,doneBtn);main.appendChild(actions);
-    }
     const date=document.createElement('div');date.className='mobile-task-date';date.textContent=formatShortKoreanDate(occurrenceDate);
     row.append(cb,main,date);return row;
   }
