@@ -276,6 +276,19 @@
     .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .modal-actions{display:flex;justify-content:space-between;gap:8px;margin-top:20px}.right-actions{display:flex;gap:8px;flex-wrap:wrap}
     .category-row{display:flex;gap:8px}.category-row select{flex:1}
+    .category-multi-picker{position:relative;min-width:0}
+    .category-multi-toggle{width:100%;min-height:42px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--text);padding:9px 11px;display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left}
+    .category-multi-toggle:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);outline:none}
+    .category-multi-chevron{color:#8a929d;font-size:12px}
+    .category-multi-options{display:none;position:absolute;z-index:24;left:0;right:0;top:calc(100% + 5px);max-height:220px;overflow:auto;padding:7px;background:#fff;border:1px solid var(--line);border-radius:11px;box-shadow:0 12px 32px rgba(25,31,40,.16)}
+    .category-multi-picker.open .category-multi-options{display:grid;gap:3px}
+    .category-multi-option{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:8px;font-size:12px;color:#4b5563;cursor:pointer}
+    .category-multi-option:hover{background:#f6f8fb}
+    .category-multi-option input{width:auto!important;margin:0;accent-color:var(--accent);box-shadow:none!important}
+    .category-multi-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+    .category-multi-summary{display:flex;align-items:center;gap:5px;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+    .category-multi-summary .mini-cat{display:inline-flex;padding:2px 6px;border-radius:999px;font-size:10px;font-weight:600}
+    .subrow input[type="date"]{min-width:0;padding-right:34px}
     .hint{margin-top:10px;color:var(--muted);font-size:12px;line-height:1.5}
     .subtask-editor{display:flex;flex-direction:column;gap:7px;margin-top:8px}
     .subrow{display:grid;grid-template-columns:1fr 132px auto;gap:7px;align-items:center}
@@ -489,6 +502,26 @@
       .bundle-item{grid-template-columns:auto 72px minmax(0,1fr)}.bundle-edit{grid-column:3;justify-self:end}
       .completed-row{grid-template-columns:auto 72px minmax(0,1fr)}.completed-row>.task-menu{grid-column:3;justify-self:end}
 
+      /* v5.1 mobile dialog refinement */
+      dialog{width:min(480px,calc(100vw - 18px));max-height:92dvh;border-radius:15px;overflow:auto}
+      .modal{padding:16px}
+      .modal h2{font-size:17px;margin-bottom:15px}
+      .field{margin-bottom:11px;min-width:0}
+      .field label{font-size:10.5px;margin-bottom:5px;font-weight:700}
+      .field input,.field select,.field textarea,.category-multi-toggle{font-size:12.5px;padding:9px 10px;border-radius:9px;min-height:39px}
+      .field textarea{min-height:76px}
+      .row2{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}
+      .row2>.field{min-width:0;margin-bottom:11px}
+      .hint{font-size:10.5px;line-height:1.45;margin-top:7px}
+      .modal-actions{margin-top:15px;gap:6px}.modal-actions .btn,.right-actions .btn{font-size:12px;padding:8px 10px;border-radius:9px}
+      .subtask-editor{gap:6px}
+      .subrow{grid-template-columns:minmax(0,1fr) minmax(126px,34%) auto!important;gap:6px;align-items:center}
+      .subrow input{min-width:0;width:100%;font-size:12px;padding:8px 9px}
+      .subrow input[type="date"]{padding-right:32px;min-width:126px}
+      .subrow button{justify-self:stretch!important;font-size:10.5px;padding:8px 7px;white-space:nowrap}
+      .category-multi-options{position:static;max-height:170px;margin-top:5px;box-shadow:none}
+      .category-multi-option{font-size:11px;padding:6px 7px}
+
       #weekShell.planner-view-hidden,#monthView.planner-view-hidden,#categoryView.planner-view-hidden,#completedView.planner-view-hidden,#rankView.planner-view-hidden{display:none!important}
       #weekShell.planner-view-active,#monthView.planner-view-active,#categoryView.planner-view-active,#completedView.planner-view-active,#rankView.planner-view-active{display:block!important}
     }
@@ -549,7 +582,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.0</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.1</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -575,7 +608,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.0</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v5.1</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -846,8 +879,14 @@
     </div>
     <div class="row2">
       <div class="field">
-        <label for="taskCategory">카테고리</label>
-        <select id="taskCategory"></select>
+        <label for="taskCategoryToggle">카테고리</label>
+        <div class="category-multi-picker" id="taskCategoryPicker">
+          <button type="button" class="category-multi-toggle" id="taskCategoryToggle" aria-expanded="false">
+            <span id="taskCategoryLabel">카테고리 선택</span><span class="category-multi-chevron">⌄</span>
+          </button>
+          <div class="category-multi-options" id="taskCategoryOptions"></div>
+          <select id="taskCategory" multiple hidden></select>
+        </div>
       </div>
       <div class="field">
         <label for="taskStatus">상태</label>
@@ -1144,7 +1183,13 @@
       completedAt:typeof t.completedAt==='string'?t.completedAt:null,
       recurrence:normalizeRecurrence(t.recurrence)
     }));
-    raw.tasks.forEach(t=>{t.priority=normalizePriority(t.priority);if(!raw.categories.includes(t.category))t.category='기타'});
+    raw.tasks.forEach(t=>{
+      t.priority=normalizePriority(t.priority);
+      let cats=Array.isArray(t.categories)?t.categories:[t.category];
+      cats=[...new Set(cats.filter(c=>raw.categories.includes(c)))];
+      if(!cats.length)cats=['기타'];
+      t.categories=cats;t.category=cats[0];
+    });
     raw.memo=typeof raw.memo==='string'?raw.memo:'';
     return raw;
   }
@@ -1413,6 +1458,16 @@
     if(fixed[name])return fixed[name];
     const extras=[['#edf5f7','#47717a'],['#fff5df','#9a6a14'],['#f7eef6','#8a557e'],['#eef4f4','#4d6b6b']];
     const extraIndex=Math.max(0,data.categories.filter(c=>!FIXED_CATEGORIES.includes(c)).indexOf(name));return extras[extraIndex%extras.length];
+  }
+  function taskCategories(t){
+    const cats=Array.isArray(t?.categories)?t.categories:[t?.category];
+    const valid=[...new Set(cats.filter(c=>data.categories.includes(c)))];
+    return valid.length?valid:['기타'];
+  }
+  function taskHasCategory(t,category){return taskCategories(t).includes(category)}
+  function setTaskCategories(t,categories){
+    const cats=[...new Set((categories||[]).filter(c=>data.categories.includes(c)))];
+    t.categories=cats.length?cats:['기타'];t.category=t.categories[0];
   }
   function priorityText(p){return ({p1:'우선순위 1 · 가장 높음',p2:'우선순위 2',p3:'우선순위 3',p4:'우선순위 4 · 기본'})[normalizePriority(p)]||'우선순위 4 · 기본'}
   function taskById(id){return data.tasks.find(t=>t.id===id)}
@@ -2055,7 +2110,7 @@
 
   function isTaskFullyCompleted(t){return !hasRecurrence(t)&&!!t.done}
   function categoryTaskCounts(cat){
-    const tasks=data.tasks.filter(t=>t.category===cat),active=tasks.filter(t=>!isTaskFullyCompleted(t)&&t.status!=='waiting').length,waiting=tasks.filter(t=>!isTaskFullyCompleted(t)&&t.status==='waiting').length,done=tasks.filter(t=>isTaskFullyCompleted(t)).length;
+    const tasks=data.tasks.filter(t=>taskHasCategory(t,cat)),active=tasks.filter(t=>!isTaskFullyCompleted(t)&&t.status!=='waiting').length,waiting=tasks.filter(t=>!isTaskFullyCompleted(t)&&t.status==='waiting').length,done=tasks.filter(t=>isTaskFullyCompleted(t)).length;
     return {active,waiting,done};
   }
   function makeCategoryRow(t,doneMode=false){
@@ -2086,16 +2141,16 @@
       const countsEl=document.createElement('div');countsEl.className='category-card-counts';countsEl.innerHTML=`<span>진행 ${counts.active}</span><span>대기 ${counts.waiting}</span><span>완료 ${counts.done}</span>`;
       card.append(name,countsEl);card.addEventListener('click',()=>{currentCategory=cat;showCategoryCompleted=false;renderCategoryPage()});categoryCards.appendChild(card);
     });
-    const tasks=data.tasks.filter(t=>t.category===currentCategory&&!isTaskFullyCompleted(t));
+    const tasks=data.tasks.filter(t=>taskHasCategory(t,currentCategory)&&!isTaskFullyCompleted(t));
     tasks.sort((a,b)=>{
       const aw=a.status==='waiting',bw=b.status==='waiting';if(aw!==bw)return aw?1:-1;
       const ao=!hasRecurrence(a)&&a.date<dateKey(new Date()),bo=!hasRecurrence(b)&&b.date<dateKey(new Date());if(ao!==bo)return ao?-1:1;
       return a.date.localeCompare(b.date)||(PRIORITY_ORDER[a.priority]-PRIORITY_ORDER[b.priority])||displayTaskTitle(a).localeCompare(displayTaskTitle(b),'ko');
     });
-    const head=document.createElement('div');head.className='category-detail-head';const title=document.createElement('div');title.className='category-detail-title';title.textContent=currentCategory;const doneCount=data.tasks.filter(t=>t.category===currentCategory&&isTaskFullyCompleted(t)).length;const toggle=document.createElement('button');toggle.type='button';toggle.className='category-completed-toggle';toggle.textContent=`완료 ${doneCount}개 ${showCategoryCompleted?'접기':'보기'} ›`;toggle.disabled=doneCount===0;toggle.addEventListener('click',()=>{showCategoryCompleted=!showCategoryCompleted;renderCategoryPage()});head.append(title,toggle);categoryDetail.appendChild(head);
+    const head=document.createElement('div');head.className='category-detail-head';const title=document.createElement('div');title.className='category-detail-title';title.textContent=currentCategory;const doneCount=data.tasks.filter(t=>taskHasCategory(t,currentCategory)&&isTaskFullyCompleted(t)).length;const toggle=document.createElement('button');toggle.type='button';toggle.className='category-completed-toggle';toggle.textContent=`완료 ${doneCount}개 ${showCategoryCompleted?'접기':'보기'} ›`;toggle.disabled=doneCount===0;toggle.addEventListener('click',()=>{showCategoryCompleted=!showCategoryCompleted;renderCategoryPage()});head.append(title,toggle);categoryDetail.appendChild(head);
     const list=document.createElement('div');list.className='category-list';
     if(!tasks.length){const e=document.createElement('div');e.className='empty';e.textContent='진행중이거나 대기중인 업무가 없습니다.';list.appendChild(e)}else tasks.forEach(t=>list.appendChild(makeCategoryRow(t,false)));categoryDetail.appendChild(list);
-    if(showCategoryCompleted&&doneCount){const section=document.createElement('div');section.className='category-completed-section';const completed=data.tasks.filter(t=>t.category===currentCategory&&isTaskFullyCompleted(t)).sort((a,b)=>b.date.localeCompare(a.date));completed.forEach(t=>section.appendChild(makeCategoryRow(t,true)));categoryDetail.appendChild(section)}
+    if(showCategoryCompleted&&doneCount){const section=document.createElement('div');section.className='category-completed-section';const completed=data.tasks.filter(t=>taskHasCategory(t,currentCategory)&&isTaskFullyCompleted(t)).sort((a,b)=>b.date.localeCompare(a.date));completed.forEach(t=>section.appendChild(makeCategoryRow(t,true)));categoryDetail.appendChild(section)}
   }
 
   function completedOccurrences(){
@@ -2646,7 +2701,7 @@
   }
 
   function scheduledTaskCountForDate(key){
-    return filteredBaseTasks().filter(t=>(t.parentId?t.date===key:recurrenceMatches(t,key))).length;
+    return filteredBaseTasks().filter(t=>(t.parentId?t.date===key:recurrenceMatches(t,key))&&!isTaskDone(t,key)).length;
   }
   function closeTaskDateDistribution(){if(taskDateDistribution)taskDateDistribution.classList.remove('open')}
   function renderTaskDateDistribution(){
@@ -2662,9 +2717,9 @@
     for(let i=0;i<42;i++){
       const d=new Date(gridStart);d.setDate(gridStart.getDate()+i);const key=dateKey(d);const count=scheduledTaskCountForDate(key);
       const cls=['dist-day'];if(d.getMonth()!==m)cls.push('out');if(key===selectedKey)cls.push('selected');if(key===todayKey)cls.push('today');
-      html+=`<button type="button" class="${cls.join(' ')}" data-dist-date="${key}" title="${count?`할당된 업무 ${count}개`:'할당된 업무 없음'}"><span>${d.getDate()}</span>${count?`<span class="dist-count">${count}</span>`:''}</button>`;
+      html+=`<button type="button" class="${cls.join(' ')}" data-dist-date="${key}" title="${count?`미완료 업무 ${count}개`:'미완료 업무 없음'}" aria-label="${d.getDate()}일 · ${count?`미완료 업무 ${count}개`:'미완료 업무 없음'}"><span>${d.getDate()}</span></button>`;
     }
-    html+='</div><div class="dist-cal-note">숫자는 해당 날짜에 할당된 업무 수입니다. 날짜를 선택하면 바로 입력됩니다.</div>';
+    html+='</div><div class="dist-cal-note">날짜에 마우스를 올리면 해당 날짜의 미완료 업무 수를 확인할 수 있습니다. 날짜를 선택하면 바로 입력됩니다.</div>';
     taskDateDistribution.innerHTML=html;
     taskDateDistribution.querySelectorAll('[data-dist-nav]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();taskDateCalendarMonth.setMonth(taskDateCalendarMonth.getMonth()+(btn.dataset.distNav==='next'?1:-1));renderTaskDateDistribution()}));
     taskDateDistribution.querySelectorAll('[data-dist-date]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();taskDate.value=btn.dataset.distDate;taskDate.dispatchEvent(new Event('change',{bubbles:true}));taskDateCalendarMonth=parseDate(taskDate.value);renderTaskDateDistribution();closeTaskDateDistribution()}));
@@ -2678,7 +2733,39 @@
   function fillCategorySelect(select,selected){
     select.innerHTML='';data.categories.forEach(cat=>{const o=document.createElement('option');o.value=cat;o.textContent=cat;select.appendChild(o)});if(selected&&data.categories.includes(selected))select.value=selected;
   }
-  function refreshCategorySelect(){fillCategorySelect(taskCategory,taskCategory.value)}
+  function selectedTaskCategories(){
+    return [...taskCategory.options].filter(o=>o.selected).map(o=>o.value);
+  }
+  function updateTaskCategoryLabel(){
+    const label=document.getElementById('taskCategoryLabel');if(!label)return;
+    const cats=selectedTaskCategories();label.innerHTML='';
+    if(!cats.length){label.textContent='카테고리 선택';return}
+    const wrap=document.createElement('span');wrap.className='category-multi-summary';
+    cats.slice(0,3).forEach(cat=>{const chip=document.createElement('span');chip.className='mini-cat';const [bg,tx]=categoryStyle(cat);chip.style.background=bg;chip.style.color=tx;chip.textContent=cat;wrap.appendChild(chip)});
+    if(cats.length>3){const more=document.createElement('span');more.textContent=`+${cats.length-3}`;more.style.color='#7a828c';wrap.appendChild(more)}
+    label.appendChild(wrap);
+  }
+  function renderTaskCategoryOptions(){
+    const options=document.getElementById('taskCategoryOptions');if(!options)return;
+    options.innerHTML='';
+    data.categories.forEach(cat=>{
+      const label=document.createElement('label');label.className='category-multi-option';
+      const cb=document.createElement('input');cb.type='checkbox';cb.checked=[...taskCategory.options].some(o=>o.value===cat&&o.selected);
+      const dot=document.createElement('span');dot.className='category-multi-dot';dot.style.background=categoryStyle(cat)[1];
+      const name=document.createElement('span');name.textContent=cat;
+      cb.addEventListener('change',()=>{const opt=[...taskCategory.options].find(o=>o.value===cat);if(opt)opt.selected=cb.checked;if(!selectedTaskCategories().length){opt.selected=true;cb.checked=true}updateTaskCategoryLabel()});
+      label.append(cb,dot,name);options.appendChild(label);
+    });
+    updateTaskCategoryLabel();
+  }
+  function setSelectedTaskCategories(categories){
+    const selected=new Set((Array.isArray(categories)?categories:[categories]).filter(Boolean));
+    taskCategory.innerHTML='';
+    data.categories.forEach(cat=>{const o=document.createElement('option');o.value=cat;o.textContent=cat;o.selected=selected.has(cat);taskCategory.appendChild(o)});
+    if(!selectedTaskCategories().length&&taskCategory.options.length)taskCategory.options[0].selected=true;
+    renderTaskCategoryOptions();
+  }
+  function refreshCategorySelect(){setSelectedTaskCategories(selectedTaskCategories().length?selectedTaskCategories():(data.categories[0]||'기타'))}
   function makeSubRow(title='',date='',id=''){
     const row=document.createElement('div');row.className='subrow';row.dataset.childId=id||'';
     const n=document.createElement('input');n.placeholder='하위 업무명';n.value=title;n.dataset.kind='title';
@@ -2709,40 +2796,42 @@
     deleteTaskBtn.classList.toggle('hidden',!id);duplicateTaskBtn.classList.toggle('hidden',!id);
     taskRecurrence.disabled=false;taskWeekday.disabled=false;taskMonthday.disabled=false;recurrenceSection.classList.remove('hidden');recurrenceHint.textContent='반복 업무는 시작일 이후 매주·평일(월~금) 또는 매월 자동 표시되고, 완료 여부는 날짜별로 따로 저장됩니다.';
     if(id){
-      const t=taskById(id),children=childrenOf(id);taskTitle.value=t.title;taskDate.value=t.date;taskCategory.value=t.category;taskStatus.value=t.status==='waiting'?'waiting':'active';taskPriority.value=normalizePriority(t.priority);taskNote.value=t.note||'';
+      const t=taskById(id),children=childrenOf(id);taskTitle.value=t.title;taskDate.value=t.date;setSelectedTaskCategories(taskCategories(t));taskStatus.value=t.status==='waiting'?'waiting':'active';taskPriority.value=normalizePriority(t.priority);taskNote.value=t.note||'';
       taskRecurrence.value=t.recurrence?.type||'none';taskWeekday.value=String(t.recurrence?.weekday??parseDate(t.date).getDay());taskMonthday.value=String(t.recurrence?.day??parseDate(t.date).getDate());
       children.sort((a,b)=>a.date.localeCompare(b.date)).forEach(c=>makeSubRow(c.title,c.date,c.id));
       if(t.parentId){recurrenceSection.classList.add('hidden');document.getElementById('subtaskSection').classList.add('hidden')}
       else if(children.length){taskRecurrence.value='none';taskRecurrence.disabled=true;taskWeekday.disabled=true;taskMonthday.disabled=true;recurrenceHint.textContent='하위 업무가 있는 묶음 업무는 반복 설정을 사용할 수 없습니다.';document.getElementById('subtaskSection').classList.remove('hidden')}
       else updateRecurrenceUI();
     }else{
-      taskTitle.value='';taskDate.value=date||dateKey(new Date());taskCategory.value=data.categories[0];taskStatus.value='active';taskPriority.value='p4';taskNote.value='';taskRecurrence.value='none';
+      taskTitle.value='';taskDate.value=date||dateKey(new Date());setSelectedTaskCategories(data.categories[0]||'기타');taskStatus.value='active';taskPriority.value='p4';taskNote.value='';taskRecurrence.value='none';
       const d=parseDate(taskDate.value);taskWeekday.value=String(d.getDay());taskMonthday.value=String(d.getDate());document.getElementById('subtaskSection').classList.remove('hidden');updateRecurrenceUI();
     }
     taskDialog.showModal();setTimeout(()=>taskTitle.focus(),0);
   }
-  function closeTaskDialog(){closeTaskDateDistribution();taskDialog.close();editingId=null}
-  function syncChildren(parentId,rows,category,priority){
+  function closeTaskDialog(){closeTaskDateDistribution();document.getElementById('taskCategoryPicker')?.classList.remove('open');taskDialog.close();editingId=null}
+  function syncChildren(parentId,rows,categories,priority){
     const existing=new Map(childrenOf(parentId).map(c=>[c.id,c])),keep=new Set();
+    const cats=categories?.length?categories:['기타'];
     rows.forEach(s=>{
-      if(s.id&&existing.has(s.id)){const c=existing.get(s.id);Object.assign(c,{title:s.title,date:s.date,category,priority});keep.add(s.id)}
-      else{const id=newId();data.tasks.push({id,title:s.title,date:s.date,category,priority,parentId,note:'',status:'active',waitingSince:null,done:false,completedAt:null,doneDates:[],doneAtDates:{},skipDates:[],recurrence:{type:'none'}});keep.add(id)}
+      if(s.id&&existing.has(s.id)){const c=existing.get(s.id);Object.assign(c,{title:s.title,date:s.date,priority});setTaskCategories(c,cats);keep.add(s.id)}
+      else{const id=newId();data.tasks.push({id,title:s.title,date:s.date,category:cats[0],categories:[...cats],priority,parentId,note:'',status:'active',waitingSince:null,done:false,completedAt:null,doneDates:[],doneAtDates:{},skipDates:[],recurrence:{type:'none'}});keep.add(id)}
     });
     data.tasks=data.tasks.filter(t=>t.parentId!==parentId||keep.has(t.id));
   }
   function saveTask(){
-    const title=taskTitle.value.trim(),date=taskDate.value,category=taskCategory.value||'기타',priority=taskPriority.value,note=taskNote.value.trim(),status=taskStatus.value==='waiting'?'waiting':'active';if(!title||!date)return;
+    const title=taskTitle.value.trim(),date=taskDate.value,categories=selectedTaskCategories(),priority=taskPriority.value,note=taskNote.value.trim(),status=taskStatus.value==='waiting'?'waiting':'active';if(!title||!date)return;
+    const cats=categories.length?categories:['기타'],category=cats[0];
     const recurrence=recurrenceSection.classList.contains('hidden')?{type:'none'}:readRecurrence();
     if(editingId){
-      const t=taskById(editingId),oldRec=JSON.stringify(t.recurrence||{type:'none'}),wasWaiting=t.status==='waiting';Object.assign(t,{title,date,category,priority,note,recurrence,status});t.waitingSince=status==='waiting'?(wasWaiting&&t.waitingSince?t.waitingSince:new Date().toISOString()):null;
+      const t=taskById(editingId),oldRec=JSON.stringify(t.recurrence||{type:'none'}),wasWaiting=t.status==='waiting';Object.assign(t,{title,date,category,priority,note,recurrence,status});setTaskCategories(t,cats);t.waitingSince=status==='waiting'?(wasWaiting&&t.waitingSince?t.waitingSince:new Date().toISOString()):null;
       if(oldRec!==JSON.stringify(recurrence))t.doneDates=[];
       if(!t.parentId){
-        if(recurrence.type==='none')syncChildren(editingId,readSubRows(),category,priority);
+        if(recurrence.type==='none')syncChildren(editingId,readSubRows(),cats,priority);
         else data.tasks=data.tasks.filter(x=>x.parentId!==editingId);
       }
     }else{
-      const id=newId();data.tasks.push({id,title,date,category,priority,parentId:null,note,status,waitingSince:status==='waiting'?new Date().toISOString():null,done:false,completedAt:null,doneDates:[],doneAtDates:{},skipDates:[],recurrence});
-      if(recurrence.type==='none')syncChildren(id,readSubRows(),category,priority);
+      const id=newId();data.tasks.push({id,title,date,category,categories:[...cats],priority,parentId:null,note,status,waitingSince:status==='waiting'?new Date().toISOString():null,done:false,completedAt:null,doneDates:[],doneAtDates:{},skipDates:[],recurrence});
+      if(recurrence.type==='none')syncChildren(id,readSubRows(),cats,priority);
     }
     saveData();closeTaskDialog();render();
   }
@@ -2776,7 +2865,7 @@
     document.getElementById('bundleDialog').showModal();
   }
 
-  function baseTask(id,title,date,category,priority,parentId=null){return {id,title,date,category,priority,parentId,note:'',status:'active',waitingSince:null,done:false,completedAt:null,doneDates:[],doneAtDates:{},skipDates:[],recurrence:{type:'none'}}}
+  function baseTask(id,title,date,category,priority,parentId=null){return {id,title,date,category,categories:[category],priority,parentId,note:'',status:'active',waitingSince:null,done:false,completedAt:null,doneDates:[],doneAtDates:{},skipDates:[],recurrence:{type:'none'}}}
   function createLiveBundle(){
     const title=document.getElementById('liveTitle').value.trim(),date=document.getElementById('liveDate').value,priority=document.getElementById('livePriority').value;if(!title||!date)return;
     const parentId=newId();data.tasks.push(baseTask(parentId,title,date,'LIVE',priority));
@@ -2798,7 +2887,7 @@
       const row=document.createElement('div');row.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line)';
       const left=document.createElement('div');left.style.cssText='display:flex;align-items:center;gap:9px;font-weight:650';const dot=document.createElement('span'),[,tx]=categoryStyle(cat);dot.style.cssText=`width:10px;height:10px;border-radius:50%;background:${tx}`;
       const name=document.createElement('span');name.textContent=cat;left.append(dot,name);const locked=FIXED_CATEGORIES.includes(cat);const del=document.createElement('button');del.className='btn';del.textContent=locked?'기본':'삭제';del.disabled=locked;del.style.padding='5px 9px';
-      if(!locked)del.addEventListener('click',()=>{data.tasks.forEach(t=>{if(t.category===cat)t.category='기타'});data.categories=data.categories.filter(c=>c!==cat);if(currentCategory===cat)currentCategory='기타';saveData();renderCategoryList();render()});
+      if(!locked)del.addEventListener('click',()=>{data.tasks.forEach(t=>{let cats=taskCategories(t).filter(c=>c!==cat);if(!cats.length)cats=['기타'];setTaskCategories(t,cats)});data.categories=data.categories.filter(c=>c!==cat);if(currentCategory===cat)currentCategory='기타';saveData();renderCategoryList();render()});
       row.append(left,del);wrap.appendChild(row);
     });
   }
@@ -2839,6 +2928,9 @@
   const addTaskBtnEl=document.getElementById('addTaskBtn');if(addTaskBtnEl)addTaskBtnEl.addEventListener('click',()=>openTaskDialog(dateKey(new Date())));
   document.getElementById('addSubtaskBtn').addEventListener('click',()=>makeSubRow('',taskDate.value||dateKey(new Date())));
   document.getElementById('cancelTaskBtn').addEventListener('click',closeTaskDialog);document.getElementById('saveTaskBtn').addEventListener('click',saveTask);document.getElementById('duplicateTaskBtn').addEventListener('click',duplicateTask);
+  const taskCategoryPicker=document.getElementById('taskCategoryPicker'),taskCategoryToggle=document.getElementById('taskCategoryToggle');
+  taskCategoryToggle.addEventListener('click',e=>{e.stopPropagation();const open=taskCategoryPicker.classList.toggle('open');taskCategoryToggle.setAttribute('aria-expanded',String(open))});
+  document.addEventListener('click',e=>{if(taskCategoryPicker.classList.contains('open')&&!e.target.closest('#taskCategoryPicker')){taskCategoryPicker.classList.remove('open');taskCategoryToggle.setAttribute('aria-expanded','false')}});
   taskRecurrence.addEventListener('change',updateRecurrenceUI);taskDate.addEventListener('change',()=>{if(taskRecurrence.value==='weekly'&&taskWeekday.value!=='weekdays')taskWeekday.value=String(parseDate(taskDate.value).getDay());if(taskRecurrence.value==='monthly')taskMonthday.value=String(parseDate(taskDate.value).getDate())});
   taskDate.addEventListener('click',e=>{if(!isMobileLayout()){e.preventDefault();e.stopPropagation();openTaskDateDistribution()}});
   taskDate.addEventListener('focus',()=>{if(!isMobileLayout())openTaskDateDistribution()});
