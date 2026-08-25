@@ -292,6 +292,7 @@
     .category-multi-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
     .category-multi-summary{display:flex;align-items:center;gap:5px;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
     .category-multi-summary .mini-cat{display:inline-flex;padding:2px 6px;border-radius:999px;font-size:10px;font-weight:600}
+    .mobile-single-picker{display:none}
     .subrow input[type="date"],.subrow input[data-kind="date"]{min-width:0;padding-right:10px}
     .hint{margin-top:10px;color:var(--muted);font-size:12px;line-height:1.5}
     .subtask-editor{display:flex;flex-direction:column;gap:7px;margin-top:8px}
@@ -506,7 +507,7 @@
       .bundle-item{grid-template-columns:auto 72px minmax(0,1fr)}.bundle-edit{grid-column:3;justify-self:end}
       .completed-row{grid-template-columns:auto 72px minmax(0,1fr)}.completed-row>.task-menu{grid-column:3;justify-self:end}
 
-      /* v6.1 mobile dialog refinement */
+      /* v6.2 mobile dialog refinement */
       dialog{width:min(400px,calc(100vw - 40px));max-width:calc(100vw - 40px);max-height:84dvh;border-radius:15px;overflow:auto;margin:auto}
       #taskDialog .modal{padding:14px}
       #taskDialog .modal h2{font-size:16px;margin-bottom:13px}
@@ -531,7 +532,7 @@
       #taskDialog .category-multi-options{position:static;max-height:150px;margin-top:5px;box-shadow:none}
       #taskDialog .category-multi-option{font-size:11px;padding:6px 7px}
 
-      /* v6.1 mobile task dialog compact layout: keep the form within one viewport */
+      /* v6.2 mobile task dialog compact layout: keep the form within one viewport */
       #taskDialog{width:min(420px,calc(100vw - 20px));max-width:calc(100vw - 20px);max-height:calc(100dvh - 18px);overflow:hidden;border-radius:14px}
       #taskDialog .modal{padding:12px 13px 11px;max-height:calc(100dvh - 18px);overflow:hidden}
       #taskDialog .modal h2{font-size:15px;margin:0 0 10px}
@@ -552,7 +553,7 @@
       #taskDialog .right-actions{gap:5px}
       #taskDialog .category-multi-picker{position:relative}
       #taskDialog .category-multi-options{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:50;max-height:135px;margin-top:0;box-shadow:0 10px 28px rgba(25,31,40,.16)}
-      /* v6.1 mobile dialog alignment */
+      /* v6.2 mobile dialog alignment */
       #taskDialog .row2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
       #taskDialog .row2>.field{min-width:0!important;width:auto!important;max-width:none!important;margin-bottom:8px!important}
       #taskDialog .task-date-field{min-width:0!important;width:auto!important;max-width:none!important;overflow:hidden}
@@ -631,7 +632,7 @@
     }
 
 
-    /* v6.1 mobile task-dialog form system: UI only */
+    /* v6.2 mobile task-dialog form system: UI only */
     @media(max-width:700px){
       #taskDialog{
         width:min(400px,calc(100vw - 24px))!important;
@@ -819,7 +820,7 @@
     }
 
 
-    /* v6.1 mobile task-dialog hardening: layout only, desktop untouched */
+    /* v6.2 mobile task-dialog hardening: layout only, desktop untouched */
     @media(max-width:700px){
       /* Keep both two-column rows inside their own grid tracks. */
       #taskDialog .row2{
@@ -937,7 +938,7 @@
     }
 
 
-    /* v6.1 mobile task-dialog polish: requested items only */
+    /* v6.2 mobile task-dialog polish: requested items only */
     @media(max-width:700px){
       /* Vertically center the iOS date value inside the existing field. */
       #taskDialog #taskDate{
@@ -1027,7 +1028,7 @@
     }
 
 
-    /* v6.1 mobile category dropdown alignment only */
+    /* v6.2 mobile category dropdown alignment only */
     @media(max-width:700px){
       #taskDialog .category-multi-option{
         display:flex!important;
@@ -1081,7 +1082,7 @@
     }
 
 
-    /* v6.1 mobile-only: category dropdown + quick-add card cleanup */
+    /* v6.2 mobile-only: category dropdown + quick-add card cleanup */
     @media(max-width:700px){
       /* Keep only the quick task input on the mobile quick-add card. */
       .mobile-quick-actions{display:none!important}
@@ -1157,7 +1158,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v6.1</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v6.2</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1183,7 +1184,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v6.1</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v6.2</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -1450,6 +1451,10 @@
           <option value="p3">P3</option>
           <option value="p4" selected>P4 · 기본</option>
         </select>
+        <div class="mobile-single-picker" id="taskPriorityPicker">
+          <button type="button" class="category-multi-toggle" id="taskPriorityToggle" aria-expanded="false"><span id="taskPriorityLabel">P4 · 기본</span><span class="category-multi-chevron">⌄</span></button>
+          <div class="category-multi-options" id="taskPriorityOptions"></div>
+        </div>
       </div>
     </div>
     <div class="row2">
@@ -1469,6 +1474,10 @@
           <option value="active">진행중</option>
           <option value="waiting">대기중</option>
         </select>
+        <div class="mobile-single-picker" id="taskStatusPicker">
+          <button type="button" class="category-multi-toggle" id="taskStatusToggle" aria-expanded="false"><span id="taskStatusLabel">진행중</span><span class="category-multi-chevron">⌄</span></button>
+          <div class="category-multi-options" id="taskStatusOptions"></div>
+        </div>
       </div>
     </div>
     <div class="field">
@@ -3328,13 +3337,34 @@
     options.innerHTML='';
     data.categories.forEach(cat=>{
       const label=document.createElement('label');label.className='category-multi-option';
-      const cb=document.createElement('input');cb.type='checkbox';cb.checked=[...taskCategory.options].some(o=>o.value===cat&&o.selected);
+      const cb=document.createElement('input');cb.type='checkbox';cb.checked=[...taskCategory.options].some(o=>o.value===cat&&o.selected);label.classList.toggle('is-selected',cb.checked);
       const name=document.createElement('span');name.className='category-option-badge';name.textContent=cat;
       const [badgeBg,badgeText]=categoryStyle(cat);name.style.background=badgeBg;name.style.color=badgeText;
-      cb.addEventListener('change',()=>{const opt=[...taskCategory.options].find(o=>o.value===cat);if(opt)opt.selected=cb.checked;if(!selectedTaskCategories().length){opt.selected=true;cb.checked=true}updateTaskCategoryLabel()});
+      cb.addEventListener('change',()=>{const opt=[...taskCategory.options].find(o=>o.value===cat);if(opt)opt.selected=cb.checked;if(!selectedTaskCategories().length){opt.selected=true;cb.checked=true}label.classList.toggle('is-selected',cb.checked);updateTaskCategoryLabel()});
       label.append(cb,name);options.appendChild(label);
     });
     updateTaskCategoryLabel();
+  }
+  function closeMobileSinglePickers(except=null){
+    ['taskPriorityPicker','taskStatusPicker'].forEach(id=>{const el=document.getElementById(id);if(el&&el!==except){el.classList.remove('open');const btn=el.querySelector('[aria-expanded]');if(btn)btn.setAttribute('aria-expanded','false')}});
+    const cat=document.getElementById('taskCategoryPicker');if(cat&&cat!==except){cat.classList.remove('open');document.getElementById('taskCategoryToggle')?.setAttribute('aria-expanded','false')}
+  }
+  function renderMobileSinglePicker(selectId,pickerId,toggleId,labelId,optionsId){
+    const select=document.getElementById(selectId),picker=document.getElementById(pickerId),toggle=document.getElementById(toggleId),label=document.getElementById(labelId),options=document.getElementById(optionsId);
+    if(!select||!picker||!toggle||!label||!options)return;
+    const selected=select.options[select.selectedIndex];label.textContent=selected?selected.textContent:'';options.innerHTML='';
+    [...select.options].forEach(opt=>{
+      const row=document.createElement('div');row.className='mobile-single-picker-option';
+      const text=document.createElement('span');text.textContent=opt.textContent;
+      const check=document.createElement('span');check.className='mobile-picker-check';check.textContent=opt.value===select.value?'✓':'';
+      row.append(text,check);
+      row.addEventListener('click',e=>{e.stopPropagation();select.value=opt.value;select.dispatchEvent(new Event('change',{bubbles:true}));renderMobileSinglePicker(selectId,pickerId,toggleId,labelId,optionsId);picker.classList.remove('open');toggle.setAttribute('aria-expanded','false')});
+      options.appendChild(row);
+    });
+  }
+  function syncMobileTaskPickers(){
+    renderMobileSinglePicker('taskPriority','taskPriorityPicker','taskPriorityToggle','taskPriorityLabel','taskPriorityOptions');
+    renderMobileSinglePicker('taskStatus','taskStatusPicker','taskStatusToggle','taskStatusLabel','taskStatusOptions');
   }
   function setSelectedTaskCategories(categories){
     const selected=new Set((Array.isArray(categories)?categories:[categories]).filter(Boolean));
@@ -3414,9 +3444,9 @@
       taskTitle.value='';taskDate.value=date||dateKey(new Date());setSelectedTaskCategories(data.categories[0]||'기타');taskStatus.value='active';taskPriority.value='p4';taskNote.value='';taskRecurrence.value='none';
       const d=parseDate(taskDate.value);taskWeekday.value=String(d.getDay());taskMonthday.value=String(d.getDate());document.getElementById('subtaskSection').classList.remove('hidden');updateRecurrenceUI();
     }
-    taskDialog.showModal();if(!isMobileLayout())setTimeout(()=>taskTitle.focus(),0);
+    syncMobileTaskPickers();taskDialog.showModal();if(!isMobileLayout())setTimeout(()=>taskTitle.focus(),0);
   }
-  function closeTaskDialog(){closeTaskDateDistribution();document.getElementById('taskCategoryPicker')?.classList.remove('open');taskDialog.close();editingId=null;unlockMobileTaskDialogViewport()}
+  function closeTaskDialog(){closeTaskDateDistribution();closeMobileSinglePickers();taskDialog.close();editingId=null;unlockMobileTaskDialogViewport()}
   function syncChildren(parentId,rows,categories,priority){
     const existing=new Map(childrenOf(parentId).map(c=>[c.id,c])),keep=new Set();
     const cats=categories?.length?categories:['기타'];
@@ -3534,8 +3564,12 @@
   document.getElementById('addSubtaskBtn').addEventListener('click',()=>makeSubRow('',taskDate.value||dateKey(new Date())));
   document.getElementById('cancelTaskBtn').addEventListener('click',closeTaskDialog);document.getElementById('saveTaskBtn').addEventListener('click',saveTask);document.getElementById('duplicateTaskBtn').addEventListener('click',duplicateTask);
   const taskCategoryPicker=document.getElementById('taskCategoryPicker'),taskCategoryToggle=document.getElementById('taskCategoryToggle');
-  taskCategoryToggle.addEventListener('click',e=>{e.stopPropagation();const open=taskCategoryPicker.classList.toggle('open');taskCategoryToggle.setAttribute('aria-expanded',String(open))});
-  document.addEventListener('click',e=>{if(taskCategoryPicker.classList.contains('open')&&!e.target.closest('#taskCategoryPicker')){taskCategoryPicker.classList.remove('open');taskCategoryToggle.setAttribute('aria-expanded','false')}});
+  function bindMobilePickerToggle(picker,toggle){if(!picker||!toggle)return;toggle.addEventListener('click',e=>{e.stopPropagation();const willOpen=!picker.classList.contains('open');closeMobileSinglePickers(picker);picker.classList.toggle('open',willOpen);toggle.setAttribute('aria-expanded',String(willOpen))})}
+  bindMobilePickerToggle(taskCategoryPicker,taskCategoryToggle);
+  bindMobilePickerToggle(document.getElementById('taskPriorityPicker'),document.getElementById('taskPriorityToggle'));
+  bindMobilePickerToggle(document.getElementById('taskStatusPicker'),document.getElementById('taskStatusToggle'));
+  document.addEventListener('click',e=>{if(!e.target.closest('#taskDialog .category-multi-picker')&&!e.target.closest('#taskDialog .mobile-single-picker'))closeMobileSinglePickers()});
+  taskPriority.addEventListener('change',syncMobileTaskPickers);taskStatus.addEventListener('change',syncMobileTaskPickers);
   taskRecurrence.addEventListener('change',updateRecurrenceUI);taskDate.addEventListener('change',()=>{if(taskRecurrence.value==='weekly'&&taskWeekday.value!=='weekdays')taskWeekday.value=String(parseDate(taskDate.value).getDay());if(taskRecurrence.value==='monthly')taskMonthday.value=String(parseDate(taskDate.value).getDate())});
   taskDialog.addEventListener('close',()=>unlockMobileTaskDialogViewport());
   taskDate.addEventListener('click',e=>{if(!isMobileLayout()){e.preventDefault();e.stopPropagation();openTaskDateDistribution()}});
