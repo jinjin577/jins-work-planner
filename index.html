@@ -1345,7 +1345,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v7.7</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v7.8</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1371,7 +1371,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v7.7</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v7.8</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -3525,8 +3525,9 @@
   function renderSelectedEventProducts(){const wrap=document.getElementById('salesEventProducts');wrap.innerHTML='';if(!selectedSalesEventProducts.length){wrap.innerHTML='<div class="event-selected-empty">선택된 제품이 없습니다.</div>';return}selectedSalesEventProducts.forEach(product=>{const chip=document.createElement('div');chip.className='event-product-chip';const label=document.createElement('span');label.textContent=product;const remove=document.createElement('button');remove.type='button';remove.setAttribute('aria-label',`${product} 삭제`);remove.textContent='×';remove.addEventListener('click',()=>{selectedSalesEventProducts=selectedSalesEventProducts.filter(p=>p!==product);renderSelectedEventProducts()});chip.append(label,remove);wrap.appendChild(chip)})}
   function renderEventProducts(selected=[]){selectedSalesEventProducts=[...new Set(selected.filter(p=>salesState.products.includes(p)))];renderProductNameOptions();renderSelectedEventProducts()}
   function addSelectedEventProduct(){const name=document.getElementById('salesEventProductName').value,variant=document.getElementById('salesEventProductVariant').value,product=`${name} ${variant}`.trim();if(!product||!salesState.products.includes(product))return alert('상품명과 구성을 선택해주세요.');if(!selectedSalesEventProducts.includes(product))selectedSalesEventProducts.push(product);renderSelectedEventProducts()}
-  function refreshEventLinks(selected=''){const sel=document.getElementById('salesEventLink');sel.innerHTML='<option value="">단독 쇼핑LIVE</option>';salesState.events.filter(e=>e.type!=='쇼핑LIVE').forEach(e=>{const o=document.createElement('option');o.value=e.id;o.textContent=`${e.name} (${e.start}~${e.end})`;sel.appendChild(o)});sel.value=selected||''}
-  function syncEventTypeUi(){document.getElementById('salesEventLinkRow').classList.toggle('visible',document.getElementById('salesEventType').value==='쇼핑LIVE')}
+  function refreshEventLinks(selected=''){const sel=document.getElementById('salesEventLink'),liveDate=document.getElementById('salesEventStart').value,linkableTypes=new Set(['네이버 대형행사','헬시페스타','네이버 소형행사','자체행사']),candidates=salesState.events.filter(e=>linkableTypes.has(e.type)&&liveDate&&e.start<=liveDate&&liveDate<=e.end).sort((a,b)=>a.start.localeCompare(b.start)||a.name.localeCompare(b.name,'ko'));sel.innerHTML='';const standalone=document.createElement('option');standalone.value='';standalone.textContent=candidates.length?'단독 쇼핑LIVE':'단독 쇼핑LIVE · 해당 날짜에 연계 가능한 행사 없음';sel.appendChild(standalone);candidates.forEach(e=>{const o=document.createElement('option');o.value=e.id;o.textContent=`${e.name} (${e.start}~${e.end})`;sel.appendChild(o)});sel.value=candidates.some(e=>e.id===selected)?selected:''}
+  function applyLinkedEventProducts(){const linkedId=document.getElementById('salesEventLink').value;if(!linkedId)return;const linked=salesState.events.find(e=>e.id===linkedId);if(!linked)return;selectedSalesEventProducts=[...new Set((linked.products||[]).filter(p=>salesState.products.includes(p)))];renderSelectedEventProducts()}
+  function syncEventTypeUi(){const isLive=document.getElementById('salesEventType').value==='쇼핑LIVE';document.getElementById('salesEventLinkRow').classList.toggle('visible',isLive);if(isLive)refreshEventLinks(document.getElementById('salesEventLink').value)}
   function openSalesEventDialog(id=null,start=null){editingSalesEventId=id;const e=id?salesState.events.find(x=>x.id===id):null,today=start||dateKey(new Date());document.getElementById('salesEventDialogTitle').textContent=e?'행사 수정':'행사 등록';document.getElementById('salesEventType').value=e?.type||'네이버 대형행사';document.getElementById('salesEventName').value=e?.name||'';document.getElementById('salesEventStart').value=e?.start||today;document.getElementById('salesEventEnd').value=e?.end||today;document.getElementById('salesEventMemo').value=e?.memo||'';renderEventProducts(e?.products||[]);refreshEventLinks(e?.linkedEventId||'');document.getElementById('deleteSalesEventBtn').style.display=e?'inline-flex':'none';syncEventTypeUi();document.getElementById('salesEventDialog').showModal()}
   async function saveSalesEvent(){const type=document.getElementById('salesEventType').value,name=document.getElementById('salesEventName').value.trim()||type,start=document.getElementById('salesEventStart').value,end=document.getElementById('salesEventEnd').value,products=[...selectedSalesEventProducts];if(!start||!end||end<start)return alert('행사 기간을 확인해주세요.');if(!products.length)return alert('참여 제품을 한 개 이상 선택해주세요.');const item={id:editingSalesEventId||newId(),type,name,start,end,products,memo:document.getElementById('salesEventMemo').value.trim(),linkedEventId:type==='쇼핑LIVE'?document.getElementById('salesEventLink').value:''};const idx=salesState.events.findIndex(e=>e.id===item.id);if(idx>=0)salesState.events[idx]=item;else salesState.events.push(item);await saveSalesState();document.getElementById('salesEventDialog').close();renderSalesLocal()}
   async function deleteSalesEvent(){if(!editingSalesEventId)return;if(!confirm('이 판매 일정을 삭제하시겠습니까?'))return;salesState.events=salesState.events.filter(e=>e.id!==editingSalesEventId);salesState.events.forEach(e=>{if(e.linkedEventId===editingSalesEventId)e.linkedEventId=''});await saveSalesState();document.getElementById('salesEventDialog').close();renderSalesLocal()}
@@ -3990,6 +3991,8 @@
   document.getElementById('salesEventProductName').addEventListener('change',renderProductVariantOptions);
   document.getElementById('addSalesEventProductBtn').addEventListener('click',addSelectedEventProduct);
   document.getElementById('salesEventType').addEventListener('change',syncEventTypeUi);
+  document.getElementById('salesEventStart').addEventListener('change',()=>{if(document.getElementById('salesEventType').value==='쇼핑LIVE')refreshEventLinks(document.getElementById('salesEventLink').value)});
+  document.getElementById('salesEventLink').addEventListener('change',applyLinkedEventProducts);
   document.getElementById('cancelSalesEventBtn').addEventListener('click',()=>document.getElementById('salesEventDialog').close());
   document.getElementById('saveSalesEventBtn').addEventListener('click',saveSalesEvent);
   document.getElementById('deleteSalesEventBtn').addEventListener('click',deleteSalesEvent);
