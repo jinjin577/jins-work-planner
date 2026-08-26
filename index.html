@@ -1314,10 +1314,16 @@
     .inventory-field label{display:block;font-size:12px;font-weight:800;color:#5b6675;margin-bottom:6px}.inventory-field input{width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 10px;font-size:13px;background:#fff}
     .inventory-table-wrap{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:auto;box-shadow:var(--shadow)}
     .inventory-table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:900px}.inventory-table th{background:#f7f9fc;color:#596575;font-size:11.5px;padding:10px 9px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}.inventory-table th:first-child,.inventory-table td:first-child{text-align:left}.inventory-table td{padding:10px 9px;border-bottom:1px solid #edf0f3;text-align:right}.inventory-table tbody tr:last-child td{border-bottom:0}.inventory-table input{width:88px;padding:6px 7px;border:1px solid var(--line);border-radius:7px;text-align:right}.inventory-recommend{font-size:15px;font-weight:900;color:#2f6fed}.inventory-basis{display:block;margin-top:3px;font-size:10px;color:#7a8593;white-space:normal}
-    .event-modal{width:min(680px,calc(100vw - 28px));max-height:min(88vh,760px);overflow-y:auto}.event-product-picker{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr) auto;gap:8px;align-items:end}.event-product-picker .field{margin:0}.event-product-picker select{width:100%}.event-selected-products{display:flex;flex-wrap:wrap;gap:7px;min-height:46px;margin-top:9px;padding:9px;border:1px solid var(--line);border-radius:10px;background:#fbfcfd}.event-selected-empty{color:var(--muted);font-size:12px;align-self:center}.event-product-chip{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:6px 8px;border:1px solid #cfe0f5;border-radius:999px;background:#f3f8ff;color:#355a82;font-size:12px;font-weight:750}.event-product-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.event-product-chip button{border:0;background:transparent;color:#73859a;padding:0;font-size:15px;line-height:1;cursor:pointer}
+    #salesEventDialog{width:min(680px,calc(100vw - 28px));max-width:calc(100vw - 28px);overflow:hidden;box-sizing:border-box}
+    #salesEventDialog .event-modal{width:100%;max-width:100%;max-height:min(88vh,760px);overflow-x:hidden;overflow-y:auto;box-sizing:border-box}
+    #salesEventDialog .row2{grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:100%}
+    #salesEventDialog .field{min-width:0;max-width:100%;box-sizing:border-box}
+    #salesEventDialog input,#salesEventDialog select,#salesEventDialog textarea{display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box}
+    .event-product-picker{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr) auto;width:100%;max-width:100%;gap:8px;align-items:end;box-sizing:border-box}.event-product-picker .field{margin:0;min-width:0}.event-product-picker select{width:100%;min-width:0;max-width:100%}.event-product-picker .local-btn{min-width:0;white-space:nowrap}.event-selected-products{display:flex;flex-wrap:wrap;gap:7px;min-width:0;max-width:100%;min-height:46px;margin-top:9px;padding:9px;border:1px solid var(--line);border-radius:10px;background:#fbfcfd;box-sizing:border-box;overflow:hidden}.event-selected-empty{color:var(--muted);font-size:12px;align-self:center}.event-product-chip{display:inline-flex;align-items:center;gap:6px;min-width:0;max-width:100%;padding:6px 8px;border:1px solid #cfe0f5;border-radius:999px;background:#f3f8ff;color:#355a82;font-size:12px;font-weight:750;box-sizing:border-box}.event-product-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.event-product-chip button{border:0;background:transparent;color:#73859a;padding:0;font-size:15px;line-height:1;cursor:pointer;flex:0 0 auto}
     .event-note{font-size:11.5px;color:var(--muted);line-height:1.5}.event-link-row{display:none}.event-link-row.visible{display:block}
     @media(max-width:900px){.local-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.inventory-controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media(max-width:700px){.sales-view,.inbound-view{padding:12px}.local-page-head{display:block}.local-actions{margin-top:10px}.sales-day{min-height:84px;padding:4px}.sales-event{font-size:9px;padding:3px}.inventory-controls{grid-template-columns:1fr}.local-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.event-product-picker{grid-template-columns:1fr 1fr}.event-product-picker .local-btn{grid-column:1/-1}}
+    @media(max-width:700px){.sales-view,.inbound-view{padding:12px}.local-page-head{display:block}.local-actions{margin-top:10px}.sales-day{min-height:84px;padding:4px}.sales-event{font-size:9px;padding:3px}.inventory-controls{grid-template-columns:1fr}.local-summary{grid-template-columns:repeat(2,minmax(0,1fr))}#salesEventDialog{width:calc(100vw - 28px);max-width:calc(100vw - 28px)}#salesEventDialog .event-modal{padding:18px}#salesEventDialog .row2{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}.event-product-picker{grid-template-columns:minmax(0,1fr) minmax(0,.65fr)}.event-product-picker .local-btn{grid-column:1/-1;width:100%}}
+    @media(max-width:460px){#salesEventDialog .row2{grid-template-columns:1fr}.event-product-picker{grid-template-columns:1fr 1fr}}
 
     /* v7.0 mobile only: category dropdown auto-direction */
     @media(max-width:700px){
@@ -1339,7 +1345,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v7.6</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v7.7</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1365,7 +1371,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v7.6</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v7.7</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
