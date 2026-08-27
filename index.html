@@ -1349,7 +1349,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.2</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.3</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1375,7 +1375,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.2</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.3</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -1393,6 +1393,7 @@
       <button class="pc-main-btn" id="adReportBtn" type="button"><span class="pc-main-icon">📺</span><span>광고</span></button>
       <button class="pc-main-btn" id="rankBtn" type="button"><span class="pc-main-icon">🏆</span><span>랭킹</span></button>
       <button class="pc-main-btn" id="orderSummaryBtn" type="button" title="내 PC의 주문 집계 도구 열기"><span class="pc-main-icon">🧾</span><span>주문 집계</span></button>
+      <button class="pc-main-btn" id="addressGuardBtn" type="button" title="내 PC의 Address Guard 열기"><span class="pc-main-icon">🛡️</span><span>주소 검사</span></button>
       <button class="pc-main-btn" id="salesCalendarBtn" type="button"><span class="pc-main-icon">🏷️</span><span>판매 일정</span></button>
       <button class="pc-main-btn" id="inboundPlannerBtn" type="button"><span class="pc-main-icon">📦</span><span>입고 계산</span></button>
       <button class="pc-main-btn" id="settingsMainBtn" type="button"><span class="pc-main-icon">⚙️</span><span>설정</span></button>
@@ -1963,7 +1964,7 @@
   let selectedSalesEventProducts = [];
 
   const weekView = document.getElementById('weekView'), weekShell = document.getElementById('weekShell'), monthView = document.getElementById('monthView'),
-    adReportView = document.getElementById('adReportView'), adReportBtn = document.getElementById('adReportBtn'), rankView = document.getElementById('rankView'), rankBtn = document.getElementById('rankBtn'), orderSummaryBtn = document.getElementById('orderSummaryBtn'), salesCalendarView = document.getElementById('salesCalendarView'), salesCalendarBtn = document.getElementById('salesCalendarBtn'), inboundPlannerView = document.getElementById('inboundPlannerView'), inboundPlannerBtn = document.getElementById('inboundPlannerBtn'), workMainBtn = document.getElementById('workMainBtn'), settingsMainBtn = document.getElementById('settingsMainBtn'), workToolbar = document.getElementById('workToolbar'), pcSettingsView = document.getElementById('pcSettingsView'),
+    adReportView = document.getElementById('adReportView'), adReportBtn = document.getElementById('adReportBtn'), rankView = document.getElementById('rankView'), rankBtn = document.getElementById('rankBtn'), orderSummaryBtn = document.getElementById('orderSummaryBtn'), addressGuardBtn = document.getElementById('addressGuardBtn'), salesCalendarView = document.getElementById('salesCalendarView'), salesCalendarBtn = document.getElementById('salesCalendarBtn'), inboundPlannerView = document.getElementById('inboundPlannerView'), inboundPlannerBtn = document.getElementById('inboundPlannerBtn'), workMainBtn = document.getElementById('workMainBtn'), settingsMainBtn = document.getElementById('settingsMainBtn'), workToolbar = document.getElementById('workToolbar'), pcSettingsView = document.getElementById('pcSettingsView'),
     categoryView = document.getElementById('categoryView'), categoryCards = document.getElementById('categoryCards'), categoryDetail = document.getElementById('categoryDetail'),
     completedView = document.getElementById('completedView'), completedList = document.getElementById('completedList'),
     completedCount = document.getElementById('completedCount'), dateNav = document.getElementById('dateNav'),
@@ -4020,6 +4021,9 @@
   });
   orderSummaryBtn.addEventListener('click',()=>{
     window.location.href='order-summary://open';
+  });
+  addressGuardBtn.addEventListener('click',()=>{
+    window.location.href='addressguard://open';
   });
   salesCalendarBtn.addEventListener('click',()=>{currentView='sales';document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));render()});
   inboundPlannerBtn.addEventListener('click',()=>{currentView='inbound';document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));render()});
