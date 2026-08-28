@@ -48,7 +48,9 @@
     .pc-main-icon{font-size:14px;line-height:1;opacity:.82}
     .pc-main-btn:hover{background:transparent;color:#2f3a49}
     .pc-main-btn.active{background:transparent;color:#2f6fed;box-shadow:none;border-bottom-color:#2f6fed}
-    .pc-main-btn.pc-settings-main{margin-left:auto}
+    .pc-main-btn.pc-settings-main{margin:8px 0 8px auto;padding:7px 12px;border:1px solid #dfe5ec;border-radius:999px;background:#f7f9fc;color:#667180;font-size:12px;font-weight:750;box-shadow:0 1px 3px rgba(31,41,55,.04)}
+    .pc-main-btn.pc-settings-main:hover{background:#f1f5fb;border-color:#cfd8e4;color:#3f4b5b}
+    .pc-main-btn.pc-settings-main.active{background:#edf3ff;border-color:#ccdcfa;color:#2f6fed;box-shadow:none}
     .pc-section-subnav{display:flex;align-items:center;gap:22px;min-height:46px;padding:0 24px;border-bottom:1px solid #f0f2f5;background:#fbfcfe}
     .pc-section-subnav.hidden{display:none!important}
     .pc-subnav-btn{border:0;background:transparent;color:#7b8492;padding:14px 2px 11px;font-size:13px;font-weight:700;border-bottom:2px solid transparent;white-space:nowrap}
@@ -1362,7 +1364,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.5</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.6</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1388,7 +1390,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.5</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.6</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -1407,7 +1409,7 @@
       <button class="pc-main-btn" id="performanceMainBtn" type="button"><span class="pc-main-icon">🏆</span><span>네이버 랭킹</span></button>
       <button class="pc-main-btn" id="orderSummaryBtn" type="button" title="회사 PC에 설치된 주문 집계 프로그램 열기"><span class="pc-main-icon">📋</span><span>주문 집계</span></button>
       <button class="pc-main-btn" id="addressGuardBtn" type="button" title="회사 PC에 설치된 리셀러 추적 프로그램 열기"><span class="pc-main-icon">🔎</span><span>리셀러 추적</span></button>
-      <button class="pc-main-btn pc-settings-main" id="settingsMainBtn" type="button"><span class="pc-main-icon">⚙️</span><span>설정</span></button>
+      <button class="pc-main-btn pc-settings-main" id="settingsMainBtn" type="button">설정</button>
     </div>
     <div class="pc-section-subnav" id="workSubnav">
       <button class="pc-subnav-btn tab active" data-view="week">주간</button>
@@ -1426,7 +1428,7 @@
     <div class="work-toolbar" id="workToolbar">
       <div class="work-header-actions">
         <span class="work-header-label">빠른 실행</span>
-        <button class="launcher-btn primary" id="desktopQuickTaskBtn" type="button">＋ 빠른업무</button>
+        <button class="launcher-btn primary" id="desktopQuickTaskBtn" type="button">＋ 업무</button>
         <button class="launcher-btn" id="desktopLiveBtn" type="button">LIVE 업무</button>
         <button class="launcher-btn" id="desktopPromoBtn" type="button">프로모션</button>
       </div>
@@ -1612,13 +1614,10 @@
 
   <section class="sales-view planner-view-hidden" id="salesCalendarView">
     <div class="local-page-head">
-      <div><div class="local-page-title">판매·행사 일정</div><div class="local-page-hint">행사와 참여 제품을 등록하고 주문집계 CSV의 날짜별 출고량을 연결합니다. 판매 데이터는 로그인한 계정의 Supabase에 저장되고 이 브라우저에도 임시 보관됩니다.</div></div>
+      <div><div class="local-page-title">프로모션·PPL 일정</div><div class="local-page-hint">행사와 참여 제품을 등록하고 주문집계 CSV의 날짜별 출고량을 연결합니다. 판매 데이터는 로그인한 계정의 Supabase에 저장되고 이 브라우저에도 임시 보관됩니다.</div></div>
       <div class="local-actions">
-        <button class="local-btn" id="importSalesCsvBtn" type="button">CSV 불러오기</button>
+        <button class="local-btn" id="importSalesCsvBtn" type="button">출고량 CSV 입력</button>
         <input class="local-file" id="salesCsvFile" type="file" accept=".csv,text/csv" multiple />
-        <button class="local-btn" id="backupSalesDataBtn" type="button">판매 데이터 백업</button>
-        <button class="local-btn" id="restoreSalesDataBtn" type="button">백업 복원</button>
-        <input class="local-file" id="salesBackupFile" type="file" accept=".json,application/json" />
         <button class="local-btn primary" id="addSalesEventBtn" type="button">+ 행사 등록</button>
       </div>
     </div>
@@ -1646,8 +1645,8 @@
       <div class="inventory-field"><label>계산 기간 예정 일정</label><div id="forecastEventSummary" class="event-note">기간을 선택하면 표시됩니다.</div></div>
       <button class="local-btn primary" id="calculateInboundBtn" type="button">필요량 계산</button>
     </div>
-    <div class="inventory-product-panel" id="inboundProductPanel"><div class="inventory-product-head"><div><b>입고 대상 상품 선택 <span class="inventory-product-count" id="selectedInboundProductCount">0개</span></b><div class="event-note">체크한 상품만 계산표에 표시되며 선택값은 직접 초기화하기 전까지 유지됩니다.</div></div><div class="inventory-product-actions"><button class="local-btn" id="selectAllInboundProductsBtn" type="button">전체 선택</button><button class="local-btn" id="clearInboundProductsBtn" type="button">선택 초기화</button></div></div><div class="inventory-product-groups" id="inboundProductChoices"></div></div>
-    <div class="local-status" id="inboundStatus">판매·행사 일정 메뉴에서 주문집계 CSV를 먼저 불러오세요.</div>
+    <div class="inventory-product-panel" id="inboundProductPanel"><div class="inventory-product-head"><div><b>입고 대상 상품 선택 <span class="inventory-product-count" id="selectedInboundProductCount">0개</span></b><div class="event-note">체크한 상품만 계산표에 표시되며 선택값은 직접 초기화하기 전까지 유지됩니다.</div></div><div class="inventory-product-actions"><button class="local-btn" id="selectAllInboundProductsBtn" type="button">전체 선택</button><button class="local-btn" id="clearInboundProductsBtn" type="button">선택 초기화</button><button class="local-btn" id="clearInventoryBtn" type="button">재고 입력 초기화</button></div></div><div class="inventory-product-groups" id="inboundProductChoices"></div></div>
+    <div class="local-status" id="inboundStatus">프로모션 메뉴에서 출고량 CSV를 먼저 입력하세요.</div>
     <div class="inventory-table-wrap"><table class="inventory-table"><thead><tr><th>제품</th><th>일반 판매 예상</th><th>행사 반영 예상</th><th>안전재고</th><th>총 필요량</th><th>잔여재고</th><th>입고 예정 재고</th><th>권장 입고량</th></tr></thead><tbody id="inventoryTableBody"><tr><td colspan="8" class="local-empty">누적된 제품 데이터가 없습니다.</td></tr></tbody></table></div>
   </section>
 
@@ -1657,7 +1656,7 @@
     <div class="pc-settings-grid">
       <div class="pc-settings-card"><b>카테고리 관리</b><p>업무 카테고리를 추가하거나 정리합니다.</p><button class="btn" id="manageCategories">카테고리 관리</button></div>
       <div class="pc-settings-card"><b>업무 데이터</b><p>업무·메모·카테고리를 JSON 파일로 백업하거나 복원합니다.</p><div class="settings-card-actions"><button class="btn" id="exportBtn">업무 백업</button><button class="btn" id="importBtn">업무 복원</button></div><input type="file" id="importFile" accept=".json" hidden /></div>
-      <div class="pc-settings-card"><b>판매 운영 데이터</b><p>판매 집계·행사 일정·재고·입고 설정을 JSON 파일로 백업하거나 복원합니다.</p><div class="settings-card-actions"><button class="btn" id="settingsSalesBackupBtn">판매 운영 백업</button><button class="btn" id="settingsSalesRestoreBtn">판매 운영 복원</button></div></div>
+      <div class="pc-settings-card"><b>판매 운영 데이터</b><p>판매 집계·행사 일정·재고·입고 설정을 JSON 파일로 백업하거나 복원합니다.</p><div class="settings-card-actions"><button class="btn" id="settingsSalesBackupBtn">판매 운영 백업</button><button class="btn" id="settingsSalesRestoreBtn">판매 운영 복원</button></div><input class="local-file" id="salesBackupFile" type="file" accept=".json,application/json" /></div>
       <div class="pc-settings-card"><b>업무+판매 통합 백업</b><p>업무 데이터와 판매 운영 데이터를 하나의 JSON 파일로 저장하거나 함께 복원합니다.</p><div class="settings-card-actions"><button class="btn" id="fullBackupBtn">통합 백업</button><button class="btn" id="fullRestoreBtn">통합 복원</button></div><input type="file" id="fullBackupFile" accept=".json,application/json" hidden /></div>
       <div class="storage-guide">
         <div class="storage-guide-title">메뉴별 데이터 저장 위치</div>
@@ -3575,7 +3574,7 @@
   function salesDates(){return [...new Set(Object.keys(salesState.sales).map(k=>k.split('|')[0]))].sort()}
   function productSalesByDate(product){const out={};Object.entries(salesState.sales).forEach(([key,value])=>{const [date,,p]=key.split('|');if(p===product)out[date]=(out[date]||0)+(Number(value)||0)});return out}
   const SALES_EVENT_COLORS={'네이버 대형행사':'#16865b','헬시페스타':'#0f9f9a','네이버 소형행사':'#72a62b','자체행사':'#7a52c7','쇼핑LIVE':'#e54872','PPL':'#e9852b','홈쇼핑 방송':'#3478cf'};
-  const INBOUND_PRODUCT_ORDER=['콘드로이친','오메가600','오메가미니','오메가900','하스카프','콜라겐','MBP'];
+  const INBOUND_PRODUCT_ORDER=['콘드로이친','하스카프','콜라겐','MBP'];
   const INBOUND_PRODUCT_LABELS={'콜라겐':'모발콜라겐','MBP':'MBP'};
   function eventApplies(event,date,product){return event.start<=date&&date<=event.end&&Array.isArray(event.products)&&event.products.includes(product)}
   function eventTypesFor(date,product){return [...new Set(salesState.events.filter(e=>eventApplies(e,date,product)).map(e=>e.type))].sort()}
@@ -3593,6 +3592,7 @@
   function inboundDisplayName(product){const {name,variant}=splitSalesProduct(product);return `${INBOUND_PRODUCT_LABELS[name]||name}${variant?` ${variant}`:''}`}
   function renderInboundProductSelector(){const wrap=document.getElementById('inboundProductChoices'),eligible=inboundEligibleProducts(),eligibleSet=new Set(eligible),selected=new Set((salesState.selectedProducts||[]).filter(p=>eligibleSet.has(p)));salesState.selectedProducts=eligible.filter(p=>selected.has(p));document.getElementById('selectedInboundProductCount').textContent=`${selected.size}개`;wrap.innerHTML='';const groups=salesProductGroups();if(!eligible.length){wrap.innerHTML='<div class="event-note">주문집계 CSV를 불러오면 입고 대상 상품을 선택할 수 있습니다.</div>';return}INBOUND_PRODUCT_ORDER.forEach(name=>{const variants=(groups[name]||[]).filter(variant=>eligibleSet.has(`${name} ${variant}`.trim()));if(!variants.length)return;const card=document.createElement('div');card.className='inventory-product-group';const title=document.createElement('div');title.className='inventory-product-group-title';title.textContent=INBOUND_PRODUCT_LABELS[name]||name;const options=document.createElement('div');options.className='inventory-product-options';variants.forEach(variant=>{const product=`${name} ${variant}`.trim(),label=document.createElement('label');label.className='inventory-product-option';const cb=document.createElement('input');cb.type='checkbox';cb.checked=selected.has(product);cb.value=product;cb.addEventListener('change',async()=>{const next=new Set(salesState.selectedProducts||[]);cb.checked?next.add(product):next.delete(product);salesState.selectedProducts=eligible.filter(p=>next.has(p));await saveSalesState();renderInboundProductSelector();renderInventoryTable(false)});const text=document.createElement('span');text.textContent=variant;label.append(cb,text);options.appendChild(label)});card.append(title,options);wrap.appendChild(card)})}
   async function setAllInboundProducts(checked){salesState.selectedProducts=checked?inboundEligibleProducts():[];await saveSalesState();renderInboundProductSelector();renderInventoryTable(false)}
+  async function clearInboundInventory(){const targets=new Set(inboundEligibleProducts()),hasValues=[...targets].some(p=>(Number(salesState.inventory?.[p])||0)>(0)||(Number(salesState.scheduledInventory?.[p])||0)>0);if(!hasValues){document.getElementById('inboundStatus').textContent='초기화할 잔여재고 또는 입고 예정 재고가 없습니다.';return}if(!confirm('현재 입고 대상 상품의 잔여재고와 입고 예정 재고를 모두 0으로 초기화할까요?'))return;salesState.inventory=salesState.inventory||{};salesState.scheduledInventory=salesState.scheduledInventory||{};targets.forEach(p=>{delete salesState.inventory[p];delete salesState.scheduledInventory[p]});await saveSalesState();renderInventoryTable(false);document.getElementById('inboundStatus').textContent='현재 입고 대상 상품의 잔여재고와 입고 예정 재고를 초기화했습니다.'}
   function refreshEventLinks(selected=''){const sel=document.getElementById('salesEventLink'),liveDate=document.getElementById('salesEventStart').value,linkableTypes=new Set(['네이버 대형행사','헬시페스타','네이버 소형행사','자체행사']),candidates=salesState.events.filter(e=>linkableTypes.has(e.type)&&liveDate&&e.start<=liveDate&&liveDate<=e.end).sort((a,b)=>a.start.localeCompare(b.start)||a.name.localeCompare(b.name,'ko'));sel.innerHTML='';const standalone=document.createElement('option');standalone.value='';standalone.textContent=candidates.length?'단독 쇼핑LIVE':'단독 쇼핑LIVE · 해당 날짜에 연계 가능한 행사 없음';sel.appendChild(standalone);candidates.forEach(e=>{const o=document.createElement('option');o.value=e.id;o.textContent=`${e.name} (${e.start}~${e.end})`;sel.appendChild(o)});sel.value=candidates.some(e=>e.id===selected)?selected:''}
   function applyLinkedEventProducts(){const linkedId=document.getElementById('salesEventLink').value;if(!linkedId)return;const linked=salesState.events.find(e=>e.id===linkedId);if(!linked)return;selectedSalesEventProducts=[...new Set((linked.products||[]).filter(p=>salesState.products.includes(p)))];renderSelectedEventProducts()}
   function syncEventTypeUi(){const isLive=document.getElementById('salesEventType').value==='쇼핑LIVE';document.getElementById('salesEventLinkRow').classList.toggle('visible',isLive);if(isLive)refreshEventLinks(document.getElementById('salesEventLink').value)}
@@ -3620,7 +3620,7 @@
   function forecastEventsText(from,to){const events=salesState.events.filter(e=>e.end>=from&&e.start<=to);return events.length?[...new Set(events.map(e=>e.name))].join(', '):'등록된 예정 일정 없음'}
   function renderInventoryTable(calculate=false){
     const body=document.getElementById('inventoryTableBody'),from=document.getElementById('inboundDate').value,to=document.getElementById('useUntilDate').value,rate=Math.min(100,Math.max(0,Number(document.getElementById('safetyRate').value)||0)),baselineValue=document.getElementById('baselineDays').value,baselineWindow=baselineValue==='all'?'all':Number(baselineValue);salesState.safetyRate=rate;salesState.baselineDays=baselineWindow;document.getElementById('forecastEventSummary').textContent=from&&to?forecastEventsText(from,to):'기간을 선택하면 표시됩니다.';body.innerHTML='';
-    if(!salesState.products.length){body.innerHTML='<tr><td colspan="8" class="local-empty">판매·행사 일정 메뉴에서 주문집계 CSV를 먼저 불러오세요.</td></tr>';return}
+    if(!salesState.products.length){body.innerHTML='<tr><td colspan="8" class="local-empty">프로모션 메뉴에서 출고량 CSV를 먼저 입력하세요.</td></tr>';return}
     const selectedSet=new Set(salesState.selectedProducts||[]),selected=inboundEligibleProducts().filter(p=>selectedSet.has(p));if(!selected.length){body.innerHTML='<tr><td colspan="8" class="local-empty">상단의 상품 선택에서 입고 대상 상품을 체크해주세요.</td></tr>';document.getElementById('inboundStatus').textContent='입고 대상 상품을 선택하면 선택한 상품만 계산합니다.';return}
     selected.forEach(product=>{
       const f=from&&to?forecastForProduct(product,from,to,baselineWindow):{base:0,total:0,uplift:0,eventDays:0,unresolvedEventDays:0,referenceEvents:[],overall:0,historyDays:0,referenceDays:0,appliedWindow:baselineWindow,trendPct:0},base=Math.ceil(f.base),uplift=Math.ceil(f.uplift),expected=Math.ceil(f.total),safety=Math.ceil(expected*rate/100),need=expected+safety,stock=Math.max(0,Number(salesState.inventory[product])||0),scheduledStock=Math.max(0,Number(salesState.scheduledInventory?.[product])||0),recommend=Math.max(0,need-stock-scheduledStock),tr=document.createElement('tr'),windowText=f.appliedWindow==='all'?'전체 기간':`최근 ${f.appliedWindow}일`,trendText=f.trendPct?` · 최근 추세 ${f.trendPct>0?'+':''}${f.trendPct.toFixed(0)}%`:'';
@@ -4098,8 +4098,6 @@
   inboundPlannerBtn.addEventListener('click',()=>{pcMainSection='sales';currentView='inbound';document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));render()});
   document.getElementById('importSalesCsvBtn').addEventListener('click',()=>document.getElementById('salesCsvFile').click());
   document.getElementById('salesCsvFile').addEventListener('change',async e=>{await importSalesCsvFiles([...e.target.files]);e.target.value=''});
-  document.getElementById('backupSalesDataBtn').addEventListener('click',backupSalesData);
-  document.getElementById('restoreSalesDataBtn').addEventListener('click',()=>document.getElementById('salesBackupFile').click());
   document.getElementById('salesBackupFile').addEventListener('change',async e=>{await restoreSalesData(e.target.files?.[0]);e.target.value=''});
   document.getElementById('addSalesEventBtn').addEventListener('click',()=>openSalesEventDialog());
   document.getElementById('salesPrevMonth').addEventListener('click',()=>{salesCalendarDate=new Date(salesCalendarDate.getFullYear(),salesCalendarDate.getMonth()-1,1);renderSalesCalendar()});
@@ -4116,6 +4114,7 @@
   document.getElementById('downloadInboundResultsBtn').addEventListener('click',downloadInboundResults);
   document.getElementById('selectAllInboundProductsBtn').addEventListener('click',()=>setAllInboundProducts(true));
   document.getElementById('clearInboundProductsBtn').addEventListener('click',()=>setAllInboundProducts(false));
+  document.getElementById('clearInventoryBtn').addEventListener('click',clearInboundInventory);
   document.getElementById('baselineDays').addEventListener('change',async()=>{salesState.baselineDays=document.getElementById('baselineDays').value==='all'?'all':Number(document.getElementById('baselineDays').value);await saveSalesState();renderInventoryTable(false)});
   rankBtn.addEventListener('click',()=>{
     pcMainSection='performance';currentView='rank';mobileMainSection='rank';
@@ -4183,7 +4182,7 @@
   document.getElementById('fullRestoreBtn').addEventListener('click',()=>document.getElementById('fullBackupFile').click());
   document.getElementById('fullBackupFile').addEventListener('change',async e=>{await restoreFullData(e.target.files?.[0]);e.target.value=''});
 
-  const inboundDefault=new Date(),inboundEnd=new Date();inboundEnd.setDate(inboundEnd.getDate()+10);document.getElementById('inboundDate').value=dateKey(inboundDefault);document.getElementById('useUntilDate').value=dateKey(inboundEnd);document.getElementById('safetyRate').value=String(salesState.safetyRate||15);
+  const inboundDefault=new Date(),inboundEnd=new Date();inboundEnd.setDate(inboundEnd.getDate()+21);document.getElementById('inboundDate').value=dateKey(inboundDefault);document.getElementById('useUntilDate').value=dateKey(inboundEnd);document.getElementById('safetyRate').value=String(salesState.safetyRate||15);
   salesLocalLoadPromise=loadSalesState().then(()=>{document.getElementById('safetyRate').value=String(salesState.safetyRate??15);document.getElementById('baselineDays').value=String(salesState.baselineDays??28);renderSalesLocal()});
   initializeAuth();
 })();
