@@ -369,6 +369,8 @@
     .task-title-row{display:flex;align-items:center;gap:6px;min-width:0}
     .task-title-row .priority{flex:0 0 auto}
     .mobile-only{display:none!important}
+    .mobile-sales-add{display:none}
+    .mobile-sales-today{display:none}
     .mobile-section-tabs,.mobile-bottom-nav,.mobile-work-home,.mobile-settings-view,.mobile-work-switcher{display:none}
     .mobile-home-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 13px;box-shadow:0 4px 18px rgba(25,31,40,.035)}
     .mobile-home-card .hub-head{margin-bottom:8px}
@@ -465,7 +467,7 @@
       .pc-main-nav,.pc-section-subnav,.pc-settings-view{display:none!important}
       .toolbar{display:none}
       .work-toolbar{display:none!important}
-      .work-toolbar.mobile-date-only{display:block!important;padding:10px 12px;margin:0 0 10px;background:#fff;border:1px solid #e6eaf0;border-radius:16px;box-shadow:0 4px 18px rgba(25,31,40,.045)}
+      .work-toolbar.mobile-date-only{display:block!important;padding:10px 12px;margin:0 0 11px;background:#fff;border:1px solid #e6eaf0;border-radius:16px;box-shadow:0 4px 18px rgba(25,31,40,.045)}
       .work-toolbar.mobile-date-only .work-header-actions,.work-toolbar.mobile-date-only .view-tabs{display:none!important}
       .work-toolbar.mobile-date-only .range-wrap{display:grid!important;grid-template-columns:36px minmax(0,1fr) auto 36px;align-items:center;gap:8px;justify-self:stretch}
       .work-toolbar.mobile-date-only .range-title{font-size:14px;font-weight:800;text-align:center;line-height:1.25}
@@ -528,7 +530,7 @@
       .mobile-settings-view .settings-storage-note{display:grid;grid-template-columns:1fr;gap:6px;padding:10px;margin-bottom:12px}.mobile-settings-view .settings-storage-note .storage-badge{margin:0}
       .mobile-settings-view .storage-guide{border-radius:17px;box-shadow:0 4px 18px rgba(25,31,40,.035)}.mobile-settings-view .storage-guide-title{padding:14px 14px 11px}
       .mobile-settings-view .storage-row{grid-template-columns:minmax(0,1fr) auto;gap:6px 8px;align-items:start;padding:11px 14px}.mobile-settings-view .storage-row>b{font-size:11.5px}.mobile-settings-view .storage-row>.storage-badge{justify-self:end}.mobile-settings-view .storage-row>span:last-child{grid-column:1/-1;font-size:10.5px;line-height:1.5}
-      /* v8.6 mobile-only layout cleanup; desktop remains unchanged */
+      /* v8.7 mobile-only layout cleanup; desktop remains unchanged */
       .toolbar.pc-toolbar{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:visible!important}
       #salesCalendarView.sales-view,#rankView.rank-view,#mobileSettingsView.mobile-settings-view{width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;box-sizing:border-box!important}
       #salesCalendarView.sales-view{padding:0!important}
@@ -539,9 +541,16 @@
       #salesCalendarView .local-page-hint{display:none!important}
       #salesCalendarView #importSalesCsvBtn,#salesCalendarView #salesCsvFile{display:none!important}
       #salesCalendarView .local-actions{margin-top:9px!important}
-      #salesCalendarView #addSalesEventBtn{min-height:36px;padding:0 12px;font-size:11.5px}
+      #salesCalendarView #addSalesEventBtn{display:none!important}
+      #salesCalendarView .local-summary{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:stretch!important;gap:8px!important;margin-bottom:10px!important}
+      #salesCalendarView .local-summary .local-kpi:nth-child(-n+3){display:none!important}
+      #salesCalendarView .local-summary .local-kpi:nth-child(4){display:flex!important;min-width:0!important;padding:9px 11px!important;align-items:center!important;justify-content:space-between!important;gap:8px!important}
+      #salesCalendarView .local-summary .local-kpi:nth-child(4) span{margin:0!important;font-size:9.5px!important}
+      #salesCalendarView .local-summary .local-kpi:nth-child(4) b{font-size:12px!important}
+      #salesCalendarView #mobileAddSalesEventBtn{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:92px!important;min-height:100%!important;padding:0 12px!important;font-size:11.5px!important;white-space:nowrap!important}
       #salesCalendarView .sales-calendar{width:100%!important;max-width:100%!important;overflow:hidden!important;border-radius:12px!important;box-shadow:none!important}
-      #salesCalendarView .sales-cal-toolbar{grid-template-columns:36px minmax(0,1fr) 36px!important;gap:8px!important;padding:10px 12px!important}
+      #salesCalendarView .sales-cal-toolbar{grid-template-columns:36px minmax(0,1fr) auto 36px!important;gap:8px!important;padding:10px 12px!important;align-items:center!important}
+      #salesCalendarView #salesTodayBtn{display:inline-flex!important;height:36px!important;padding:0 12px!important;border:1px solid var(--line)!important;background:#fff!important;color:var(--muted)!important;border-radius:10px!important;font-size:12px!important;font-weight:700!important;align-items:center!important;justify-content:center!important;white-space:nowrap!important}
       #salesCalendarView .sales-cal-toolbar>div:first-child,#salesCalendarView .sales-cal-toolbar>div:last-child{text-align:center!important}
       #salesCalendarView .sales-cal-title{font-size:14px!important;font-weight:800!important;line-height:1.25!important}
       #salesCalendarView #salesPrevMonth,#salesCalendarView #salesNextMonth{width:36px!important;height:36px!important;padding:0!important;border-radius:10px!important;font-size:0!important;display:flex!important;align-items:center!important;justify-content:center!important}
@@ -1349,7 +1358,7 @@
 
 
     /* v7.4 local sales calendar & inbound planner */
-    .sales-view,.inbound-view{display:none;width:100%;padding:18px;max-width:1480px;margin:0 auto}
+    .sales-view,.inbound-view{display:none;width:100%;padding:18px;max-width:none;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);box-sizing:border-box}
     .sales-view.planner-view-active,.inbound-view.planner-view-active{display:block!important}
     .local-page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px}
     .local-page-title{font-size:20px;font-weight:850;color:var(--text)}
@@ -1415,7 +1424,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.6</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.7</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1441,7 +1450,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.6</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.7</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -1674,9 +1683,10 @@
       <div class="local-kpi"><span>등록 제품</span><b id="salesProductKpi">0개</b></div>
       <div class="local-kpi"><span>등록 행사</span><b id="salesEventKpi">0건</b></div>
       <div class="local-kpi"><span>최근 데이터</span><b id="salesLatestKpi">—</b></div>
+      <button class="local-btn primary mobile-sales-add" id="mobileAddSalesEventBtn" type="button">+ 행사 등록</button>
     </div>
     <div class="sales-calendar">
-      <div class="sales-cal-toolbar"><div><button class="local-btn" id="salesPrevMonth" type="button">‹ 이전</button></div><div class="sales-cal-title" id="salesCalendarTitle"></div><div><button class="local-btn" id="salesNextMonth" type="button">다음 ›</button></div></div>
+      <div class="sales-cal-toolbar"><div><button class="local-btn" id="salesPrevMonth" type="button">‹ 이전</button></div><div class="sales-cal-title" id="salesCalendarTitle"></div><button class="today-inline mobile-sales-today" id="salesTodayBtn" type="button">오늘</button><div><button class="local-btn" id="salesNextMonth" type="button">다음 ›</button></div></div>
       <div class="sales-cal-head"><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div><div>일</div></div>
       <div class="sales-cal-grid" id="salesCalendarGrid"></div>
     </div>
@@ -4157,6 +4167,8 @@
   document.getElementById('salesBackupFile').addEventListener('change',async e=>{await restoreSalesData(e.target.files?.[0]);e.target.value=''});
   document.getElementById('addSalesEventBtn').addEventListener('click',()=>openSalesEventDialog());
   document.getElementById('salesPrevMonth').addEventListener('click',()=>{salesCalendarDate=new Date(salesCalendarDate.getFullYear(),salesCalendarDate.getMonth()-1,1);renderSalesCalendar()});
+  document.getElementById('salesTodayBtn').addEventListener('click',()=>{salesCalendarDate=new Date();renderSalesCalendar()});
+  document.getElementById('mobileAddSalesEventBtn').addEventListener('click',()=>openSalesEventDialog());
   document.getElementById('salesNextMonth').addEventListener('click',()=>{salesCalendarDate=new Date(salesCalendarDate.getFullYear(),salesCalendarDate.getMonth()+1,1);renderSalesCalendar()});
   document.getElementById('salesEventProductName').addEventListener('change',renderProductVariantOptions);
   document.getElementById('addSalesEventProductBtn').addEventListener('click',addSelectedEventProduct);
