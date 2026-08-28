@@ -1355,7 +1355,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.2</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1381,7 +1381,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.2</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -2076,6 +2076,12 @@
     return headers;
   }
 
+  function authenticatedUserId(){
+    return authSession&&authSession.user&&authSession.user.id
+      ? String(authSession.user.id)
+      : '';
+  }
+
   function sessionExpiresSoon(){
     if(!authSession||!authSession.expires_at)return true;
     return Date.now() >= (Number(authSession.expires_at)*1000 - 60000);
@@ -2241,6 +2247,8 @@
     if(!remoteReady)return;
     if(!await ensureAuthSession()){showLogin('로그인 세션이 만료되었습니다.');return;}
     if(syncInFlight){pendingSync=true;return;}
+    const userId=authenticatedUserId();
+    if(!userId){showLogin('사용자 정보를 확인할 수 없습니다. 다시 로그인해 주세요.');return;}
     syncInFlight=true;
     try{
       const res=await fetch(`${SUPABASE_URL}/rest/v1/planner_data?on_conflict=id`,{
@@ -2249,7 +2257,7 @@
           'Content-Type':'application/json',
           'Prefer':'resolution=merge-duplicates,return=minimal'
         }),
-        body:JSON.stringify([{id:SUPABASE_ROW_ID,data,updated_at:new Date().toISOString()}])
+        body:JSON.stringify([{id:SUPABASE_ROW_ID,user_id:userId,data,updated_at:new Date().toISOString()}])
       });
       if(!res.ok)throw new Error(`Supabase save ${res.status}: ${await res.text()}`);
       setSyncStatus('synced','동기화됨');
@@ -2263,9 +2271,11 @@
   }
   async function initializeRemote(){
     if(!await ensureAuthSession()){showLogin('로그인이 필요합니다.');return;}
+    const userId=authenticatedUserId();
+    if(!userId){showLogin('사용자 정보를 확인할 수 없습니다. 다시 로그인해 주세요.');return;}
     setSyncStatus('syncing','연결 중');
     try{
-      const res=await fetch(`${SUPABASE_URL}/rest/v1/planner_data?id=eq.${encodeURIComponent(SUPABASE_ROW_ID)}&select=data`,{
+      const res=await fetch(`${SUPABASE_URL}/rest/v1/planner_data?id=eq.${encodeURIComponent(SUPABASE_ROW_ID)}&user_id=eq.${encodeURIComponent(userId)}&select=data,user_id`,{
         headers:authHeaders()
       });
       if(!res.ok)throw new Error(`Supabase load ${res.status}: ${await res.text()}`);
