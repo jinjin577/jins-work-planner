@@ -60,12 +60,13 @@
     .launcher-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
     .launcher-btn:hover{background:#f8fafc}
     .launcher-btn.primary:hover{background:#2563eb}
-    .work-toolbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;width:100%;padding:12px 18px 12px}
+    .work-toolbar{display:grid;grid-template-columns:1fr;align-items:center;width:100%;padding:12px 18px}
     .work-toolbar.hidden{display:none!important}
     .toolbar-spacer{display:none}
-    .work-header-actions{display:flex;align-items:center;gap:8px;justify-self:start;flex-wrap:wrap;grid-column:1}
+    .work-header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-left:auto}
+    .work-header-actions.hidden{display:none!important}
     .work-header-label{font-size:11px;color:var(--muted);font-weight:700;margin-right:4px}
-    .range-wrap{justify-self:center;gap:10px;grid-column:2}
+    .range-wrap{justify-self:center;gap:15px;grid-column:1}
     .view-tabs{justify-self:end;grid-column:3}
     #logoutBtn{padding:6px 9px;font-size:11px;border-radius:8px;font-weight:650}
     .pc-settings-view{display:none;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
@@ -78,6 +79,8 @@
     .pc-settings-card p{margin:0 0 12px;font-size:11px;line-height:1.5;color:var(--muted)}
     .pc-settings-card .btn{width:100%}
     .pc-settings-card .settings-card-actions{display:grid;gap:7px}
+    .settings-storage-note{display:flex;align-items:flex-start;gap:7px;margin:0 0 12px;padding:9px 10px;border:1px solid #e5eaf1;border-radius:9px;background:#fff;font-size:10.5px;line-height:1.45;color:#6e7886}
+    .settings-storage-note .storage-badge{flex:0 0 auto;margin-top:-1px}
     .storage-guide{grid-column:1/-1;border:1px solid var(--line);background:#fff;border-radius:12px;overflow:hidden}
     .storage-guide-title{padding:13px 14px 10px;font-size:13px;font-weight:800;border-bottom:1px solid var(--line)}
     .storage-row{display:grid;grid-template-columns:150px 150px minmax(0,1fr);gap:12px;align-items:center;padding:10px 14px;border-bottom:1px solid #eef0f3;font-size:11px;line-height:1.45}
@@ -237,6 +240,7 @@
     .completed-note a:hover{text-decoration:underline}
     .category-view{display:none;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
     .category-page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:13px}
+    .category-page-head .btn{flex:0 0 auto;padding:8px 11px;font-size:12px}
     .category-page-title{font-size:15px;font-weight:800}
     .category-page-hint{font-size:11.5px;color:var(--muted);margin-top:4px}
     .category-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px;margin-bottom:16px}
@@ -340,7 +344,7 @@
     #adReportView.planner-view-active{display:block!important}
     #rankView.planner-view-active{display:block!important}
 
-    .range-wrap{display:grid;grid-template-columns:auto minmax(190px,auto) auto auto;align-items:center;justify-content:center;gap:8px;min-width:0}
+    .range-wrap{display:grid;grid-template-columns:auto minmax(190px,auto) auto auto;align-items:center;justify-content:center;column-gap:15px;min-width:0}
     .range-wrap .month-nav-btn{display:flex}
     .range-wrap #prevBtn{order:1}
     .range-wrap .range-title{order:2;min-width:190px}
@@ -1326,9 +1330,11 @@
     .sales-event{border:0;border-left:3px solid var(--event-color,#2f6fed);border-radius:6px;background:color-mix(in srgb,var(--event-color,#2f6fed) 10%,white);padding:4px 5px;text-align:left;font-size:10.5px;line-height:1.25;color:#354052;cursor:pointer;overflow:hidden}
     .sales-event b,.sales-event span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sales-event span{font-size:9.5px;color:#677382;margin-top:2px}
     .local-empty{padding:28px;text-align:center;color:var(--muted);font-size:13px}
-    .inventory-controls{display:grid;grid-template-columns:repeat(5,minmax(0,1fr)) auto;gap:10px;align-items:end;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px;box-shadow:var(--shadow)}
+    .inventory-controls{display:grid;grid-template-columns:repeat(6,minmax(0,1fr)) auto;gap:10px;align-items:end;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px;box-shadow:var(--shadow)}
     .inventory-field{min-width:0}.inventory-field label{display:block;font-size:12px;font-weight:800;color:#5b6675;margin-bottom:6px}.inventory-field input,.inventory-field select{width:100%;min-width:0;box-sizing:border-box;border:1px solid var(--line);border-radius:9px;padding:9px 10px;font-size:13px;background:#fff}
-    .inventory-product-panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px;box-shadow:var(--shadow)}.inventory-product-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:11px}.inventory-product-head b{font-size:14px}.inventory-product-actions{display:flex;gap:7px}.inventory-product-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.inventory-product-group{border:1px solid #e3e8ef;border-radius:10px;padding:10px;background:#fbfcfd}.inventory-product-group-title{font-size:12px;font-weight:850;margin-bottom:8px;color:#445064}.inventory-product-options{display:flex;flex-wrap:wrap;gap:7px 12px}.inventory-product-option{display:flex;align-items:center;gap:5px;font-size:12px;color:#526071;cursor:pointer}.inventory-product-option input{margin:0}.inventory-product-count{color:#2f6fed;font-weight:850}
+    .inventory-period-value{display:flex;align-items:center;min-height:39px;padding:9px 10px;border:1px solid #dce5f2;border-radius:9px;background:#f5f8fd;color:#2f6fed;font-size:13px;font-weight:850}
+    .percent-input{display:flex;align-items:center;border:1px solid var(--line);border-radius:9px;background:#fff;overflow:hidden}.percent-input:focus-within{border-color:#a9c4f7;box-shadow:0 0 0 3px rgba(47,111,237,.08)}.percent-input input{border:0;border-radius:0;box-shadow:none!important}.percent-input span{padding:0 11px 0 4px;color:#657184;font-size:13px;font-weight:800}
+    .inventory-product-panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px;box-shadow:var(--shadow)}.inventory-product-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:11px}.inventory-product-head b{font-size:14px}.inventory-product-actions{display:flex;gap:7px}.inventory-product-groups{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.inventory-product-group{border:1px solid #e3e8ef;border-radius:10px;padding:10px;background:#fbfcfd}.inventory-product-group-title{font-size:12px;font-weight:850;margin-bottom:8px;color:#445064}.inventory-product-options{display:flex;flex-wrap:wrap;gap:7px 12px}.inventory-product-option{display:flex;align-items:center;gap:5px;font-size:12px;color:#526071;cursor:pointer}.inventory-product-option input{margin:0}.inventory-product-count{color:#2f6fed;font-weight:850}
     .inventory-table-wrap{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:auto;box-shadow:var(--shadow)}
     .inventory-table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;min-width:1080px}.inventory-table th{background:#f3f6fb;color:#465365;font-size:11.5px;font-weight:800;padding:12px 11px;border-bottom:1px solid #dce3ed;text-align:right;white-space:nowrap}.inventory-table th:first-child,.inventory-table td:first-child{text-align:left}.inventory-table th:first-child{width:34%;min-width:340px}.inventory-table td{padding:14px 11px;border-bottom:1px solid #e8edf3;text-align:right;vertical-align:middle}.inventory-table tbody tr:nth-child(even){background:#fbfcfe}.inventory-table tbody tr:hover{background:#f6f9ff}.inventory-table tbody tr:last-child td{border-bottom:0}.inventory-table input{width:92px;padding:8px 9px;border:1px solid #ccd5e2;border-radius:8px;text-align:right;font-weight:700;background:#fff}.inventory-table td:last-child{background:rgba(47,111,237,.055)}.inventory-recommend{font-size:17px;font-weight:900;color:#2f6fed}.inventory-recommend .inventory-number-main{font-size:17px;color:#2f6fed}.inventory-product-name{font-size:14px;font-weight:900;color:#172033}.inventory-basis{display:block;margin-top:5px;font-size:10.5px;line-height:1.55;color:#6f7c8d;white-space:normal}.inventory-reference{display:block;margin-top:5px;padding-top:5px;border-top:1px dashed #dfe5ed;font-size:10.5px;line-height:1.5;color:#3267b1;white-space:normal}.inventory-reference.is-unavailable{color:#a15c00}.inventory-number-main{display:block;font-size:14px;font-weight:800;color:#1f2937}.inventory-number-sub{display:block;margin-top:4px;font-size:10px;line-height:1.35;color:#7a8593;white-space:normal}.inventory-event-unavailable{display:inline-block;padding:4px 7px;border-radius:999px;background:#fff4df;color:#9a5a00;font-size:11px;font-weight:800;white-space:nowrap}
     #salesEventDialog{width:min(680px,calc(100vw - 28px));max-width:calc(100vw - 28px);overflow:hidden;box-sizing:border-box}
@@ -1338,7 +1344,7 @@
     #salesEventDialog input,#salesEventDialog select,#salesEventDialog textarea{display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box}
     .event-product-picker{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr) auto;width:100%;max-width:100%;gap:8px;align-items:end;box-sizing:border-box}.event-product-picker .field{margin:0;min-width:0}.event-product-picker select{width:100%;min-width:0;max-width:100%}.event-product-picker .local-btn{min-width:0;white-space:nowrap}.event-selected-products{display:flex;flex-wrap:wrap;gap:7px;min-width:0;max-width:100%;min-height:46px;margin-top:9px;padding:9px;border:1px solid var(--line);border-radius:10px;background:#fbfcfd;box-sizing:border-box;overflow:hidden}.event-selected-empty{color:var(--muted);font-size:12px;align-self:center}.event-product-chip{display:inline-flex;align-items:center;gap:6px;min-width:0;max-width:100%;padding:6px 8px;border:1px solid #cfe0f5;border-radius:999px;background:#f3f8ff;color:#355a82;font-size:12px;font-weight:750;box-sizing:border-box}.event-product-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.event-product-chip button{border:0;background:transparent;color:#73859a;padding:0;font-size:15px;line-height:1;cursor:pointer;flex:0 0 auto}
     .event-note{font-size:11.5px;color:var(--muted);line-height:1.5}.event-link-row{display:none}.event-link-row.visible{display:block}
-    @media(max-width:1100px){.inventory-controls{grid-template-columns:repeat(3,minmax(0,1fr))}.inventory-product-groups{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:1100px){.inventory-controls{grid-template-columns:repeat(3,minmax(0,1fr))}}
     @media(max-width:900px){.local-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.inventory-controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media(max-width:700px){.sales-view,.inbound-view{padding:12px}.local-page-head{display:block}.local-actions{margin-top:10px}.sales-day{min-height:84px;padding:4px}.sales-event{font-size:9px;padding:3px}.inventory-controls{grid-template-columns:1fr}.local-summary{grid-template-columns:repeat(2,minmax(0,1fr))}#salesEventDialog{width:calc(100vw - 28px);max-width:calc(100vw - 28px)}#salesEventDialog .event-modal{padding:18px}#salesEventDialog .row2{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}.event-product-picker{grid-template-columns:minmax(0,1fr) minmax(0,.65fr)}.event-product-picker .local-btn{grid-column:1/-1;width:100%}}
     @media(max-width:460px){#salesEventDialog .row2{grid-template-columns:1fr}.event-product-picker{grid-template-columns:1fr 1fr}}
@@ -1364,7 +1370,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.6</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.7</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1390,7 +1396,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.6</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.7</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -1416,6 +1422,12 @@
       <button class="pc-subnav-btn tab" data-view="month">캘린더</button>
       <button class="pc-subnav-btn tab" data-view="category">카테고리</button>
       <button class="pc-subnav-btn tab" data-view="completed">완료</button>
+      <div class="work-header-actions" id="workHeaderActions">
+        <span class="work-header-label">빠른 실행</span>
+        <button class="launcher-btn primary" id="desktopQuickTaskBtn" type="button">＋ 업무</button>
+        <button class="launcher-btn" id="desktopLiveBtn" type="button">LIVE 업무</button>
+        <button class="launcher-btn" id="desktopPromoBtn" type="button">프로모션</button>
+      </div>
     </div>
     <div class="pc-section-subnav hidden" id="salesOpsSubnav">
       <button class="pc-subnav-btn" id="salesCalendarBtn" type="button">프로모션</button>
@@ -1426,12 +1438,6 @@
       <button id="rankBtn" type="button" hidden></button>
     </div>
     <div class="work-toolbar" id="workToolbar">
-      <div class="work-header-actions">
-        <span class="work-header-label">빠른 실행</span>
-        <button class="launcher-btn primary" id="desktopQuickTaskBtn" type="button">＋ 업무</button>
-        <button class="launcher-btn" id="desktopLiveBtn" type="button">LIVE 업무</button>
-        <button class="launcher-btn" id="desktopPromoBtn" type="button">프로모션</button>
-      </div>
       <div class="range-wrap" id="dateNav">
         <button class="month-nav-btn" id="prevBtn" title="이전" aria-label="이전">‹</button>
         <div class="range-title" id="rangeTitle"></div>
@@ -1534,9 +1540,8 @@
     <div class="settings-grid">
       <div class="settings-card">
         <h3>설정</h3>
-        <p>백업, 불러오기, 카테고리 관리 등 자주 쓰는 설정 기능을 모바일에서도 빠르게 실행할 수 있습니다.</p>
+        <p>백업과 불러오기 등 자주 쓰는 설정 기능을 모바일에서도 빠르게 실행할 수 있습니다.</p>
         <div class="settings-actions">
-          <button class="btn" id="mobileManageCategoriesBtn" type="button">카테고리 관리</button>
           <button class="btn" id="mobileExportBtn" type="button">업무 백업</button>
           <button class="btn" id="mobileImportBtn" type="button">업무 복원</button>
           <button class="btn" id="mobileSalesBackupBtn" type="button">판매 운영 백업</button>
@@ -1640,7 +1645,8 @@
     <div class="inventory-controls">
       <div class="inventory-field"><label for="inboundDate">입고 예정일</label><input id="inboundDate" type="date" /></div>
       <div class="inventory-field"><label for="useUntilDate">사용 마지막 날짜</label><input id="useUntilDate" type="date" /></div>
-      <div class="inventory-field"><label for="safetyRate">안전재고율</label><input id="safetyRate" type="number" min="0" max="100" step="1" value="15" /></div>
+      <div class="inventory-field"><label>총 사용 기간</label><div class="inventory-period-value" id="inboundPeriodDays" aria-live="polite">총 22일 사용량</div></div>
+      <div class="inventory-field"><label for="safetyRate">안전재고율</label><div class="percent-input"><input id="safetyRate" type="number" min="0" max="100" step="1" value="15" /><span aria-hidden="true">%</span></div></div>
       <div class="inventory-field"><label for="baselineDays">일반 판매 기준</label><select id="baselineDays"><option value="14">최근 14일</option><option value="28" selected>최근 28일</option><option value="56">최근 56일</option><option value="90">최근 90일</option><option value="all">전체 기간</option></select></div>
       <div class="inventory-field"><label>계산 기간 예정 일정</label><div id="forecastEventSummary" class="event-note">기간을 선택하면 표시됩니다.</div></div>
       <button class="local-btn primary" id="calculateInboundBtn" type="button">필요량 계산</button>
@@ -1652,12 +1658,11 @@
 
   <section class="pc-settings-view planner-view-hidden" id="pcSettingsView">
     <div class="pc-settings-title">설정</div>
-    <div class="pc-settings-hint">백업, 불러오기, 카테고리 관리와 메뉴별 데이터 저장 위치를 한곳에서 확인합니다.</div>
+    <div class="pc-settings-hint">백업, 불러오기와 메뉴별 데이터 저장 위치를 한곳에서 확인합니다.</div>
     <div class="pc-settings-grid">
-      <div class="pc-settings-card"><b>카테고리 관리</b><p>업무 카테고리를 추가하거나 정리합니다.</p><button class="btn" id="manageCategories">카테고리 관리</button></div>
-      <div class="pc-settings-card"><b>업무 데이터</b><p>업무·메모·카테고리를 JSON 파일로 백업하거나 복원합니다.</p><div class="settings-card-actions"><button class="btn" id="exportBtn">업무 백업</button><button class="btn" id="importBtn">업무 복원</button></div><input type="file" id="importFile" accept=".json" hidden /></div>
-      <div class="pc-settings-card"><b>판매 운영 데이터</b><p>판매 집계·행사 일정·재고·입고 설정을 JSON 파일로 백업하거나 복원합니다.</p><div class="settings-card-actions"><button class="btn" id="settingsSalesBackupBtn">판매 운영 백업</button><button class="btn" id="settingsSalesRestoreBtn">판매 운영 복원</button></div><input class="local-file" id="salesBackupFile" type="file" accept=".json,application/json" /></div>
-      <div class="pc-settings-card"><b>업무+판매 통합 백업</b><p>업무 데이터와 판매 운영 데이터를 하나의 JSON 파일로 저장하거나 함께 복원합니다.</p><div class="settings-card-actions"><button class="btn" id="fullBackupBtn">통합 백업</button><button class="btn" id="fullRestoreBtn">통합 복원</button></div><input type="file" id="fullBackupFile" accept=".json,application/json" hidden /></div>
+      <div class="pc-settings-card"><b>업무 데이터</b><p>업무·메모·카테고리를 JSON 파일로 백업하거나 복원합니다.</p><div class="settings-storage-note"><span class="storage-badge mixed">Supabase + 브라우저</span><span>주간·캘린더·카테고리·완료·메모가 계정에 동기화되고 브라우저에 캐시됩니다.</span></div><div class="settings-card-actions"><button class="btn" id="exportBtn">업무 백업</button><button class="btn" id="importBtn">업무 복원</button></div><input type="file" id="importFile" accept=".json" hidden /></div>
+      <div class="pc-settings-card"><b>판매 운영 데이터</b><p>판매 집계·행사 일정·재고·입고 설정을 JSON 파일로 백업하거나 복원합니다.</p><div class="settings-storage-note"><span class="storage-badge mixed">Supabase + 브라우저</span><span>프로모션·판매 집계·풀필먼트 데이터가 계정에 동기화되고 IndexedDB에 캐시됩니다.</span></div><div class="settings-card-actions"><button class="btn" id="settingsSalesBackupBtn">판매 운영 백업</button><button class="btn" id="settingsSalesRestoreBtn">판매 운영 복원</button></div><input class="local-file" id="salesBackupFile" type="file" accept=".json,application/json" /></div>
+      <div class="pc-settings-card"><b>업무+판매 통합 백업</b><p>업무 데이터와 판매 운영 데이터를 하나의 JSON 파일로 저장하거나 함께 복원합니다.</p><div class="settings-storage-note"><span class="storage-badge local">현재 PC 파일</span><span>통합 백업 파일은 브라우저의 다운로드 위치에 저장되며, 복원하면 두 데이터가 다시 계정에 동기화됩니다.</span></div><div class="settings-card-actions"><button class="btn" id="fullBackupBtn">통합 백업</button><button class="btn" id="fullRestoreBtn">통합 복원</button></div><input type="file" id="fullBackupFile" accept=".json,application/json" hidden /></div>
       <div class="storage-guide">
         <div class="storage-guide-title">메뉴별 데이터 저장 위치</div>
         <div class="storage-row"><b>업무</b><span class="storage-badge mixed">Supabase + 브라우저</span><span>주간·캘린더·카테고리·완료·메모는 계정에 동기화되고 브라우저에 캐시됩니다.</span></div>
@@ -1683,6 +1688,7 @@
         <div class="category-page-title">카테고리별 업무</div>
         <div class="category-page-hint">카테고리를 선택하면 진행중·대기중 업무를 한곳에서 볼 수 있습니다.</div>
       </div>
+      <button class="btn" id="manageCategories" type="button">카테고리 관리</button>
     </div>
     <div class="category-cards" id="categoryCards"></div>
     <div class="category-detail" id="categoryDetail"></div>
@@ -3600,6 +3606,7 @@
   async function saveSalesEvent(){const type=document.getElementById('salesEventType').value,name=document.getElementById('salesEventName').value.trim()||type,start=document.getElementById('salesEventStart').value,end=document.getElementById('salesEventEnd').value,products=[...selectedSalesEventProducts];if(!start||!end||end<start)return alert('행사 기간을 확인해주세요.');if(!products.length)return alert('참여 제품을 한 개 이상 선택해주세요.');const item={id:editingSalesEventId||newId(),type,name,start,end,products,memo:document.getElementById('salesEventMemo').value.trim(),linkedEventId:type==='쇼핑LIVE'?document.getElementById('salesEventLink').value:''};const idx=salesState.events.findIndex(e=>e.id===item.id);if(idx>=0)salesState.events[idx]=item;else salesState.events.push(item);await saveSalesState();document.getElementById('salesEventDialog').close();renderSalesLocal()}
   async function deleteSalesEvent(){if(!editingSalesEventId)return;if(!confirm('이 판매 일정을 삭제하시겠습니까?'))return;salesState.events=salesState.events.filter(e=>e.id!==editingSalesEventId);salesState.events.forEach(e=>{if(e.linkedEventId===editingSalesEventId)e.linkedEventId=''});await saveSalesState();document.getElementById('salesEventDialog').close();renderSalesLocal()}
   function dateRange(from,to){const out=[];if(!from||!to||to<from)return out;for(let d=parseDate(from),end=parseDate(to);d<=end;d.setDate(d.getDate()+1))out.push(dateKey(d));return out}
+  function updateInboundPeriodDays(){const from=document.getElementById('inboundDate').value,to=document.getElementById('useUntilDate').value,output=document.getElementById('inboundPeriodDays');if(!from||!to){output.textContent='날짜를 선택하세요';return}const days=dateRange(from,to).length;output.textContent=days?`총 ${days}일 사용량`:'날짜를 확인하세요'}
   function average(nums){return nums.length?nums.reduce((a,b)=>a+b,0)/nums.length:0}
   function shiftDateKey(key,days){const d=parseDate(key);d.setDate(d.getDate()+days);return dateKey(d)}
   function weightedHistoryAverage(dates,history){if(!dates.length)return 0;const sorted=[...dates].sort(),last=Math.max(1,sorted.length-1);let sum=0,weights=0;sorted.forEach((d,i)=>{const w=1+i/last;sum+=(Number(history[d])||0)*w;weights+=w});return weights?sum/weights:0}
@@ -3619,7 +3626,7 @@
   }
   function forecastEventsText(from,to){const events=salesState.events.filter(e=>e.end>=from&&e.start<=to);return events.length?[...new Set(events.map(e=>e.name))].join(', '):'등록된 예정 일정 없음'}
   function renderInventoryTable(calculate=false){
-    const body=document.getElementById('inventoryTableBody'),from=document.getElementById('inboundDate').value,to=document.getElementById('useUntilDate').value,rate=Math.min(100,Math.max(0,Number(document.getElementById('safetyRate').value)||0)),baselineValue=document.getElementById('baselineDays').value,baselineWindow=baselineValue==='all'?'all':Number(baselineValue);salesState.safetyRate=rate;salesState.baselineDays=baselineWindow;document.getElementById('forecastEventSummary').textContent=from&&to?forecastEventsText(from,to):'기간을 선택하면 표시됩니다.';body.innerHTML='';
+    const body=document.getElementById('inventoryTableBody'),from=document.getElementById('inboundDate').value,to=document.getElementById('useUntilDate').value,rate=Math.min(100,Math.max(0,Number(document.getElementById('safetyRate').value)||0)),baselineValue=document.getElementById('baselineDays').value,baselineWindow=baselineValue==='all'?'all':Number(baselineValue);updateInboundPeriodDays();salesState.safetyRate=rate;salesState.baselineDays=baselineWindow;document.getElementById('forecastEventSummary').textContent=from&&to?forecastEventsText(from,to):'기간을 선택하면 표시됩니다.';body.innerHTML='';
     if(!salesState.products.length){body.innerHTML='<tr><td colspan="8" class="local-empty">프로모션 메뉴에서 출고량 CSV를 먼저 입력하세요.</td></tr>';return}
     const selectedSet=new Set(salesState.selectedProducts||[]),selected=inboundEligibleProducts().filter(p=>selectedSet.has(p));if(!selected.length){body.innerHTML='<tr><td colspan="8" class="local-empty">상단의 상품 선택에서 입고 대상 상품을 체크해주세요.</td></tr>';document.getElementById('inboundStatus').textContent='입고 대상 상품을 선택하면 선택한 상품만 계산합니다.';return}
     selected.forEach(product=>{
@@ -3646,8 +3653,9 @@
     workSubnav.classList.toggle('hidden',pcMainSection!=='work');salesOpsSubnav.classList.toggle('hidden',pcMainSection!=='sales');performanceSubnav.classList.add('hidden');
     document.querySelectorAll('.tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.view===activeView));
     adReportBtn.classList.toggle('active',isAds);rankBtn.classList.toggle('active',isRank);salesCalendarBtn.classList.toggle('active',isSales);inboundPlannerBtn.classList.toggle('active',isInbound);
-    workToolbar.classList.toggle('hidden',!isWork||pcMainSection!=='work');
     const noDateNav=isCategory||completed;
+    workToolbar.classList.toggle('hidden',!(isWeek||isMonth)||pcMainSection!=='work');
+    document.getElementById('workHeaderActions').classList.toggle('hidden',!isWeek);
     document.getElementById('dateNav').style.display=noDateNav?'none':'grid';
     document.getElementById('prevBtn').style.display=noDateNav?'none':'flex';document.getElementById('nextBtn').style.display=noDateNav?'none':'flex';document.getElementById('todayBtn').style.display=noDateNav?'none':'inline-flex';
     document.getElementById('prevBtn').title=isWeek?'이전 주':'이전 달';document.getElementById('nextBtn').title=isWeek?'다음 주':'다음 달';
@@ -4111,6 +4119,8 @@
   document.getElementById('saveSalesEventBtn').addEventListener('click',saveSalesEvent);
   document.getElementById('deleteSalesEventBtn').addEventListener('click',deleteSalesEvent);
   document.getElementById('calculateInboundBtn').addEventListener('click',()=>{const from=document.getElementById('inboundDate').value,to=document.getElementById('useUntilDate').value;if(!from||!to||to<from)return alert('입고 예정일과 사용 마지막 날짜를 확인해주세요.');renderInventoryTable(true)});
+  document.getElementById('inboundDate').addEventListener('change',updateInboundPeriodDays);
+  document.getElementById('useUntilDate').addEventListener('change',updateInboundPeriodDays);
   document.getElementById('downloadInboundResultsBtn').addEventListener('click',downloadInboundResults);
   document.getElementById('selectAllInboundProductsBtn').addEventListener('click',()=>setAllInboundProducts(true));
   document.getElementById('clearInboundProductsBtn').addEventListener('click',()=>setAllInboundProducts(false));
@@ -4154,7 +4164,6 @@
     if(mobileWorkView!=='home')currentView=mobileWorkView;
     render();
   }));
-  document.getElementById('mobileManageCategoriesBtn').addEventListener('click',()=>document.getElementById('manageCategories').click());
   document.getElementById('mobileExportBtn').addEventListener('click',()=>document.getElementById('exportBtn').click());
   document.getElementById('mobileImportBtn').addEventListener('click',()=>document.getElementById('importBtn').click());
   document.getElementById('mobileSalesBackupBtn').addEventListener('click',()=>document.getElementById('settingsSalesBackupBtn').click());
@@ -4182,7 +4191,7 @@
   document.getElementById('fullRestoreBtn').addEventListener('click',()=>document.getElementById('fullBackupFile').click());
   document.getElementById('fullBackupFile').addEventListener('change',async e=>{await restoreFullData(e.target.files?.[0]);e.target.value=''});
 
-  const inboundDefault=new Date(),inboundEnd=new Date();inboundEnd.setDate(inboundEnd.getDate()+21);document.getElementById('inboundDate').value=dateKey(inboundDefault);document.getElementById('useUntilDate').value=dateKey(inboundEnd);document.getElementById('safetyRate').value=String(salesState.safetyRate||15);
+  const inboundDefault=new Date(),inboundEnd=new Date();inboundEnd.setDate(inboundEnd.getDate()+21);document.getElementById('inboundDate').value=dateKey(inboundDefault);document.getElementById('useUntilDate').value=dateKey(inboundEnd);document.getElementById('safetyRate').value=String(salesState.safetyRate||15);updateInboundPeriodDays();
   salesLocalLoadPromise=loadSalesState().then(()=>{document.getElementById('safetyRate').value=String(salesState.safetyRate??15);document.getElementById('baselineDays').value=String(salesState.baselineDays??28);renderSalesLocal()});
   initializeAuth();
 })();
