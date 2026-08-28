@@ -75,6 +75,13 @@
     .pc-settings-card b{display:block;font-size:13px;margin-bottom:5px}
     .pc-settings-card p{margin:0 0 12px;font-size:11px;line-height:1.5;color:var(--muted)}
     .pc-settings-card .btn{width:100%}
+    .pc-settings-card .settings-card-actions{display:grid;gap:7px}
+    .storage-guide{grid-column:1/-1;border:1px solid var(--line);background:#fff;border-radius:12px;overflow:hidden}
+    .storage-guide-title{padding:13px 14px 10px;font-size:13px;font-weight:800;border-bottom:1px solid var(--line)}
+    .storage-row{display:grid;grid-template-columns:150px 150px minmax(0,1fr);gap:12px;align-items:center;padding:10px 14px;border-bottom:1px solid #eef0f3;font-size:11px;line-height:1.45}
+    .storage-row:last-child{border-bottom:0}.storage-row b{font-size:11.5px}.storage-row span:last-child{color:var(--muted)}
+    .storage-badge{display:inline-flex;width:max-content;align-items:center;padding:4px 7px;border-radius:999px;background:#edf3ff;color:#2f6fed;font-weight:750}
+    .storage-badge.local{background:#fff3e8;color:#b25c1e}.storage-badge.mixed{background:#eaf8f2;color:#16865b}
     .ad-report-view{display:none;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
     .ad-report-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
     .ad-report-title{font-size:17px;font-weight:850}.ad-report-hint{margin-top:5px;color:var(--muted);font-size:12px;line-height:1.6}
@@ -1355,7 +1362,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.3</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.4</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1381,7 +1388,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.3</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.4</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -1398,7 +1405,8 @@
       <button class="pc-main-btn active" id="workMainBtn" type="button"><span class="pc-main-icon">🗓️</span><span>업무</span></button>
       <button class="pc-main-btn" id="salesOpsMainBtn" type="button"><span class="pc-main-icon">📦</span><span>판매 운영</span></button>
       <button class="pc-main-btn" id="performanceMainBtn" type="button"><span class="pc-main-icon">📈</span><span>성과</span></button>
-      <button class="pc-main-btn" id="toolsMainBtn" type="button"><span class="pc-main-icon">🧰</span><span>도구</span></button>
+      <button class="pc-main-btn" id="orderSummaryBtn" type="button" title="회사 PC에 설치된 주문 집계 프로그램 열기"><span class="pc-main-icon">📋</span><span>주문 집계</span></button>
+      <button class="pc-main-btn" id="addressGuardBtn" type="button" title="회사 PC에 설치된 리셀러 추적 프로그램 열기"><span class="pc-main-icon">🔎</span><span>리셀러 추적</span></button>
       <button class="pc-main-btn pc-settings-main" id="settingsMainBtn" type="button"><span class="pc-main-icon">⚙️</span><span>설정</span></button>
     </div>
     <div class="pc-section-subnav" id="workSubnav">
@@ -1414,10 +1422,6 @@
     <div class="pc-section-subnav hidden" id="performanceSubnav">
       <button class="pc-subnav-btn" id="adReportBtn" type="button">광고</button>
       <button class="pc-subnav-btn" id="rankBtn" type="button">네이버 랭킹</button>
-    </div>
-    <div class="pc-section-subnav hidden" id="toolsSubnav">
-      <button class="pc-subnav-btn" id="orderSummaryBtn" type="button" title="내 PC의 주문 집계 도구 열기">주문 집계</button>
-      <button class="pc-subnav-btn" id="addressGuardBtn" type="button" title="내 PC의 Address Guard 열기">리셀러 추적</button>
     </div>
     <div class="work-toolbar" id="workToolbar">
       <div class="work-header-actions">
@@ -1531,14 +1535,18 @@
         <p>백업, 불러오기, 카테고리 관리 등 자주 쓰는 설정 기능을 모바일에서도 빠르게 실행할 수 있습니다.</p>
         <div class="settings-actions">
           <button class="btn" id="mobileManageCategoriesBtn" type="button">카테고리 관리</button>
-          <button class="btn" id="mobileExportBtn" type="button">백업</button>
-          <button class="btn" id="mobileImportBtn" type="button">불러오기</button>
+          <button class="btn" id="mobileExportBtn" type="button">업무 백업</button>
+          <button class="btn" id="mobileImportBtn" type="button">업무 복원</button>
+          <button class="btn" id="mobileSalesBackupBtn" type="button">판매 운영 백업</button>
+          <button class="btn" id="mobileSalesRestoreBtn" type="button">판매 운영 복원</button>
+          <button class="btn" id="mobileFullBackupBtn" type="button">업무+판매 통합 백업</button>
+          <button class="btn" id="mobileFullRestoreBtn" type="button">업무+판매 통합 복원</button>
           <button class="btn" id="mobileLogoutBtn" type="button">로그아웃</button>
         </div>
       </div>
       <div class="settings-card">
         <h3>안내</h3>
-        <p>모바일에서는 하단 메뉴를 통해 업무, 광고, 랭킹, 설정 화면을 이동합니다. 주문 집계 메뉴는 PC에서만 유지됩니다.</p>
+        <p>모바일에서는 하단 메뉴를 통해 업무, 광고, 랭킹, 설정 화면을 이동합니다. 주문 집계와 리셀러 추적은 회사 PC의 별도 설치 프로그램에서만 실행됩니다.</p>
         <div class="settings-actions">
           <span class="sync-status" id="mobileSyncStatusBadge"><span class="sync-dot"></span><span id="mobileSyncText">연결 중</span></span>
         </div>
@@ -1555,7 +1563,7 @@
 
   <section class="rank-view planner-view-hidden" id="rankView">
     <div class="rank-head">
-      <div><div class="rank-title">네이버 BEST100 랭킹</div><div class="rank-hint">건강식품 BEST100 기준일별 순위와 변동 이벤트를 확인합니다. 자동수집이 완료된 기준일만 표시됩니다.</div></div>
+      <div><div class="rank-title">네이버 BEST100 랭킹</div><div class="rank-hint">건강식품 BEST100 기준일별 순위와 변동 이벤트를 확인합니다. 자동수집 결과는 Supabase에 저장되며 완료된 기준일만 표시됩니다.</div></div>
       <div class="rank-controls"><select class="rank-select" id="rankDateSelect" aria-label="랭킹 기준일"></select><button class="rank-refresh" id="refreshRankBtn" type="button">새로고침</button></div>
     </div>
     <div class="rank-kpis" id="rankKpis"><div class="rank-loading" style="grid-column:1/-1">네이버 랭킹 화면을 열면 데이터를 불러옵니다.</div></div>
@@ -1605,7 +1613,7 @@
 
   <section class="sales-view planner-view-hidden" id="salesCalendarView">
     <div class="local-page-head">
-      <div><div class="local-page-title">판매·행사 일정</div><div class="local-page-hint">행사와 참여 제품을 등록하고 주문집계 CSV의 날짜별 출고량을 연결합니다. 집계 결과는 이 PC의 현재 브라우저에만 저장됩니다.</div></div>
+      <div><div class="local-page-title">판매·행사 일정</div><div class="local-page-hint">행사와 참여 제품을 등록하고 주문집계 CSV의 날짜별 출고량을 연결합니다. 판매 데이터는 로그인한 계정의 Supabase에 저장되고 이 브라우저에도 임시 보관됩니다.</div></div>
       <div class="local-actions">
         <button class="local-btn" id="importSalesCsvBtn" type="button">CSV 불러오기</button>
         <input class="local-file" id="salesCsvFile" type="file" accept=".csv,text/csv" multiple />
@@ -1630,7 +1638,7 @@
   </section>
 
   <section class="inbound-view planner-view-hidden" id="inboundPlannerView">
-    <div class="local-page-head"><div><div class="local-page-title">입고 물량 계산</div><div class="local-page-hint">누적 출고량과 판매·행사 일정을 바탕으로 상품별 예상 소진량과 권장 입고량을 계산합니다.</div></div><div class="local-actions"><button class="local-btn" id="downloadInboundResultsBtn" type="button">결과 다운로드</button></div></div>
+    <div class="local-page-head"><div><div class="local-page-title">입고 물량 계산</div><div class="local-page-hint">Supabase에 저장된 누적 출고량과 판매·행사 일정을 바탕으로 상품별 예상 소진량과 권장 입고량을 계산합니다.</div></div><div class="local-actions"><button class="local-btn" id="downloadInboundResultsBtn" type="button">결과 다운로드</button></div></div>
     <div class="inventory-controls">
       <div class="inventory-field"><label for="inboundDate">입고 예정일</label><input id="inboundDate" type="date" /></div>
       <div class="inventory-field"><label for="useUntilDate">사용 마지막 날짜</label><input id="useUntilDate" type="date" /></div>
@@ -1646,11 +1654,22 @@
 
   <section class="pc-settings-view planner-view-hidden" id="pcSettingsView">
     <div class="pc-settings-title">설정</div>
-    <div class="pc-settings-hint">백업, 불러오기, 카테고리 관리 기능을 한곳에서 관리합니다.</div>
+    <div class="pc-settings-hint">백업, 불러오기, 카테고리 관리와 메뉴별 데이터 저장 위치를 한곳에서 확인합니다.</div>
     <div class="pc-settings-grid">
       <div class="pc-settings-card"><b>카테고리 관리</b><p>업무 카테고리를 추가하거나 정리합니다.</p><button class="btn" id="manageCategories">카테고리 관리</button></div>
-      <div class="pc-settings-card"><b>백업</b><p>현재 업무 데이터를 JSON 파일로 저장합니다.</p><button class="btn" id="exportBtn">백업</button></div>
-      <div class="pc-settings-card"><b>불러오기</b><p>저장해둔 백업 파일을 다시 불러옵니다.</p><button class="btn" id="importBtn">불러오기</button><input type="file" id="importFile" accept=".json" hidden /></div>
+      <div class="pc-settings-card"><b>업무 데이터</b><p>업무·메모·카테고리를 JSON 파일로 백업하거나 복원합니다.</p><div class="settings-card-actions"><button class="btn" id="exportBtn">업무 백업</button><button class="btn" id="importBtn">업무 복원</button></div><input type="file" id="importFile" accept=".json" hidden /></div>
+      <div class="pc-settings-card"><b>판매 운영 데이터</b><p>판매 집계·행사 일정·재고·입고 설정을 JSON 파일로 백업하거나 복원합니다.</p><div class="settings-card-actions"><button class="btn" id="settingsSalesBackupBtn">판매 운영 백업</button><button class="btn" id="settingsSalesRestoreBtn">판매 운영 복원</button></div></div>
+      <div class="pc-settings-card"><b>업무+판매 통합 백업</b><p>업무 데이터와 판매 운영 데이터를 하나의 JSON 파일로 저장하거나 함께 복원합니다.</p><div class="settings-card-actions"><button class="btn" id="fullBackupBtn">통합 백업</button><button class="btn" id="fullRestoreBtn">통합 복원</button></div><input type="file" id="fullBackupFile" accept=".json,application/json" hidden /></div>
+      <div class="storage-guide">
+        <div class="storage-guide-title">메뉴별 데이터 저장 위치</div>
+        <div class="storage-row"><b>업무</b><span class="storage-badge mixed">Supabase + 브라우저</span><span>주간·캘린더·카테고리·완료·메모는 계정에 동기화되고 브라우저에 캐시됩니다.</span></div>
+        <div class="storage-row"><b>판매 운영</b><span class="storage-badge mixed">Supabase + 브라우저</span><span>프로모션·판매 집계·풀필먼트 재고 및 계산 설정은 계정에 동기화되고 IndexedDB에 캐시됩니다.</span></div>
+        <div class="storage-row"><b>성과 · 광고</b><span class="storage-badge">Supabase</span><span>검색광고와 GFA의 일별·제품별 리포트 및 업로드 이력이 저장됩니다.</span></div>
+        <div class="storage-row"><b>성과 · 네이버 랭킹</b><span class="storage-badge">Supabase</span><span>랭킹 수집 결과와 변동 이력을 서버에서 조회합니다.</span></div>
+        <div class="storage-row"><b>주문 집계</b><span class="storage-badge local">회사 PC 로컬</span><span>별도 설치 프로그램의 데이터로, 다른 PC에는 자동 동기화되지 않습니다.</span></div>
+        <div class="storage-row"><b>리셀러 추적</b><span class="storage-badge local">회사 PC 로컬</span><span>개인정보가 포함될 수 있어 별도 설치 프로그램과 회사 PC에만 저장됩니다.</span></div>
+        <div class="storage-row"><b>설정</b><span class="storage-badge local">브라우저</span><span>로그인 세션과 화면 동작에 필요한 임시 정보만 브라우저에 보관됩니다.</span></div>
+      </div>
     </div>
   </section>
 
@@ -1981,7 +2000,7 @@
   let selectedSalesEventProducts = [];
 
   const weekView = document.getElementById('weekView'), weekShell = document.getElementById('weekShell'), monthView = document.getElementById('monthView'),
-    adReportView = document.getElementById('adReportView'), adReportBtn = document.getElementById('adReportBtn'), rankView = document.getElementById('rankView'), rankBtn = document.getElementById('rankBtn'), orderSummaryBtn = document.getElementById('orderSummaryBtn'), addressGuardBtn = document.getElementById('addressGuardBtn'), salesCalendarView = document.getElementById('salesCalendarView'), salesCalendarBtn = document.getElementById('salesCalendarBtn'), inboundPlannerView = document.getElementById('inboundPlannerView'), inboundPlannerBtn = document.getElementById('inboundPlannerBtn'), workMainBtn = document.getElementById('workMainBtn'), salesOpsMainBtn = document.getElementById('salesOpsMainBtn'), performanceMainBtn = document.getElementById('performanceMainBtn'), toolsMainBtn = document.getElementById('toolsMainBtn'), settingsMainBtn = document.getElementById('settingsMainBtn'), workSubnav = document.getElementById('workSubnav'), salesOpsSubnav = document.getElementById('salesOpsSubnav'), performanceSubnav = document.getElementById('performanceSubnav'), toolsSubnav = document.getElementById('toolsSubnav'), workToolbar = document.getElementById('workToolbar'), pcSettingsView = document.getElementById('pcSettingsView'),
+    adReportView = document.getElementById('adReportView'), adReportBtn = document.getElementById('adReportBtn'), rankView = document.getElementById('rankView'), rankBtn = document.getElementById('rankBtn'), orderSummaryBtn = document.getElementById('orderSummaryBtn'), addressGuardBtn = document.getElementById('addressGuardBtn'), salesCalendarView = document.getElementById('salesCalendarView'), salesCalendarBtn = document.getElementById('salesCalendarBtn'), inboundPlannerView = document.getElementById('inboundPlannerView'), inboundPlannerBtn = document.getElementById('inboundPlannerBtn'), workMainBtn = document.getElementById('workMainBtn'), salesOpsMainBtn = document.getElementById('salesOpsMainBtn'), performanceMainBtn = document.getElementById('performanceMainBtn'), settingsMainBtn = document.getElementById('settingsMainBtn'), workSubnav = document.getElementById('workSubnav'), salesOpsSubnav = document.getElementById('salesOpsSubnav'), performanceSubnav = document.getElementById('performanceSubnav'), workToolbar = document.getElementById('workToolbar'), pcSettingsView = document.getElementById('pcSettingsView'),
     categoryView = document.getElementById('categoryView'), categoryCards = document.getElementById('categoryCards'), categoryDetail = document.getElementById('categoryDetail'),
     completedView = document.getElementById('completedView'), completedList = document.getElementById('completedList'),
     completedCount = document.getElementById('completedCount'), dateNav = document.getElementById('dateNav'),
@@ -3538,6 +3557,8 @@
     }catch(err){console.error(err);const msg=escHtml(err.message||'알 수 없는 오류');rankKpis.innerHTML=`<div class="rank-empty" style="grid-column:1/-1">선택한 기준일 데이터를 불러오지 못했습니다. ${msg}</div>`;rankOwnList.innerHTML=`<div class="rank-empty">데이터를 불러오지 못했습니다.</div>`;rankEventList.innerHTML=`<div class="rank-empty">데이터를 불러오지 못했습니다.</div>`;rankTableBody.innerHTML=`<tr><td colspan="5" class="rank-empty">데이터를 불러오지 못했습니다.</td></tr>`}
   }
 
+  const VALID_SALES_PRODUCT_PATTERN=/^(?:콘드로이친|오메가600|오메가900|오메가미니|하스카프액상|하스카프|콜라겐|HW-3|MBP)\s+\d+개$/;
+  function isValidSalesProduct(product){return VALID_SALES_PRODUCT_PATTERN.test(String(product||'').trim())}
   function openSalesDb(){return new Promise((resolve,reject)=>{const req=indexedDB.open(LOCAL_SALES_DB,1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('kv'))req.result.createObjectStore('kv')};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
   async function loadSalesState(){try{const db=await openSalesDb();const saved=await new Promise((resolve,reject)=>{const req=db.transaction('kv','readonly').objectStore('kv').get(LOCAL_SALES_KEY);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});db.close();if(saved&&typeof saved==='object')salesState={products:[],sales:{},events:[],inventory:{},scheduledInventory:{},safetyRate:15,baselineDays:28,selectedProducts:[],imports:[],...saved};if(!salesState.scheduledInventory||typeof salesState.scheduledInventory!=='object'||Array.isArray(salesState.scheduledInventory))salesState.scheduledInventory={};salesState.selectedProducts=(salesState.selectedProducts||[]).filter(p=>(salesState.products||[]).includes(p));if(![14,28,56,90,'all'].includes(salesState.baselineDays))salesState.baselineDays=28}catch(err){console.error('local sales load',err)}renderSalesLocal()}
   async function writeLocalSalesState(){const db=await openSalesDb();await new Promise((resolve,reject)=>{const req=db.transaction('kv','readwrite').objectStore('kv').put(salesState,LOCAL_SALES_KEY);req.onsuccess=()=>resolve();req.onerror=()=>reject(req.error)});db.close()}
@@ -3545,15 +3566,15 @@
   function salesDataForSync(){return {products:[...(salesState.products||[])],sales:{...(salesState.sales||{})},events:(salesState.events||[]).map(e=>({id:e.id,type:e.type,name:e.name,start:e.start,end:e.end,products:[...(e.products||[])],memo:e.memo||'',linkedEventId:e.linkedEventId||''})),inventory:{...(salesState.inventory||{})},scheduledInventory:{...(salesState.scheduledInventory||{})},safetyRate:Number(salesState.safetyRate)||0,baselineDays:salesState.baselineDays,selectedProducts:[...(salesState.selectedProducts||[])]}}
   function hasMeaningfulSalesData(){return !!((salesState.products||[]).length||Object.keys(salesState.sales||{}).length||(salesState.events||[]).length||Object.keys(salesState.inventory||{}).length||Object.keys(salesState.scheduledInventory||{}).length)}
   function backupSalesData(){const payload={format:'jins-work-planner-local-sales-backup',version:1,exportedAt:new Date().toISOString(),data:salesDataForSync()};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`jins-sales-backup-${dateKey(new Date())}.json`;a.click();URL.revokeObjectURL(a.href);document.getElementById('salesLocalStatus').textContent='개인정보가 없는 판매 집계·행사 일정·잔여재고·입고 예정 재고 백업 파일을 저장했습니다.'}
-  function sanitizeSalesBackup(payload){if(!payload||payload.format!=='jins-work-planner-local-sales-backup'||payload.version!==1||!payload.data)throw new Error('지원하지 않는 백업 형식입니다.');const src=payload.data,products=Array.isArray(src.products)?[...new Set(src.products.filter(x=>typeof x==='string'&&x.trim()).map(x=>x.trim()))]:[],sales={};if(src.sales&&typeof src.sales==='object'&&!Array.isArray(src.sales))Object.entries(src.sales).forEach(([key,value])=>{const parts=key.split('|');if(parts.length===3&&/^20\d{2}-\d{2}-\d{2}$/.test(parts[0])&&products.includes(parts[2]))sales[key]=Math.max(0,Number(value)||0)});const allowedTypes=new Set(Object.keys(SALES_EVENT_COLORS)),events=Array.isArray(src.events)?src.events.filter(e=>e&&allowedTypes.has(e.type)&&/^20\d{2}-\d{2}-\d{2}$/.test(e.start||'')&&/^20\d{2}-\d{2}-\d{2}$/.test(e.end||'')).map(e=>({id:typeof e.id==='string'?e.id:newId(),type:e.type,name:String(e.name||e.type).slice(0,100),start:e.start,end:e.end,products:Array.isArray(e.products)?e.products.filter(p=>products.includes(p)):[],memo:String(e.memo||'').slice(0,1000),linkedEventId:typeof e.linkedEventId==='string'?e.linkedEventId:''})).filter(e=>e.products.length):[];const inventory={},scheduledInventory={};if(src.inventory&&typeof src.inventory==='object'&&!Array.isArray(src.inventory))products.forEach(p=>{inventory[p]=Math.max(0,Number(src.inventory[p])||0)});if(src.scheduledInventory&&typeof src.scheduledInventory==='object'&&!Array.isArray(src.scheduledInventory))products.forEach(p=>{scheduledInventory[p]=Math.max(0,Number(src.scheduledInventory[p])||0)});const rawBaseline=src.baselineDays==='all'?'all':Number(src.baselineDays),baselineDays=[14,28,56,90].includes(rawBaseline)?rawBaseline:28,selectedProducts=Array.isArray(src.selectedProducts)?[...new Set(src.selectedProducts.filter(p=>products.includes(p)))]:[];return {products,sales,events,inventory,scheduledInventory,safetyRate:Math.min(100,Math.max(0,Number(src.safetyRate)||0)),baselineDays,selectedProducts,imports:[]}}
+  function sanitizeSalesBackup(payload){if(!payload||payload.format!=='jins-work-planner-local-sales-backup'||payload.version!==1||!payload.data)throw new Error('지원하지 않는 백업 형식입니다.');const src=payload.data,products=Array.isArray(src.products)?[...new Set(src.products.filter(isValidSalesProduct).map(x=>x.trim()))]:[],sales={};if(src.sales&&typeof src.sales==='object'&&!Array.isArray(src.sales))Object.entries(src.sales).forEach(([key,value])=>{const parts=key.split('|');if(parts.length===3&&/^20\d{2}-\d{2}-\d{2}$/.test(parts[0])&&products.includes(parts[2]))sales[key]=Math.max(0,Number(value)||0)});const allowedTypes=new Set(Object.keys(SALES_EVENT_COLORS)),events=Array.isArray(src.events)?src.events.filter(e=>e&&allowedTypes.has(e.type)&&/^20\d{2}-\d{2}-\d{2}$/.test(e.start||'')&&/^20\d{2}-\d{2}-\d{2}$/.test(e.end||'')).map(e=>({id:typeof e.id==='string'?e.id:newId(),type:e.type,name:String(e.name||e.type).slice(0,100),start:e.start,end:e.end,products:Array.isArray(e.products)?e.products.filter(p=>products.includes(p)):[],memo:String(e.memo||'').slice(0,1000),linkedEventId:typeof e.linkedEventId==='string'?e.linkedEventId:''})).filter(e=>e.products.length):[];const inventory={},scheduledInventory={};if(src.inventory&&typeof src.inventory==='object'&&!Array.isArray(src.inventory))products.forEach(p=>{inventory[p]=Math.max(0,Number(src.inventory[p])||0)});if(src.scheduledInventory&&typeof src.scheduledInventory==='object'&&!Array.isArray(src.scheduledInventory))products.forEach(p=>{scheduledInventory[p]=Math.max(0,Number(src.scheduledInventory[p])||0)});const rawBaseline=src.baselineDays==='all'?'all':Number(src.baselineDays),baselineDays=[14,28,56,90].includes(rawBaseline)?rawBaseline:28,selectedProducts=Array.isArray(src.selectedProducts)?[...new Set(src.selectedProducts.filter(p=>products.includes(p)))]:[];return {products,sales,events,inventory,scheduledInventory,safetyRate:Math.min(100,Math.max(0,Number(src.safetyRate)||0)),baselineDays,selectedProducts,imports:[]}}
   let salesRemoteReady=false,salesSyncTimer=null,salesSyncInFlight=false,salesPendingSync=false;
   function scheduleRemoteSalesSave(){clearTimeout(salesSyncTimer);document.getElementById('salesLocalStatus').textContent='판매 데이터를 저장하는 중입니다.';salesSyncTimer=setTimeout(pushRemoteSalesData,500)}
   async function pushRemoteSalesData(){if(!salesRemoteReady)return;if(!await ensureAuthSession()){showLogin('로그인 세션이 만료되었습니다.');return}if(salesSyncInFlight){salesPendingSync=true;return}const userId=authenticatedUserId();if(!userId)return;salesSyncInFlight=true;try{const res=await fetch(`${SUPABASE_URL}/rest/v1/planner_sales_data?on_conflict=user_id`,{method:'POST',headers:authHeaders({'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'}),body:JSON.stringify([{user_id:userId,data:salesDataForSync(),updated_at:new Date().toISOString()}])});if(!res.ok)throw new Error(`Sales save ${res.status}: ${await res.text()}`);document.getElementById('salesLocalStatus').textContent='판매 데이터가 계정에 동기화되었습니다.'}catch(err){console.error(err);document.getElementById('salesLocalStatus').textContent='판매 데이터 동기화 오류가 발생했습니다.'}finally{salesSyncInFlight=false;if(salesPendingSync){salesPendingSync=false;pushRemoteSalesData()}}}
-  async function initializeSalesRemote(){await salesLocalLoadPromise;const userId=authenticatedUserId();if(!userId)return;document.getElementById('salesLocalStatus').textContent='판매 데이터를 연결하는 중입니다.';try{const res=await fetch(`${SUPABASE_URL}/rest/v1/planner_sales_data?user_id=eq.${encodeURIComponent(userId)}&select=data,updated_at`,{headers:authHeaders()});if(!res.ok)throw new Error(`Sales load ${res.status}: ${await res.text()}`);const rows=await res.json();if(rows.length&&rows[0]&&rows[0].data&&Object.keys(rows[0].data).length){salesState=sanitizeSalesBackup({format:'jins-work-planner-local-sales-backup',version:1,data:rows[0].data});await writeLocalSalesState();salesRemoteReady=true;document.getElementById('salesLocalStatus').textContent='판매 데이터를 계정에서 불러왔습니다.'}else{salesRemoteReady=true;if(hasMeaningfulSalesData()){await pushRemoteSalesData()}else{document.getElementById('salesLocalStatus').textContent='저장된 판매 데이터가 없습니다.'}}document.getElementById('safetyRate').value=String(salesState.safetyRate??15);document.getElementById('baselineDays').value=String(salesState.baselineDays??28);renderSalesLocal()}catch(err){console.error(err);salesRemoteReady=false;document.getElementById('salesLocalStatus').textContent='판매 데이터를 연결하지 못했습니다. 기존 브라우저 데이터는 유지됩니다.'}}
+  async function initializeSalesRemote(){await salesLocalLoadPromise;const userId=authenticatedUserId();if(!userId)return;document.getElementById('salesLocalStatus').textContent='판매 데이터를 연결하는 중입니다.';try{const res=await fetch(`${SUPABASE_URL}/rest/v1/planner_sales_data?user_id=eq.${encodeURIComponent(userId)}&select=data,updated_at`,{headers:authHeaders()});if(!res.ok)throw new Error(`Sales load ${res.status}: ${await res.text()}`);const rows=await res.json();if(rows.length&&rows[0]&&rows[0].data&&Object.keys(rows[0].data).length){const remoteData=rows[0].data,rawProductCount=Array.isArray(remoteData.products)?new Set(remoteData.products.map(x=>String(x||'').trim()).filter(Boolean)).size:0;salesState=sanitizeSalesBackup({format:'jins-work-planner-local-sales-backup',version:1,data:remoteData});const removedCount=Math.max(0,rawProductCount-salesState.products.length);await writeLocalSalesState();salesRemoteReady=true;if(removedCount){await pushRemoteSalesData();document.getElementById('salesLocalStatus').textContent=`상품이 아닌 항목 ${removedCount}개를 정리하고 계정에 동기화했습니다.`}else{document.getElementById('salesLocalStatus').textContent='판매 데이터를 계정에서 불러왔습니다.'}}else{const rawProductCount=(salesState.products||[]).length;salesState=sanitizeSalesBackup({format:'jins-work-planner-local-sales-backup',version:1,data:salesDataForSync()});salesRemoteReady=true;if(hasMeaningfulSalesData()){await writeLocalSalesState();await pushRemoteSalesData();const removedCount=Math.max(0,rawProductCount-salesState.products.length);if(removedCount)document.getElementById('salesLocalStatus').textContent=`상품이 아닌 항목 ${removedCount}개를 정리하고 계정에 동기화했습니다.`}else{document.getElementById('salesLocalStatus').textContent='저장된 판매 데이터가 없습니다.'}}document.getElementById('safetyRate').value=String(salesState.safetyRate??15);document.getElementById('baselineDays').value=String(salesState.baselineDays??28);renderSalesLocal()}catch(err){console.error(err);salesRemoteReady=false;document.getElementById('salesLocalStatus').textContent='판매 데이터를 연결하지 못했습니다. 기존 브라우저 데이터는 유지됩니다.'}}
   async function restoreSalesData(file){if(!file)return;try{const restored=sanitizeSalesBackup(JSON.parse(await file.text()));if(!confirm(`백업에 포함된 제품 ${restored.products.length}개와 판매 집계 ${Object.keys(restored.sales).length.toLocaleString()}개로 현재 로컬 판매 데이터를 교체할까요?`))return;salesState=restored;await saveSalesState();document.getElementById('safetyRate').value=String(salesState.safetyRate);document.getElementById('baselineDays').value=String(salesState.baselineDays);document.getElementById('salesLocalStatus').textContent='판매 집계·행사 일정·재고·입고 대상 선택을 백업 파일에서 복원했습니다.';renderSalesLocal()}catch(err){alert(`백업 파일을 복원하지 못했습니다. ${err.message||''}`)}}
   function parseCsvRows(text){const rows=[];let row=[],cell='',quoted=false;for(let i=0;i<text.length;i++){const ch=text[i];if(ch==='"'){if(quoted&&text[i+1]==='"'){cell+='"';i++}else quoted=!quoted}else if(ch===','&&!quoted){row.push(cell);cell=''}else if((ch==='\n'||ch==='\r')&&!quoted){if(ch==='\r'&&text[i+1]==='\n')i++;row.push(cell);if(row.some(v=>v!==''))rows.push(row);row=[];cell=''}else cell+=ch}if(cell||row.length){row.push(cell);rows.push(row)}return rows}
   function csvDateKey(label,fileName){const md=String(label||'').match(/(\d{2})-(\d{2})/),ym=String(fileName||'').match(/(20\d{2})-(\d{2})/);if(!md)return null;const year=ym?ym[1]:String(new Date().getFullYear());return `${year}-${md[1]}-${md[2]}`}
-  async function importSalesCsvFiles(files){if(!files?.length)return;let importedRows=0,replaced=0;for(const file of files){const rows=parseCsvRows((await file.text()).replace(/^\uFEFF/,''));if(rows.length<3)continue;const top=rows[0],sub=rows[1],products=[];for(let c=2;c<Math.max(top.length,sub.length);c++){const product=`${String(top[c]||'').trim()} ${String(sub[c]||'').trim()}`.trim();products.push(product);if(product&&!salesState.products.includes(product))salesState.products.push(product)}for(const row of rows.slice(2)){const shop=String(row[0]||'').trim(),date=csvDateKey(row[1],file.name);if(!shop||!date)continue;for(let c=2;c<row.length;c++){const product=products[c-2];if(!product)continue;const key=`${date}|${shop}|${product}`;if(Object.prototype.hasOwnProperty.call(salesState.sales,key))replaced++;salesState.sales[key]=Math.max(0,Number(String(row[c]||'0').replace(/,/g,''))||0)}importedRows++}salesState.imports.push({name:file.name,at:new Date().toISOString(),rows:Math.max(0,rows.length-2)})}salesState.products.sort((a,b)=>a.localeCompare(b,'ko',{numeric:true}));await saveSalesState();document.getElementById('salesLocalStatus').textContent=`${files.length}개 파일의 ${importedRows}일 데이터를 반영했습니다.${replaced?` 기존 집계 ${replaced.toLocaleString()}개는 새 값으로 교체했습니다.`:''} 개인정보나 CSV 원본 행은 저장하지 않았습니다.`;renderSalesLocal()}
+  async function importSalesCsvFiles(files){if(!files?.length)return;let importedRows=0,replaced=0,ignoredColumns=0;for(const file of files){const rows=parseCsvRows((await file.text()).replace(/^\uFEFF/,''));if(rows.length<3)continue;const top=rows[0],sub=rows[1],products=[];for(let c=2;c<Math.max(top.length,sub.length);c++){const candidate=`${String(top[c]||'').trim()} ${String(sub[c]||'').trim()}`.trim(),product=isValidSalesProduct(candidate)?candidate:'';products.push(product);if(!product){if(candidate)ignoredColumns++;continue}if(!salesState.products.includes(product))salesState.products.push(product)}for(const row of rows.slice(2)){const shop=String(row[0]||'').trim(),date=csvDateKey(row[1],file.name);if(!shop||!date)continue;for(let c=2;c<row.length;c++){const product=products[c-2];if(!product)continue;const key=`${date}|${shop}|${product}`;if(Object.prototype.hasOwnProperty.call(salesState.sales,key))replaced++;salesState.sales[key]=Math.max(0,Number(String(row[c]||'0').replace(/,/g,''))||0)}importedRows++}salesState.imports.push({name:file.name,at:new Date().toISOString(),rows:Math.max(0,rows.length-2)})}salesState.products.sort((a,b)=>a.localeCompare(b,'ko',{numeric:true}));await saveSalesState();document.getElementById('salesLocalStatus').textContent=`${files.length}개 파일의 ${importedRows}일 데이터를 반영했습니다.${replaced?` 기존 집계 ${replaced.toLocaleString()}개는 새 값으로 교체했습니다.`:''}${ignoredColumns?` 상품 형식이 아닌 열 ${ignoredColumns}개는 제외했습니다.`:''} 개인정보나 CSV 원본 행은 저장하지 않았습니다.`;renderSalesLocal()}
   function salesDates(){return [...new Set(Object.keys(salesState.sales).map(k=>k.split('|')[0]))].sort()}
   function productSalesByDate(product){const out={};Object.entries(salesState.sales).forEach(([key,value])=>{const [date,,p]=key.split('|');if(p===product)out[date]=(out[date]||0)+(Number(value)||0)});return out}
   const SALES_EVENT_COLORS={'네이버 대형행사':'#16865b','헬시페스타':'#0f9f9a','네이버 소형행사':'#72a62b','자체행사':'#7a52c7','쇼핑LIVE':'#e54872','PPL':'#e9852b','홈쇼핑 방송':'#3478cf'};
@@ -3624,8 +3645,8 @@
     const isWork=isWeek||isMonth||isCategory||completed;
     const views=[[weekShell,isWeek],[monthView,isMonth],[categoryView,isCategory],[adReportView,isAds],[rankView,isRank],[salesCalendarView,isSales],[inboundPlannerView,isInbound],[completedView,completed],[pcSettingsView,isSettings],[mobileSettingsView,false]];
     views.forEach(([el,active])=>{if(!el)return;el.classList.toggle('planner-view-active',active);el.classList.toggle('planner-view-hidden',!active);el.style.removeProperty('display')});
-    workMainBtn.classList.toggle('active',pcMainSection==='work');salesOpsMainBtn.classList.toggle('active',pcMainSection==='sales');performanceMainBtn.classList.toggle('active',pcMainSection==='performance');toolsMainBtn.classList.toggle('active',pcMainSection==='tools');settingsMainBtn.classList.toggle('active',pcMainSection==='settings');
-    workSubnav.classList.toggle('hidden',pcMainSection!=='work');salesOpsSubnav.classList.toggle('hidden',pcMainSection!=='sales');performanceSubnav.classList.toggle('hidden',pcMainSection!=='performance');toolsSubnav.classList.toggle('hidden',pcMainSection!=='tools');
+    workMainBtn.classList.toggle('active',pcMainSection==='work');salesOpsMainBtn.classList.toggle('active',pcMainSection==='sales');performanceMainBtn.classList.toggle('active',pcMainSection==='performance');settingsMainBtn.classList.toggle('active',pcMainSection==='settings');
+    workSubnav.classList.toggle('hidden',pcMainSection!=='work');salesOpsSubnav.classList.toggle('hidden',pcMainSection!=='sales');performanceSubnav.classList.toggle('hidden',pcMainSection!=='performance');
     document.querySelectorAll('.tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.view===activeView));
     adReportBtn.classList.toggle('active',isAds);rankBtn.classList.toggle('active',isRank);salesCalendarBtn.classList.toggle('active',isSales);inboundPlannerBtn.classList.toggle('active',isInbound);
     workToolbar.classList.toggle('hidden',!isWork||pcMainSection!=='work');
@@ -4060,10 +4081,6 @@
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));render();
     if(currentView==='ads'){loadAdHistory();loadAdProductDashboard()}else loadRankDashboard(rankDateSelect.value);
   });
-  toolsMainBtn.addEventListener('click',()=>{
-    pcMainSection='tools';
-    setStandardViewVisibility(currentView);
-  });
   settingsMainBtn.addEventListener('click',()=>{
     pcMainSection='settings';currentView='settings';render();
   });
@@ -4075,10 +4092,10 @@
     loadAdProductDashboard();
   });
   orderSummaryBtn.addEventListener('click',()=>{
-    pcMainSection='tools';window.location.href='order-summary://open';
+    window.location.href='order-summary://open';
   });
   addressGuardBtn.addEventListener('click',()=>{
-    pcMainSection='tools';window.location.href='addressguard://open';
+    window.location.href='addressguard://open';
   });
   salesCalendarBtn.addEventListener('click',()=>{pcMainSection='sales';currentView='sales';document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));render()});
   inboundPlannerBtn.addEventListener('click',()=>{pcMainSection='sales';currentView='inbound';document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));render()});
@@ -4144,6 +4161,10 @@
   document.getElementById('mobileManageCategoriesBtn').addEventListener('click',()=>document.getElementById('manageCategories').click());
   document.getElementById('mobileExportBtn').addEventListener('click',()=>document.getElementById('exportBtn').click());
   document.getElementById('mobileImportBtn').addEventListener('click',()=>document.getElementById('importBtn').click());
+  document.getElementById('mobileSalesBackupBtn').addEventListener('click',()=>document.getElementById('settingsSalesBackupBtn').click());
+  document.getElementById('mobileSalesRestoreBtn').addEventListener('click',()=>document.getElementById('settingsSalesRestoreBtn').click());
+  document.getElementById('mobileFullBackupBtn').addEventListener('click',()=>document.getElementById('fullBackupBtn').click());
+  document.getElementById('mobileFullRestoreBtn').addEventListener('click',()=>document.getElementById('fullRestoreBtn').click());
   document.getElementById('mobileLogoutBtn').addEventListener('click',()=>document.getElementById('logoutBtn').click());
   document.getElementById('mobileLiveTemplateBtn').addEventListener('click',()=>document.getElementById('liveTemplateBtn').click());
   document.getElementById('mobilePromoTemplateBtn').addEventListener('click',()=>document.getElementById('promoTemplateBtn').click());
@@ -4154,8 +4175,16 @@
   document.getElementById('promoTemplateBtn').addEventListener('click',()=>{document.getElementById('promoTitle').value='';document.getElementById('promoDate').value=dateKey(new Date());document.getElementById('promoPriority').value='p4';refreshPromoCategory();promoDialog.showModal()});
   document.getElementById('cancelPromoBtn').addEventListener('click',()=>promoDialog.close());document.getElementById('createPromoBtn').addEventListener('click',createPromoBundle);
 
-  document.getElementById('exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`work-planner-backup-${dateKey(new Date())}.json`;a.click();URL.revokeObjectURL(a.href)});
+  function downloadJsonFile(payload,fileName){const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fileName;a.click();URL.revokeObjectURL(a.href)}
+  function backupFullData(){downloadJsonFile({format:'jins-work-planner-full-backup',version:1,exportedAt:new Date().toISOString(),plannerData:clone(data),salesData:salesDataForSync()},`jins-work-planner-full-backup-${dateKey(new Date())}.json`)}
+  async function restoreFullData(file){if(!file)return;try{const payload=JSON.parse(await file.text());if(!payload||payload.format!=='jins-work-planner-full-backup'||payload.version!==1||!payload.plannerData||!payload.salesData)throw new Error('지원하지 않는 통합 백업 형식입니다.');const nextData=normalize(clone(payload.plannerData)),nextSales=sanitizeSalesBackup({format:'jins-work-planner-local-sales-backup',version:1,data:payload.salesData});if(!confirm(`업무 ${nextData.tasks.length.toLocaleString()}개와 판매 집계 ${Object.keys(nextSales.sales).length.toLocaleString()}개, 행사 ${nextSales.events.length.toLocaleString()}건으로 현재 데이터를 교체할까요?`))return;data=nextData;salesState=nextSales;activeCategories=new Set(data.categories);currentCategory=data.categories.includes(currentCategory)?currentCategory:(data.categories[0]||'기타');memoText.value=data.memo||'';if(mobileMemoText)mobileMemoText.value=data.memo||'';saveData();await saveSalesState();document.getElementById('safetyRate').value=String(salesState.safetyRate);document.getElementById('baselineDays').value=String(salesState.baselineDays);render();renderSalesLocal();alert('통합 백업을 복원하고 계정 동기화를 시작했습니다.')}catch(err){alert(`통합 백업을 복원하지 못했습니다. ${err.message||''}`)}}
+  document.getElementById('exportBtn').addEventListener('click',()=>downloadJsonFile(data,`work-planner-backup-${dateKey(new Date())}.json`));
   document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());document.getElementById('importFile').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{data=normalize(JSON.parse(reader.result));activeCategories=new Set(data.categories);currentCategory=data.categories.includes(currentCategory)?currentCategory:(data.categories[0]||'기타');memoText.value=data.memo||'';saveData();render()}catch(err){alert('올바른 백업 파일이 아닙니다.')}};reader.readAsText(file);e.target.value=''});
+  document.getElementById('settingsSalesBackupBtn').addEventListener('click',backupSalesData);
+  document.getElementById('settingsSalesRestoreBtn').addEventListener('click',()=>document.getElementById('salesBackupFile').click());
+  document.getElementById('fullBackupBtn').addEventListener('click',backupFullData);
+  document.getElementById('fullRestoreBtn').addEventListener('click',()=>document.getElementById('fullBackupFile').click());
+  document.getElementById('fullBackupFile').addEventListener('change',async e=>{await restoreFullData(e.target.files?.[0]);e.target.value=''});
 
   const inboundDefault=new Date(),inboundEnd=new Date();inboundEnd.setDate(inboundEnd.getDate()+10);document.getElementById('inboundDate').value=dateKey(inboundDefault);document.getElementById('useUntilDate').value=dateKey(inboundEnd);document.getElementById('safetyRate').value=String(salesState.safetyRate||15);
   salesLocalLoadPromise=loadSalesState().then(()=>{document.getElementById('safetyRate').value=String(salesState.safetyRate??15);document.getElementById('baselineDays').value=String(salesState.baselineDays??28);renderSalesLocal()});
