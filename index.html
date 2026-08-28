@@ -1419,13 +1419,22 @@
     }
 
 
-    /* v8.8 shared responsive layout system */
+    /* v8.9 PC-only navigation and typography adjustments */
     @media(min-width:701px){
-      .pc-main-nav{justify-content:center}
-      .pc-main-btn.pc-settings-main{margin:8px 0}
-      .pc-section-subnav{justify-content:center;position:relative}
+      /* Only Settings stays pinned to the far right. */
+      .pc-main-nav{justify-content:flex-start}
+      .pc-main-btn.pc-settings-main{margin:8px 0 8px auto}
+
+      /* Submenus start directly beneath their active parent menu. */
+      .pc-section-subnav{justify-content:flex-start;position:relative}
       #workSubnav .work-header-actions{position:absolute;right:18px;margin-left:0}
+
+      /* PC memo body matches the Memo label size, with regular weight. */
+      #memoText{font-size:13px;font-weight:400}
+
+      /* Page titles keep the existing Settings-title size; descriptions match Settings hint text. */
       .sales-view .local-page-title,.inbound-view .local-page-title,#rankView .rank-title{font-size:17px}
+      .sales-view .local-page-hint,.inbound-view .local-page-hint,#rankView .rank-hint{font-size:12px}
     }
 
     @media(max-width:700px){
@@ -1467,7 +1476,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.8</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.9</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1493,7 +1502,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.8</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.9</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -3769,6 +3778,17 @@
     document.querySelectorAll('[data-mobile-section]').forEach(btn=>btn.classList.toggle('active',btn.dataset.mobileSection===mobileMainSection));
     document.querySelectorAll('[data-mobile-work-view]').forEach(btn=>btn.classList.toggle('active',btn.dataset.mobileWorkView===mobileWorkView));
   }
+  function alignPcSubnavToMain(){
+    if(isMobileLayout())return;
+    const mainNav=document.getElementById('pcMainNav');
+    if(!mainNav)return;
+    const navRect=mainNav.getBoundingClientRect();
+    [[workMainBtn,workSubnav],[salesOpsMainBtn,salesOpsSubnav]].forEach(([mainBtn,subnav])=>{
+      if(!mainBtn||!subnav)return;
+      const btnRect=mainBtn.getBoundingClientRect();
+      subnav.style.paddingLeft=`${Math.max(0,btnRect.left-navRect.left)}px`;
+    });
+  }
   function render(){
     syncMemoFields();
     const mobile=isMobileLayout();
@@ -3825,6 +3845,7 @@
       document.getElementById('dateNav').classList.remove('hidden');
       workToolbar.classList.remove('mobile-date-only');
       setStandardViewVisibility(currentView);
+      alignPcSubnavToMain();
     }
   }
 
