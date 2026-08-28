@@ -1355,7 +1355,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.2</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.3</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1381,7 +1381,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.2</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4.3</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -1975,6 +1975,7 @@
   let pendingSearchImport = null;
   let pendingGfaImport = null;
   let salesState = {products:[],sales:{},events:[],inventory:{},scheduledInventory:{},safetyRate:15,baselineDays:28,selectedProducts:[],imports:[]};
+  let salesLocalLoadPromise=Promise.resolve();
   let salesCalendarDate = new Date();
   let editingSalesEventId = null;
   let selectedSalesEventProducts = [];
@@ -2189,6 +2190,7 @@
   async function signOut(){
     try{
       if(remoteReady)await pushRemoteData();
+      if(salesRemoteReady)await pushRemoteSalesData();
       if(authSession&&authSession.access_token){
         await fetch(`${SUPABASE_URL}/auth/v1/logout`,{
           method:'POST',
@@ -2200,6 +2202,7 @@
     }finally{
       clearAuthSession();
       remoteReady=false;
+      salesRemoteReady=false;
       data=clone(defaultData);
       activeCategories=new Set(data.categories);
       localStorage.removeItem(STORAGE_KEY);
@@ -2294,6 +2297,7 @@
         remoteReady=true;
         await pushRemoteData();
       }
+      await initializeSalesRemote();
     }catch(err){
       console.error(err);
       remoteReady=false;
@@ -3536,9 +3540,16 @@
 
   function openSalesDb(){return new Promise((resolve,reject)=>{const req=indexedDB.open(LOCAL_SALES_DB,1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('kv'))req.result.createObjectStore('kv')};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
   async function loadSalesState(){try{const db=await openSalesDb();const saved=await new Promise((resolve,reject)=>{const req=db.transaction('kv','readonly').objectStore('kv').get(LOCAL_SALES_KEY);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});db.close();if(saved&&typeof saved==='object')salesState={products:[],sales:{},events:[],inventory:{},scheduledInventory:{},safetyRate:15,baselineDays:28,selectedProducts:[],imports:[],...saved};if(!salesState.scheduledInventory||typeof salesState.scheduledInventory!=='object'||Array.isArray(salesState.scheduledInventory))salesState.scheduledInventory={};salesState.selectedProducts=(salesState.selectedProducts||[]).filter(p=>(salesState.products||[]).includes(p));if(![14,28,56,90,'all'].includes(salesState.baselineDays))salesState.baselineDays=28}catch(err){console.error('local sales load',err)}renderSalesLocal()}
-  async function saveSalesState(){try{const db=await openSalesDb();await new Promise((resolve,reject)=>{const req=db.transaction('kv','readwrite').objectStore('kv').put(salesState,LOCAL_SALES_KEY);req.onsuccess=()=>resolve();req.onerror=()=>reject(req.error)});db.close()}catch(err){console.error('local sales save',err);alert('이 브라우저에 판매 데이터를 저장하지 못했습니다. 브라우저 저장공간 설정을 확인해주세요.')}}
-  function backupSalesData(){const safeData={products:[...(salesState.products||[])],sales:{...(salesState.sales||{})},events:(salesState.events||[]).map(e=>({id:e.id,type:e.type,name:e.name,start:e.start,end:e.end,products:[...(e.products||[])],memo:e.memo||'',linkedEventId:e.linkedEventId||''})),inventory:{...(salesState.inventory||{})},scheduledInventory:{...(salesState.scheduledInventory||{})},safetyRate:Number(salesState.safetyRate)||0,baselineDays:salesState.baselineDays,selectedProducts:[...(salesState.selectedProducts||[])]};const payload={format:'jins-work-planner-local-sales-backup',version:1,exportedAt:new Date().toISOString(),data:safeData};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`jins-sales-backup-${dateKey(new Date())}.json`;a.click();URL.revokeObjectURL(a.href);document.getElementById('salesLocalStatus').textContent='개인정보가 없는 판매 집계·행사 일정·잔여재고·입고 예정 재고 백업 파일을 저장했습니다.'}
+  async function writeLocalSalesState(){const db=await openSalesDb();await new Promise((resolve,reject)=>{const req=db.transaction('kv','readwrite').objectStore('kv').put(salesState,LOCAL_SALES_KEY);req.onsuccess=()=>resolve();req.onerror=()=>reject(req.error)});db.close()}
+  async function saveSalesState(){try{await writeLocalSalesState();if(salesRemoteReady)scheduleRemoteSalesSave()}catch(err){console.error('local sales save',err);alert('이 브라우저에 판매 데이터를 저장하지 못했습니다. 브라우저 저장공간 설정을 확인해주세요.')}}
+  function salesDataForSync(){return {products:[...(salesState.products||[])],sales:{...(salesState.sales||{})},events:(salesState.events||[]).map(e=>({id:e.id,type:e.type,name:e.name,start:e.start,end:e.end,products:[...(e.products||[])],memo:e.memo||'',linkedEventId:e.linkedEventId||''})),inventory:{...(salesState.inventory||{})},scheduledInventory:{...(salesState.scheduledInventory||{})},safetyRate:Number(salesState.safetyRate)||0,baselineDays:salesState.baselineDays,selectedProducts:[...(salesState.selectedProducts||[])]}}
+  function hasMeaningfulSalesData(){return !!((salesState.products||[]).length||Object.keys(salesState.sales||{}).length||(salesState.events||[]).length||Object.keys(salesState.inventory||{}).length||Object.keys(salesState.scheduledInventory||{}).length)}
+  function backupSalesData(){const payload={format:'jins-work-planner-local-sales-backup',version:1,exportedAt:new Date().toISOString(),data:salesDataForSync()};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`jins-sales-backup-${dateKey(new Date())}.json`;a.click();URL.revokeObjectURL(a.href);document.getElementById('salesLocalStatus').textContent='개인정보가 없는 판매 집계·행사 일정·잔여재고·입고 예정 재고 백업 파일을 저장했습니다.'}
   function sanitizeSalesBackup(payload){if(!payload||payload.format!=='jins-work-planner-local-sales-backup'||payload.version!==1||!payload.data)throw new Error('지원하지 않는 백업 형식입니다.');const src=payload.data,products=Array.isArray(src.products)?[...new Set(src.products.filter(x=>typeof x==='string'&&x.trim()).map(x=>x.trim()))]:[],sales={};if(src.sales&&typeof src.sales==='object'&&!Array.isArray(src.sales))Object.entries(src.sales).forEach(([key,value])=>{const parts=key.split('|');if(parts.length===3&&/^20\d{2}-\d{2}-\d{2}$/.test(parts[0])&&products.includes(parts[2]))sales[key]=Math.max(0,Number(value)||0)});const allowedTypes=new Set(Object.keys(SALES_EVENT_COLORS)),events=Array.isArray(src.events)?src.events.filter(e=>e&&allowedTypes.has(e.type)&&/^20\d{2}-\d{2}-\d{2}$/.test(e.start||'')&&/^20\d{2}-\d{2}-\d{2}$/.test(e.end||'')).map(e=>({id:typeof e.id==='string'?e.id:newId(),type:e.type,name:String(e.name||e.type).slice(0,100),start:e.start,end:e.end,products:Array.isArray(e.products)?e.products.filter(p=>products.includes(p)):[],memo:String(e.memo||'').slice(0,1000),linkedEventId:typeof e.linkedEventId==='string'?e.linkedEventId:''})).filter(e=>e.products.length):[];const inventory={},scheduledInventory={};if(src.inventory&&typeof src.inventory==='object'&&!Array.isArray(src.inventory))products.forEach(p=>{inventory[p]=Math.max(0,Number(src.inventory[p])||0)});if(src.scheduledInventory&&typeof src.scheduledInventory==='object'&&!Array.isArray(src.scheduledInventory))products.forEach(p=>{scheduledInventory[p]=Math.max(0,Number(src.scheduledInventory[p])||0)});const rawBaseline=src.baselineDays==='all'?'all':Number(src.baselineDays),baselineDays=[14,28,56,90].includes(rawBaseline)?rawBaseline:28,selectedProducts=Array.isArray(src.selectedProducts)?[...new Set(src.selectedProducts.filter(p=>products.includes(p)))]:[];return {products,sales,events,inventory,scheduledInventory,safetyRate:Math.min(100,Math.max(0,Number(src.safetyRate)||0)),baselineDays,selectedProducts,imports:[]}}
+  let salesRemoteReady=false,salesSyncTimer=null,salesSyncInFlight=false,salesPendingSync=false;
+  function scheduleRemoteSalesSave(){clearTimeout(salesSyncTimer);document.getElementById('salesLocalStatus').textContent='판매 데이터를 저장하는 중입니다.';salesSyncTimer=setTimeout(pushRemoteSalesData,500)}
+  async function pushRemoteSalesData(){if(!salesRemoteReady)return;if(!await ensureAuthSession()){showLogin('로그인 세션이 만료되었습니다.');return}if(salesSyncInFlight){salesPendingSync=true;return}const userId=authenticatedUserId();if(!userId)return;salesSyncInFlight=true;try{const res=await fetch(`${SUPABASE_URL}/rest/v1/planner_sales_data?on_conflict=user_id`,{method:'POST',headers:authHeaders({'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'}),body:JSON.stringify([{user_id:userId,data:salesDataForSync(),updated_at:new Date().toISOString()}])});if(!res.ok)throw new Error(`Sales save ${res.status}: ${await res.text()}`);document.getElementById('salesLocalStatus').textContent='판매 데이터가 계정에 동기화되었습니다.'}catch(err){console.error(err);document.getElementById('salesLocalStatus').textContent='판매 데이터 동기화 오류가 발생했습니다.'}finally{salesSyncInFlight=false;if(salesPendingSync){salesPendingSync=false;pushRemoteSalesData()}}}
+  async function initializeSalesRemote(){await salesLocalLoadPromise;const userId=authenticatedUserId();if(!userId)return;document.getElementById('salesLocalStatus').textContent='판매 데이터를 연결하는 중입니다.';try{const res=await fetch(`${SUPABASE_URL}/rest/v1/planner_sales_data?user_id=eq.${encodeURIComponent(userId)}&select=data,updated_at`,{headers:authHeaders()});if(!res.ok)throw new Error(`Sales load ${res.status}: ${await res.text()}`);const rows=await res.json();if(rows.length&&rows[0]&&rows[0].data&&Object.keys(rows[0].data).length){salesState=sanitizeSalesBackup({format:'jins-work-planner-local-sales-backup',version:1,data:rows[0].data});await writeLocalSalesState();salesRemoteReady=true;document.getElementById('salesLocalStatus').textContent='판매 데이터를 계정에서 불러왔습니다.'}else{salesRemoteReady=true;if(hasMeaningfulSalesData()){await pushRemoteSalesData()}else{document.getElementById('salesLocalStatus').textContent='저장된 판매 데이터가 없습니다.'}}document.getElementById('safetyRate').value=String(salesState.safetyRate??15);document.getElementById('baselineDays').value=String(salesState.baselineDays??28);renderSalesLocal()}catch(err){console.error(err);salesRemoteReady=false;document.getElementById('salesLocalStatus').textContent='판매 데이터를 연결하지 못했습니다. 기존 브라우저 데이터는 유지됩니다.'}}
   async function restoreSalesData(file){if(!file)return;try{const restored=sanitizeSalesBackup(JSON.parse(await file.text()));if(!confirm(`백업에 포함된 제품 ${restored.products.length}개와 판매 집계 ${Object.keys(restored.sales).length.toLocaleString()}개로 현재 로컬 판매 데이터를 교체할까요?`))return;salesState=restored;await saveSalesState();document.getElementById('safetyRate').value=String(salesState.safetyRate);document.getElementById('baselineDays').value=String(salesState.baselineDays);document.getElementById('salesLocalStatus').textContent='판매 집계·행사 일정·재고·입고 대상 선택을 백업 파일에서 복원했습니다.';renderSalesLocal()}catch(err){alert(`백업 파일을 복원하지 못했습니다. ${err.message||''}`)}}
   function parseCsvRows(text){const rows=[];let row=[],cell='',quoted=false;for(let i=0;i<text.length;i++){const ch=text[i];if(ch==='"'){if(quoted&&text[i+1]==='"'){cell+='"';i++}else quoted=!quoted}else if(ch===','&&!quoted){row.push(cell);cell=''}else if((ch==='\n'||ch==='\r')&&!quoted){if(ch==='\r'&&text[i+1]==='\n')i++;row.push(cell);if(row.some(v=>v!==''))rows.push(row);row=[];cell=''}else cell+=ch}if(cell||row.length){row.push(cell);rows.push(row)}return rows}
   function csvDateKey(label,fileName){const md=String(label||'').match(/(\d{2})-(\d{2})/),ym=String(fileName||'').match(/(20\d{2})-(\d{2})/);if(!md)return null;const year=ym?ym[1]:String(new Date().getFullYear());return `${year}-${md[1]}-${md[2]}`}
@@ -3551,7 +3562,7 @@
   function eventApplies(event,date,product){return event.start<=date&&date<=event.end&&Array.isArray(event.products)&&event.products.includes(product)}
   function eventTypesFor(date,product){return [...new Set(salesState.events.filter(e=>eventApplies(e,date,product)).map(e=>e.type))].sort()}
   function renderSalesLocal(){renderSalesSummary();renderSalesCalendar();renderInboundProductSelector();if(currentView==='inbound')renderInventoryTable(false)}
-  function renderSalesSummary(){const dates=salesDates(),products=salesState.products||[];document.getElementById('salesDateKpi').textContent=`${dates.length}일`;document.getElementById('salesProductKpi').textContent=`${products.length}개`;document.getElementById('salesEventKpi').textContent=`${salesState.events.length}건`;document.getElementById('salesLatestKpi').textContent=dates.length?dates[dates.length-1].slice(5).replace('-','.'):'—';if(!salesState.imports.length)document.getElementById('salesLocalStatus').textContent='주문집계 CSV를 불러오면 날짜·쇼핑몰·제품별 출고량만 이 PC에 누적됩니다.'}
+  function renderSalesSummary(){const dates=salesDates(),products=salesState.products||[];document.getElementById('salesDateKpi').textContent=`${dates.length}일`;document.getElementById('salesProductKpi').textContent=`${products.length}개`;document.getElementById('salesEventKpi').textContent=`${salesState.events.length}건`;document.getElementById('salesLatestKpi').textContent=dates.length?dates[dates.length-1].slice(5).replace('-','.'):'—';if(!salesState.imports.length&&!salesRemoteReady)document.getElementById('salesLocalStatus').textContent='주문집계 CSV를 불러오면 날짜·쇼핑몰·제품별 출고량만 이 PC에 누적됩니다.'}
   function renderSalesCalendar(){const grid=document.getElementById('salesCalendarGrid');if(!grid)return;const y=salesCalendarDate.getFullYear(),m=salesCalendarDate.getMonth();document.getElementById('salesCalendarTitle').textContent=`${y}년 ${m+1}월`;grid.innerHTML='';const first=new Date(y,m,1),offset=(first.getDay()+6)%7,start=new Date(y,m,1-offset),today=dateKey(new Date());for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const key=dateKey(d),cell=document.createElement('div');cell.className='sales-day'+(d.getMonth()!==m?' muted':'')+(key===today?' today':'');cell.title=`${key} 행사 등록`;cell.setAttribute('role','button');cell.tabIndex=0;const no=document.createElement('div');no.className='sales-day-no';no.textContent=d.getDate();const list=document.createElement('div');list.className='sales-day-events';salesState.events.filter(e=>e.start<=key&&key<=e.end).forEach(e=>{const b=document.createElement('button');b.type='button';b.className='sales-event';b.style.setProperty('--event-color',SALES_EVENT_COLORS[e.type]||'#667085');const name=document.createElement('b');name.textContent=e.name||e.type;const ps=document.createElement('span');ps.textContent=e.products.length===1?e.products[0]:`참여 제품 ${e.products.length}개`;b.append(name,ps);b.addEventListener('click',ev=>{ev.stopPropagation();openSalesEventDialog(e.id)});list.appendChild(b)});cell.append(no,list);cell.addEventListener('click',()=>openSalesEventDialog(null,key));cell.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();openSalesEventDialog(null,key)}});grid.appendChild(cell)}}
   function splitSalesProduct(product){const m=String(product||'').trim().match(/^(.*)\s+([^\s]+)$/);return m?{name:m[1],variant:m[2]}:{name:String(product||'').trim(),variant:''}}
   function salesProductGroups(){const groups={};(salesState.products||[]).forEach(product=>{const {name,variant}=splitSalesProduct(product);if(!groups[name])groups[name]=[];if(variant&&!groups[name].includes(variant))groups[name].push(variant)});Object.values(groups).forEach(v=>v.sort((a,b)=>a.localeCompare(b,'ko',{numeric:true})));return groups}
@@ -4147,7 +4158,7 @@
   document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());document.getElementById('importFile').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{data=normalize(JSON.parse(reader.result));activeCategories=new Set(data.categories);currentCategory=data.categories.includes(currentCategory)?currentCategory:(data.categories[0]||'기타');memoText.value=data.memo||'';saveData();render()}catch(err){alert('올바른 백업 파일이 아닙니다.')}};reader.readAsText(file);e.target.value=''});
 
   const inboundDefault=new Date(),inboundEnd=new Date();inboundEnd.setDate(inboundEnd.getDate()+10);document.getElementById('inboundDate').value=dateKey(inboundDefault);document.getElementById('useUntilDate').value=dateKey(inboundEnd);document.getElementById('safetyRate').value=String(salesState.safetyRate||15);
-  loadSalesState().then(()=>{document.getElementById('safetyRate').value=String(salesState.safetyRate??15);document.getElementById('baselineDays').value=String(salesState.baselineDays??28);renderSalesLocal()});
+  salesLocalLoadPromise=loadSalesState().then(()=>{document.getElementById('safetyRate').value=String(salesState.safetyRate??15);document.getElementById('baselineDays').value=String(salesState.baselineDays??28);renderSalesLocal()});
   initializeAuth();
 })();
 </script>
