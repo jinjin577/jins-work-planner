@@ -528,6 +528,43 @@
       .mobile-settings-view .settings-storage-note{display:grid;grid-template-columns:1fr;gap:6px;padding:10px;margin-bottom:12px}.mobile-settings-view .settings-storage-note .storage-badge{margin:0}
       .mobile-settings-view .storage-guide{border-radius:17px;box-shadow:0 4px 18px rgba(25,31,40,.035)}.mobile-settings-view .storage-guide-title{padding:14px 14px 11px}
       .mobile-settings-view .storage-row{grid-template-columns:minmax(0,1fr) auto;gap:6px 8px;align-items:start;padding:11px 14px}.mobile-settings-view .storage-row>b{font-size:11.5px}.mobile-settings-view .storage-row>.storage-badge{justify-self:end}.mobile-settings-view .storage-row>span:last-child{grid-column:1/-1;font-size:10.5px;line-height:1.5}
+      /* v8.6 mobile-only layout cleanup; desktop remains unchanged */
+      .toolbar.pc-toolbar{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:visible!important}
+      #salesCalendarView.sales-view,#rankView.rank-view,#mobileSettingsView.mobile-settings-view{width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;box-sizing:border-box!important}
+      #salesCalendarView.sales-view{padding:0!important}
+      #rankView.rank-view{padding:0!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+      #salesCalendarView .local-page-head{margin:2px 1px 12px!important}
+      #salesCalendarView .local-page-title{font-size:0!important;font-weight:850;letter-spacing:-.35px}
+      #salesCalendarView .local-page-title::before{content:"프로모션 PPL 일정";font-size:18px}
+      #salesCalendarView .local-page-hint{display:none!important}
+      #salesCalendarView #importSalesCsvBtn,#salesCalendarView #salesCsvFile{display:none!important}
+      #salesCalendarView .local-actions{margin-top:9px!important}
+      #salesCalendarView #addSalesEventBtn{min-height:36px;padding:0 12px;font-size:11.5px}
+      #salesCalendarView .sales-calendar{width:100%!important;max-width:100%!important;overflow:hidden!important;border-radius:12px!important;box-shadow:none!important}
+      #salesCalendarView .sales-cal-toolbar{grid-template-columns:36px minmax(0,1fr) 36px!important;gap:8px!important;padding:10px 12px!important}
+      #salesCalendarView .sales-cal-toolbar>div:first-child,#salesCalendarView .sales-cal-toolbar>div:last-child{text-align:center!important}
+      #salesCalendarView .sales-cal-title{font-size:14px!important;font-weight:800!important;line-height:1.25!important}
+      #salesCalendarView #salesPrevMonth,#salesCalendarView #salesNextMonth{width:36px!important;height:36px!important;padding:0!important;border-radius:10px!important;font-size:0!important;display:flex!important;align-items:center!important;justify-content:center!important}
+      #salesCalendarView #salesPrevMonth::before{content:"‹";font-size:22px;font-weight:700;line-height:1}
+      #salesCalendarView #salesNextMonth::before{content:"›";font-size:22px;font-weight:700;line-height:1}
+      #salesCalendarView .sales-cal-head,#salesCalendarView .sales-cal-grid{width:100%!important;max-width:100%!important;grid-template-columns:repeat(7,minmax(0,1fr))!important}
+      #salesCalendarView .sales-cal-head>div{min-width:0!important;padding:7px 2px!important;font-size:10px!important}
+      #salesCalendarView .sales-day{min-width:0!important;width:auto!important;min-height:82px!important;padding:4px 3px!important;overflow:hidden!important}
+      #salesCalendarView .sales-day-no{font-size:10.5px!important;margin-bottom:2px!important}
+      #salesCalendarView .sales-day-events{gap:3px!important}
+      #salesCalendarView .sales-event{width:100%!important;min-width:0!important;font-size:8.5px!important;line-height:1.2!important;padding:3px!important;margin:0!important;overflow:hidden!important}
+      #salesCalendarView .sales-event span{font-size:7.5px!important}
+      #rankView .rank-head{margin:2px 1px 12px!important;gap:10px!important}
+      #rankView .rank-title{font-size:0!important;font-weight:850;letter-spacing:-.35px}
+      #rankView .rank-title::before{content:"네이버 BEST 100 랭킹";font-size:18px}
+      #rankView .rank-hint{display:none!important}
+      #rankView .rank-controls{width:100%!important}
+      #rankView .rank-select{min-width:0!important;flex:1!important}
+      #rankView .rank-kpis{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important;margin-bottom:10px!important}
+      #rankView .rank-kpis .rank-kpi:first-child{display:none!important}
+      #rankView .rank-kpi{padding:7px 5px!important;border-radius:9px!important;text-align:center!important}
+      #rankView .rank-kpi small{font-size:8.5px!important;margin-bottom:3px!important;white-space:nowrap!important;letter-spacing:-.15px}
+      #rankView .rank-kpi b{font-size:10.5px!important;line-height:1.2!important}
       .settings-grid{gap:10px}.settings-card{border-color:#e6eaf0;border-radius:17px;padding:15px;box-shadow:0 4px 18px rgba(25,31,40,.045)}
       .mobile-home-card .hub-list{max-height:none}
       .category-view{padding:11px}.category-cards{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.category-card{padding:7px 6px}.category-card-name{gap:5px;font-size:11px}.category-card-dot{width:7px;height:7px}.category-card-counts{gap:5px;margin-top:5px;font-size:9px;flex-wrap:nowrap}
@@ -1378,7 +1415,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.5</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.6</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1404,7 +1441,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.5</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.6</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
