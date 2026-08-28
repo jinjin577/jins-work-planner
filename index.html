@@ -43,11 +43,17 @@
     .report-nav-btn:hover{background:#f8fafb}.report-nav-btn.active{background:var(--accent-soft);border-color:#cddff5;color:#315f94}
     .version-badge{display:inline-flex;align-items:center;margin-left:8px;padding:3px 7px;border-radius:999px;background:#edf3ff;color:#2f6fed;font-size:11px;font-weight:800;vertical-align:middle}
     .toolbar.pc-toolbar{display:grid;grid-template-columns:1fr;gap:0;padding:0;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
-    .pc-main-nav{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:12px 18px 0;border-bottom:1px solid #eef0f3}
-    .pc-main-btn{display:inline-flex;align-items:center;gap:7px;border:0;background:transparent;color:#697381;border-radius:0;padding:14px 14px 12px;font-size:14px;font-weight:700;white-space:nowrap;border-bottom:2px solid transparent}
-    .pc-main-icon{font-size:14px;line-height:1;opacity:.9}
+    .pc-main-nav{display:flex;align-items:center;justify-content:flex-start;gap:8px;padding:0 18px;border-bottom:1px solid #eef0f3}
+    .pc-main-btn{display:inline-flex;align-items:center;gap:7px;border:0;background:transparent;color:#697381;border-radius:0;padding:16px 14px 13px;font-size:14px;font-weight:750;white-space:nowrap;border-bottom:2px solid transparent}
+    .pc-main-icon{font-size:14px;line-height:1;opacity:.82}
     .pc-main-btn:hover{background:transparent;color:#2f3a49}
     .pc-main-btn.active{background:transparent;color:#2f6fed;box-shadow:none;border-bottom-color:#2f6fed}
+    .pc-main-btn.pc-settings-main{margin-left:auto}
+    .pc-section-subnav{display:flex;align-items:center;gap:22px;min-height:46px;padding:0 24px;border-bottom:1px solid #f0f2f5;background:#fbfcfe}
+    .pc-section-subnav.hidden{display:none!important}
+    .pc-subnav-btn{border:0;background:transparent;color:#7b8492;padding:14px 2px 11px;font-size:13px;font-weight:700;border-bottom:2px solid transparent;white-space:nowrap}
+    .pc-subnav-btn:hover{color:#465262}
+    .pc-subnav-btn.active{color:#2f6fed;border-bottom-color:#2f6fed}
     .launcher-btn{border:1px solid var(--line);background:#fff;color:#495465;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:750;display:inline-flex;align-items:center;gap:6px}
     .launcher-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
     .launcher-btn:hover{background:#f8fafc}
@@ -443,7 +449,7 @@
       body{background:#f5f7fb}
       .topbar{margin-bottom:12px;padding:0 2px}
       .planner-actions{display:none}
-      .pc-main-nav,.pc-settings-view{display:none!important}
+      .pc-main-nav,.pc-section-subnav,.pc-settings-view{display:none!important}
       .toolbar{display:none}
       .work-toolbar{display:none!important}
       .work-toolbar.mobile-date-only{display:block!important;padding:10px 12px;margin:0 0 10px;background:#fff;border:1px solid #e6eaf0;border-radius:16px;box-shadow:0 4px 18px rgba(25,31,40,.045)}
@@ -1349,7 +1355,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.3</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1375,7 +1381,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.3</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.4</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -1390,13 +1396,28 @@
   <div class="toolbar pc-toolbar">
     <div class="pc-main-nav" id="pcMainNav">
       <button class="pc-main-btn active" id="workMainBtn" type="button"><span class="pc-main-icon">🗓️</span><span>업무</span></button>
-      <button class="pc-main-btn" id="adReportBtn" type="button"><span class="pc-main-icon">📺</span><span>광고</span></button>
-      <button class="pc-main-btn" id="rankBtn" type="button"><span class="pc-main-icon">🏆</span><span>랭킹</span></button>
-      <button class="pc-main-btn" id="orderSummaryBtn" type="button" title="내 PC의 주문 집계 도구 열기"><span class="pc-main-icon">🧾</span><span>주문 집계</span></button>
-      <button class="pc-main-btn" id="addressGuardBtn" type="button" title="내 PC의 Address Guard 열기"><span class="pc-main-icon">🛡️</span><span>주소 검사</span></button>
-      <button class="pc-main-btn" id="salesCalendarBtn" type="button"><span class="pc-main-icon">🏷️</span><span>판매 일정</span></button>
-      <button class="pc-main-btn" id="inboundPlannerBtn" type="button"><span class="pc-main-icon">📦</span><span>입고 계산</span></button>
-      <button class="pc-main-btn" id="settingsMainBtn" type="button"><span class="pc-main-icon">⚙️</span><span>설정</span></button>
+      <button class="pc-main-btn" id="salesOpsMainBtn" type="button"><span class="pc-main-icon">📦</span><span>판매 운영</span></button>
+      <button class="pc-main-btn" id="performanceMainBtn" type="button"><span class="pc-main-icon">📈</span><span>성과</span></button>
+      <button class="pc-main-btn" id="toolsMainBtn" type="button"><span class="pc-main-icon">🧰</span><span>도구</span></button>
+      <button class="pc-main-btn pc-settings-main" id="settingsMainBtn" type="button"><span class="pc-main-icon">⚙️</span><span>설정</span></button>
+    </div>
+    <div class="pc-section-subnav" id="workSubnav">
+      <button class="pc-subnav-btn tab active" data-view="week">주간</button>
+      <button class="pc-subnav-btn tab" data-view="month">캘린더</button>
+      <button class="pc-subnav-btn tab" data-view="category">카테고리</button>
+      <button class="pc-subnav-btn tab" data-view="completed">완료</button>
+    </div>
+    <div class="pc-section-subnav hidden" id="salesOpsSubnav">
+      <button class="pc-subnav-btn" id="salesCalendarBtn" type="button">프로모션</button>
+      <button class="pc-subnav-btn" id="inboundPlannerBtn" type="button">풀필먼트</button>
+    </div>
+    <div class="pc-section-subnav hidden" id="performanceSubnav">
+      <button class="pc-subnav-btn" id="adReportBtn" type="button">광고</button>
+      <button class="pc-subnav-btn" id="rankBtn" type="button">네이버 랭킹</button>
+    </div>
+    <div class="pc-section-subnav hidden" id="toolsSubnav">
+      <button class="pc-subnav-btn" id="orderSummaryBtn" type="button" title="내 PC의 주문 집계 도구 열기">주문 집계</button>
+      <button class="pc-subnav-btn" id="addressGuardBtn" type="button" title="내 PC의 Address Guard 열기">리셀러 추적</button>
     </div>
     <div class="work-toolbar" id="workToolbar">
       <div class="work-header-actions">
@@ -1410,12 +1431,6 @@
         <div class="range-title" id="rangeTitle"></div>
         <button class="today-inline" id="todayBtn">오늘</button>
         <button class="month-nav-btn" id="nextBtn" title="다음" aria-label="다음">›</button>
-      </div>
-      <div class="view-tabs">
-        <button class="tab active" data-view="week">주간</button>
-        <button class="tab" data-view="month">캘린더</button>
-        <button class="tab" data-view="category">카테고리</button>
-        <button class="tab" data-view="completed">완료</button>
       </div>
     </div>
   </div>
@@ -1949,6 +1964,7 @@
   let data = loadData();
   let currentDate = new Date();
   let currentView = 'week';
+  let pcMainSection = 'work';
   let taskDateCalendarMonth = new Date();
   let mobileMainSection = 'work';
   let mobileWorkView = 'home';
@@ -1964,7 +1980,7 @@
   let selectedSalesEventProducts = [];
 
   const weekView = document.getElementById('weekView'), weekShell = document.getElementById('weekShell'), monthView = document.getElementById('monthView'),
-    adReportView = document.getElementById('adReportView'), adReportBtn = document.getElementById('adReportBtn'), rankView = document.getElementById('rankView'), rankBtn = document.getElementById('rankBtn'), orderSummaryBtn = document.getElementById('orderSummaryBtn'), addressGuardBtn = document.getElementById('addressGuardBtn'), salesCalendarView = document.getElementById('salesCalendarView'), salesCalendarBtn = document.getElementById('salesCalendarBtn'), inboundPlannerView = document.getElementById('inboundPlannerView'), inboundPlannerBtn = document.getElementById('inboundPlannerBtn'), workMainBtn = document.getElementById('workMainBtn'), settingsMainBtn = document.getElementById('settingsMainBtn'), workToolbar = document.getElementById('workToolbar'), pcSettingsView = document.getElementById('pcSettingsView'),
+    adReportView = document.getElementById('adReportView'), adReportBtn = document.getElementById('adReportBtn'), rankView = document.getElementById('rankView'), rankBtn = document.getElementById('rankBtn'), orderSummaryBtn = document.getElementById('orderSummaryBtn'), addressGuardBtn = document.getElementById('addressGuardBtn'), salesCalendarView = document.getElementById('salesCalendarView'), salesCalendarBtn = document.getElementById('salesCalendarBtn'), inboundPlannerView = document.getElementById('inboundPlannerView'), inboundPlannerBtn = document.getElementById('inboundPlannerBtn'), workMainBtn = document.getElementById('workMainBtn'), salesOpsMainBtn = document.getElementById('salesOpsMainBtn'), performanceMainBtn = document.getElementById('performanceMainBtn'), toolsMainBtn = document.getElementById('toolsMainBtn'), settingsMainBtn = document.getElementById('settingsMainBtn'), workSubnav = document.getElementById('workSubnav'), salesOpsSubnav = document.getElementById('salesOpsSubnav'), performanceSubnav = document.getElementById('performanceSubnav'), toolsSubnav = document.getElementById('toolsSubnav'), workToolbar = document.getElementById('workToolbar'), pcSettingsView = document.getElementById('pcSettingsView'),
     categoryView = document.getElementById('categoryView'), categoryCards = document.getElementById('categoryCards'), categoryDetail = document.getElementById('categoryDetail'),
     completedView = document.getElementById('completedView'), completedList = document.getElementById('completedList'),
     completedCount = document.getElementById('completedCount'), dateNav = document.getElementById('dateNav'),
@@ -3587,9 +3603,11 @@
     const isWork=isWeek||isMonth||isCategory||completed;
     const views=[[weekShell,isWeek],[monthView,isMonth],[categoryView,isCategory],[adReportView,isAds],[rankView,isRank],[salesCalendarView,isSales],[inboundPlannerView,isInbound],[completedView,completed],[pcSettingsView,isSettings],[mobileSettingsView,false]];
     views.forEach(([el,active])=>{if(!el)return;el.classList.toggle('planner-view-active',active);el.classList.toggle('planner-view-hidden',!active);el.style.removeProperty('display')});
-    workMainBtn.classList.toggle('active',isWork);adReportBtn.classList.toggle('active',isAds);rankBtn.classList.toggle('active',isRank);salesCalendarBtn.classList.toggle('active',isSales);inboundPlannerBtn.classList.toggle('active',isInbound);settingsMainBtn.classList.toggle('active',isSettings);
+    workMainBtn.classList.toggle('active',pcMainSection==='work');salesOpsMainBtn.classList.toggle('active',pcMainSection==='sales');performanceMainBtn.classList.toggle('active',pcMainSection==='performance');toolsMainBtn.classList.toggle('active',pcMainSection==='tools');settingsMainBtn.classList.toggle('active',pcMainSection==='settings');
+    workSubnav.classList.toggle('hidden',pcMainSection!=='work');salesOpsSubnav.classList.toggle('hidden',pcMainSection!=='sales');performanceSubnav.classList.toggle('hidden',pcMainSection!=='performance');toolsSubnav.classList.toggle('hidden',pcMainSection!=='tools');
     document.querySelectorAll('.tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.view===activeView));
-    workToolbar.classList.toggle('hidden',!isWork);
+    adReportBtn.classList.toggle('active',isAds);rankBtn.classList.toggle('active',isRank);salesCalendarBtn.classList.toggle('active',isSales);inboundPlannerBtn.classList.toggle('active',isInbound);
+    workToolbar.classList.toggle('hidden',!isWork||pcMainSection!=='work');
     const noDateNav=isCategory||completed;
     document.getElementById('dateNav').style.display=noDateNav?'none':'grid';
     document.getElementById('prevBtn').style.display=noDateNav?'none':'flex';document.getElementById('nextBtn').style.display=noDateNav?'none':'flex';document.getElementById('todayBtn').style.display=noDateNav?'none':'inline-flex';
@@ -3600,9 +3618,9 @@
     else if(isMonth)renderMonth();
     else if(isCategory)renderCategoryPage();
     else if(isAds)rangeTitle.textContent='광고';
-    else if(isRank)rangeTitle.textContent='랭킹';
-    else if(isSales){rangeTitle.textContent='판매 일정';renderSalesLocal()}
-    else if(isInbound){rangeTitle.textContent='입고 계산';renderInventoryTable(false)}
+    else if(isRank)rangeTitle.textContent='네이버 랭킹';
+    else if(isSales){rangeTitle.textContent='프로모션';renderSalesLocal()}
+    else if(isInbound){rangeTitle.textContent='풀필먼트';renderInventoryTable(false)}
     else if(completed)renderCompleted();
   }
   function syncMobileNavUI(){
@@ -4004,29 +4022,45 @@
     render();
   });
 
-  document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{currentView=tab.dataset.view;mobileMainSection='work';mobileWorkView=tab.dataset.view;if(currentView==='category')showCategoryCompleted=false;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===tab));render()}));
+  document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{pcMainSection='work';currentView=tab.dataset.view;mobileMainSection='work';mobileWorkView=tab.dataset.view;if(currentView==='category')showCategoryCompleted=false;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===tab));render()}));
   workMainBtn.addEventListener('click',()=>{
+    pcMainSection='work';
     if(!['week','month','category','completed'].includes(currentView))currentView='week';
     mobileMainSection='work';mobileWorkView=currentView;render();
   });
+  salesOpsMainBtn.addEventListener('click',()=>{
+    pcMainSection='sales';
+    if(!['sales','inbound'].includes(currentView))currentView='sales';
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));render();
+  });
+  performanceMainBtn.addEventListener('click',()=>{
+    pcMainSection='performance';
+    if(!['ads','rank'].includes(currentView))currentView='ads';
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));render();
+    if(currentView==='ads'){loadAdHistory();loadAdProductDashboard()}else loadRankDashboard(rankDateSelect.value);
+  });
+  toolsMainBtn.addEventListener('click',()=>{
+    pcMainSection='tools';
+    setStandardViewVisibility(currentView);
+  });
   settingsMainBtn.addEventListener('click',()=>{
-    currentView='settings';render();
+    pcMainSection='settings';currentView='settings';render();
   });
   adReportBtn.addEventListener('click',()=>{
-    currentView='ads';mobileMainSection='ads';
+    pcMainSection='performance';currentView='ads';mobileMainSection='ads';
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
     render();
     loadAdHistory();
     loadAdProductDashboard();
   });
   orderSummaryBtn.addEventListener('click',()=>{
-    window.location.href='order-summary://open';
+    pcMainSection='tools';window.location.href='order-summary://open';
   });
   addressGuardBtn.addEventListener('click',()=>{
-    window.location.href='addressguard://open';
+    pcMainSection='tools';window.location.href='addressguard://open';
   });
-  salesCalendarBtn.addEventListener('click',()=>{currentView='sales';document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));render()});
-  inboundPlannerBtn.addEventListener('click',()=>{currentView='inbound';document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));render()});
+  salesCalendarBtn.addEventListener('click',()=>{pcMainSection='sales';currentView='sales';document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));render()});
+  inboundPlannerBtn.addEventListener('click',()=>{pcMainSection='sales';currentView='inbound';document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));render()});
   document.getElementById('importSalesCsvBtn').addEventListener('click',()=>document.getElementById('salesCsvFile').click());
   document.getElementById('salesCsvFile').addEventListener('change',async e=>{await importSalesCsvFiles([...e.target.files]);e.target.value=''});
   document.getElementById('backupSalesDataBtn').addEventListener('click',backupSalesData);
@@ -4049,7 +4083,7 @@
   document.getElementById('clearInboundProductsBtn').addEventListener('click',()=>setAllInboundProducts(false));
   document.getElementById('baselineDays').addEventListener('change',async()=>{salesState.baselineDays=document.getElementById('baselineDays').value==='all'?'all':Number(document.getElementById('baselineDays').value);await saveSalesState();renderInventoryTable(false)});
   rankBtn.addEventListener('click',()=>{
-    currentView='rank';mobileMainSection='rank';
+    pcMainSection='performance';currentView='rank';mobileMainSection='rank';
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
     render();
     loadRankDashboard(rankDateSelect.value);
