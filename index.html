@@ -1497,7 +1497,7 @@
       #reviewDrawView{display:none!important}
     }
 
-    /* v8.11 PC-only review draw */
+    /* v8.13 PC-only review draw */
     .review-draw-view{display:none;width:100%;max-width:none;margin:0 auto;padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);box-sizing:border-box}.review-draw-view.planner-view-active{display:block!important}
     .review-upload-panel,.review-rule-panel,.review-result-panel,.review-allocation-panel{border:1px solid #e3e8ef;border-radius:12px;background:#fff;overflow:hidden}
     .review-upload-panel{display:grid;grid-template-columns:minmax(0,1.35fr) repeat(2,minmax(150px,.45fr)) auto;gap:12px;align-items:end;padding:16px;margin-bottom:14px;background:#fbfcfe}
@@ -1506,9 +1506,9 @@
     .review-upload-actions{display:flex;gap:8px;align-items:center}.review-upload-actions .local-btn{white-space:nowrap}
     .review-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:14px}.review-kpi{border:1px solid #e0e6ee;background:#fff;border-radius:11px;padding:13px 14px}.review-kpi span{display:block;color:#778293;font-size:10.5px;font-weight:750;margin-bottom:6px}.review-kpi b{font-size:19px;font-weight:900}.review-kpi b.is-accent{color:#2f6fed}.review-kpi b.is-warning{color:#a15c00}
     .review-grid{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:14px;margin-bottom:14px}.review-panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:14px 15px 11px;border-bottom:1px solid #e8edf3}.review-panel-title{font-size:13px;font-weight:900}.review-panel-hint{margin-top:4px;color:var(--muted);font-size:10.5px;line-height:1.5}
-    .review-allocation-table,.review-rule-table,.review-result-table{width:100%;border-collapse:collapse;font-size:11.5px}.review-allocation-table th,.review-rule-table th,.review-result-table th{padding:10px 11px;background:#f3f6fb;color:#536174;font-size:10.5px;font-weight:850;text-align:left;border-bottom:1px solid #dfe6ef;white-space:nowrap}.review-allocation-table td,.review-rule-table td,.review-result-table td{padding:10px 11px;border-bottom:1px solid #edf0f4;vertical-align:top}.review-allocation-table tbody tr:last-child td,.review-rule-table tbody tr:last-child td,.review-result-table tbody tr:last-child td{border-bottom:0}.review-allocation-table th:not(:first-child),.review-allocation-table td:not(:first-child){text-align:right}.review-rule-table td:first-child{font-weight:800;white-space:nowrap}.review-rule-score{color:#2f6fed;font-weight:900;white-space:nowrap;text-align:right}
-    .review-result-panel{margin-bottom:2px}.review-result-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.review-result-toolbar select{border:1px solid #ccd5e2;border-radius:8px;padding:7px 9px;background:#fff;font-size:11.5px}.review-result-count{color:#647083;font-size:10.5px;font-weight:750}
-    .review-result-wrap{max-height:610px;overflow:auto}.review-result-table{min-width:1180px}.review-result-table thead{position:sticky;top:0;z-index:2}.review-result-table th:first-child,.review-result-table td:first-child{text-align:center}.review-result-table td:nth-child(5),.review-result-table td:nth-child(6),.review-result-table td:nth-child(8){text-align:center}.review-result-table tbody tr:hover{background:#f8faff}.review-result-table tbody tr.is-reserve{background:#fffaf0}.review-result-table tbody tr.is-selected{box-shadow:inset 3px 0 #2f6fed}.review-result-table input[type="checkbox"]{width:16px;height:16px;accent-color:#2f6fed}
+    .review-allocation-table,.review-rule-table,.review-result-table{width:100%;border-collapse:collapse;font-size:11.5px}.review-allocation-table th,.review-rule-table th,.review-result-table th{padding:10px 11px;background:#f3f6fb;color:#536174;font-size:10.5px;font-weight:850;text-align:left;border-bottom:1px solid #dfe6ef;white-space:nowrap}.review-allocation-table td,.review-rule-table td,.review-result-table td{padding:10px 11px;border-bottom:1px solid #edf0f4;vertical-align:top}.review-allocation-table tbody tr:last-child td,.review-rule-table tbody tr:last-child td,.review-result-table tbody tr:last-child td{border-bottom:0}.review-allocation-table th:not(:first-child),.review-allocation-table td:not(:first-child){text-align:right}.review-rule-table td:first-child{font-weight:800;white-space:nowrap}.review-rule-score{color:#2f6fed;font-weight:900;white-space:nowrap;text-align:right}.review-allocation-input{width:62px;border:1px solid #cbd6e4;border-radius:8px;padding:6px 7px;text-align:right;font-size:11.5px;font-weight:850;color:#244f8d;background:#fff}.review-allocation-input:focus{outline:0;border-color:#7fa7ef;box-shadow:0 0 0 3px rgba(47,111,237,.09)}.review-allocation-input:disabled{background:#f3f5f8;color:#a0a8b3}.review-allocation-total{margin-top:4px;font-size:10.5px;font-weight:850;color:#2f6fed}.review-allocation-total.is-error{color:#b34141}.review-panel-action{flex:0 0 auto;padding:7px 9px;font-size:10.5px}
+    .review-result-panel{margin-bottom:2px}.review-result-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.review-result-toolbar select{border:1px solid #ccd5e2;border-radius:8px;padding:7px 9px;background:#fff;font-size:11.5px}.review-result-count{color:#647083;font-size:10.5px;font-weight:750}.review-live-count{display:inline-flex;align-items:center;min-height:28px;padding:5px 10px;border:1px solid #f0c36a;border-radius:999px;background:#fff7e2;color:#8a5900;font-size:11px;font-weight:850}.review-live-count.is-complete{border-color:#8fd1ad;background:#eaf8f0;color:#137343}.review-live-count.is-over{border-color:#ef9c9c;background:#fff0f0;color:#b3261e}
+    .review-result-wrap{max-height:610px;overflow:auto}.review-result-table{min-width:1180px}.review-result-table thead{position:sticky;top:0;z-index:2}.review-result-table th:first-child,.review-result-table td:first-child,.review-result-table td:nth-child(2),.review-result-table td:nth-child(3),.review-result-table td:nth-child(4),.review-result-table td:nth-child(6),.review-result-table td:nth-child(7),.review-result-table td:nth-child(9){text-align:center}.review-result-table tbody tr:hover{background:#f8faff}.review-result-table tbody tr.is-reserve{background:#fffaf0}.review-result-table tbody tr.is-selected{box-shadow:inset 3px 0 #2f6fed}.review-result-table input[type="checkbox"]{width:16px;height:16px;accent-color:#2f6fed}
     .review-status-badge,.review-score-badge,.review-product-badge,.review-flag{display:inline-flex;align-items:center;border-radius:999px;font-weight:850;white-space:nowrap}.review-status-badge{padding:4px 7px;background:#eaf2ff;color:#2f64b1;font-size:10px}.review-status-badge.reserve{background:#fff1d9;color:#946000}.review-score-badge{min-width:36px;justify-content:center;padding:4px 7px;background:#edf7f1;color:#24724b;font-size:10.5px}.review-product-badge{padding:4px 7px;background:#f0f3f7;color:#4d5969;font-size:10px}.review-flag{padding:3px 6px;background:#fff0ed;color:#b34c3f;font-size:9.5px;margin:2px 3px 0 0}.review-flag.neutral{background:#eef3f9;color:#53677f}.review-text-cell{min-width:340px;max-width:520px;line-height:1.55;color:#303744}.review-meta-line{margin-top:5px;color:#7a8492;font-size:9.5px}.review-id-cell,.review-number-cell{white-space:nowrap;font-variant-numeric:tabular-nums}.review-empty{padding:34px!important;text-align:center!important;color:var(--muted)}
     .review-privacy-note{margin-top:9px;color:#718096;font-size:10.5px;line-height:1.55}.review-error{color:#b34141}.review-file-name{font-weight:800;color:#334155}
     @media(min-width:701px) and (max-width:1100px){.review-upload-panel{grid-template-columns:repeat(3,minmax(0,1fr))}.review-upload-copy{grid-column:1/-1}.review-grid{grid-template-columns:1fr}.review-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
@@ -1520,7 +1520,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.11</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.13</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1546,7 +1546,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.11</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.13</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -1830,15 +1830,15 @@
 
     <div class="review-grid">
       <div class="review-allocation-panel">
-        <div class="review-panel-head"><div><div class="review-panel-title">상품별 당첨 인원 배정</div><div class="review-panel-hint">정상 리뷰 수의 비율과 최대 나머지 방식으로 전체 인원을 정확히 맞춥니다.</div></div></div>
+        <div class="review-panel-head"><div><div class="review-panel-title">상품별 당첨 인원 배정</div><div class="review-panel-hint">기본값은 정상 리뷰 수 비례 배정입니다. 추천 숫자를 직접 바꾸면 합계가 전체 당첨 인원과 일치할 때 즉시 다시 선정합니다.</div><div class="review-allocation-total" id="reviewAllocationTotal">합계 0명 / 전체 60명</div></div><button class="local-btn review-panel-action" id="reviewAutoAllocateBtn" type="button" disabled>비례 배정으로 되돌리기</button></div>
         <table class="review-allocation-table"><thead><tr><th>상품군</th><th>정상 리뷰</th><th>비중</th><th>추천</th><th>검토</th></tr></thead><tbody id="reviewAllocationBody"><tr><td colspan="5" class="review-empty">엑셀을 업로드해주세요.</td></tr></tbody></table>
       </div>
       <div class="review-rule-panel">
         <div class="review-panel-head"><div><div class="review-panel-title">좋은 리뷰 평가 기준</div><div class="review-panel-hint">AI 작성 여부를 단정하지 않고 구체성·효능 경험·정성·자연스러움을 규칙으로 점수화합니다. 동점은 구매 수량이 큰 리뷰가 우선입니다.</div></div></div>
         <table class="review-rule-table"><thead><tr><th>평가 항목</th><th>판단 기준</th><th>배점</th></tr></thead><tbody>
-          <tr><td>구체적인 섭취 경험</td><td>섭취 기간·빈도·대상·생활 속 사용 상황이 구체적인지</td><td class="review-rule-score">25점</td></tr>
-          <tr><td>효능·효과 경험</td><td>제품군과 관련된 변화, 전후 비교 또는 체감이 구체적인지</td><td class="review-rule-score">30점</td></tr>
-          <tr><td>내용 충실도·정성</td><td>글 길이, 문장 구성, 구체적인 설명이 충분한지</td><td class="review-rule-score">20점</td></tr>
+          <tr><td>구체적인 섭취 경험</td><td>섭취 기간·빈도·대상·생활 속 사용 상황이 구체적인지</td><td class="review-rule-score">20점</td></tr>
+          <tr><td>효능·효과 경험</td><td>제품군과 관련된 변화, 전후 비교 또는 체감이 구체적인지</td><td class="review-rule-score">25점</td></tr>
+          <tr><td>내용 충실도·정성</td><td>글 길이뿐 아니라 문장 구성과 구체적인 설명이 충분한지. 실질 내용 40자 미만은 자동 추천 후순위</td><td class="review-rule-score">30점</td></tr>
           <tr><td>사진·영상</td><td>첨부사진 개수와 동영상 첨부 여부</td><td class="review-rule-score">10점</td></tr>
           <tr><td>자연스러운 작성</td><td>개인 경험이 자연스럽고 복붙·광고성·상투적 표현이 적은지</td><td class="review-rule-score">15점</td></tr>
         </tbody></table>
@@ -1848,9 +1848,9 @@
     <div class="review-result-panel">
       <div class="review-panel-head">
         <div><div class="review-panel-title">추천 결과</div><div class="review-panel-hint">추천 당첨자는 기본 체크되며, 추가 검토 후보와 직접 교체할 수 있습니다. 다운로드 파일의 ‘베스트리뷰’ 열에는 체크한 행만 Y로 표시됩니다.</div></div>
-        <div class="review-result-toolbar"><select id="reviewResultFilter" aria-label="리뷰 결과 필터"><option value="all">전체 후보</option><option value="selected">현재 체크</option><option value="winner">추천 당첨자</option><option value="reserve">추가 검토</option></select><span class="review-result-count" id="reviewResultCount">0개 표시</span></div>
+        <div class="review-result-toolbar"><select id="reviewResultFilter" aria-label="리뷰 결과 필터"><option value="all">전체 후보</option><option value="selected">현재 체크</option><option value="winner">추천 당첨자</option><option value="reserve">추가 검토</option></select><span class="review-live-count" id="reviewLiveSelectedCount" aria-live="polite">현재 당첨 0/60명 · 60명 더 선택 필요</span><span class="review-result-count" id="reviewResultCount">0개 표시</span></div>
       </div>
-      <div class="review-result-wrap"><table class="review-result-table"><thead><tr><th>당첨</th><th>구분</th><th>상품군</th><th>점수</th><th>구성</th><th>사진</th><th>등록자</th><th>리뷰 글번호</th><th>리뷰 내용·선정 근거</th></tr></thead><tbody id="reviewResultBody"><tr><td colspan="9" class="review-empty">엑셀을 업로드하면 추천 결과가 표시됩니다.</td></tr></tbody></table></div>
+      <div class="review-result-wrap"><table class="review-result-table"><thead><tr><th>당첨</th><th>구분</th><th>상품군</th><th>점수</th><th>리뷰 내용·선정 근거</th><th>구성</th><th>사진</th><th>등록자</th><th>리뷰 글번호</th></tr></thead><tbody id="reviewResultBody"><tr><td colspan="9" class="review-empty">엑셀을 업로드하면 추천 결과가 표시됩니다.</td></tr></tbody></table></div>
     </div>
     <div class="review-privacy-note">중복 등록자는 마스킹된 아이디의 보이는 문자열과 별표 구성을 정규화해 비교합니다. 서로 다른 아이디가 우연히 같은 형태로 마스킹된 경우는 화면에서 직접 확인해주세요.</div>
   </section>
@@ -2199,7 +2199,7 @@
   let salesCalendarDate = new Date();
   let editingSalesEventId = null;
   let selectedSalesEventProducts = [];
-  let reviewState = {file:null,workbook:null,worksheet:null,sheetName:'',rows:[],headers:[],headerIndex:{},candidates:[],selectedRows:new Set(),allocations:[],stats:null};
+  let reviewState = {file:null,workbook:null,worksheet:null,sheetName:'',rows:[],headers:[],headerIndex:{},candidates:[],selectedRows:new Set(),allocations:[],stats:null,manualAllocation:null,winnerAllocation:null};
 
   const weekView = document.getElementById('weekView'), weekShell = document.getElementById('weekShell'), monthView = document.getElementById('monthView'),
     adReportView = document.getElementById('adReportView'), adReportBtn = document.getElementById('adReportBtn'), rankView = document.getElementById('rankView'), rankBtn = document.getElementById('rankBtn'), orderSummaryBtn = document.getElementById('orderSummaryBtn'), addressGuardBtn = document.getElementById('addressGuardBtn'), salesCalendarView = document.getElementById('salesCalendarView'), salesCalendarBtn = document.getElementById('salesCalendarBtn'), inboundPlannerView = document.getElementById('inboundPlannerView'), inboundPlannerBtn = document.getElementById('inboundPlannerBtn'), reviewDrawView = document.getElementById('reviewDrawView'), reviewDrawBtn = document.getElementById('reviewDrawBtn'), workMainBtn = document.getElementById('workMainBtn'), salesOpsMainBtn = document.getElementById('salesOpsMainBtn'), performanceMainBtn = document.getElementById('performanceMainBtn'), settingsMainBtn = document.getElementById('settingsMainBtn'), workSubnav = document.getElementById('workSubnav'), salesOpsSubnav = document.getElementById('salesOpsSubnav'), performanceSubnav = document.getElementById('performanceSubnav'), workToolbar = document.getElementById('workToolbar'), pcSettingsView = document.getElementById('pcSettingsView'),
@@ -3872,18 +3872,18 @@
     omega3:/(기억|깜빡|두뇌|눈|건조|혈행|혈액|콜레스테롤|중성지방|순환)/
   }[group]||/(건강|효과|도움)/}
   function scoreReviewCandidate(candidate,textFrequency,idFrequency){const text=candidate.text,compact=normalizedReviewBody(text),length=compact.length;let experience=0,effect=0,content=0,media=0,natural=7;const reasons=[],flags=[];
-    if(hasReviewPattern(text,/(꾸준|한달|한 달|\d+\s*(개월|주|일)|매일|하루|아침|저녁|식후|공복|동안)/))experience+=7,reasons.push('섭취 기간·빈도');
-    if(hasReviewPattern(text,/(먹고|먹어|섭취|복용|챙겨|사용|타서|마셔|주문)/))experience+=5,reasons.push('실제 섭취 경험');
-    if(hasReviewPattern(text,/(저는|제가|본인|부모|엄마|아빠|어머니|아버지|남편|아내|배우자|가족|아이|할머니|할아버지)/))experience+=5,reasons.push('섭취 대상 구체적');
-    if(hasReviewPattern(text,/(계단|걷|산책|운동|출근|일할|잠|기상|병원|검사|일상|아침에|저녁에)/))experience+=5,reasons.push('생활 상황 언급');
-    if(/\d/.test(text))experience+=3;
-    experience=Math.min(25,experience);
+    if(hasReviewPattern(text,/(꾸준|한달|한 달|\d+\s*(개월|주|일)|매일|하루|아침|저녁|식후|공복|동안)/))experience+=6,reasons.push('섭취 기간·빈도');
+    if(hasReviewPattern(text,/(먹고|먹어|섭취|복용|챙겨|사용|타서|마셔|주문)/))experience+=4,reasons.push('실제 섭취 경험');
+    if(hasReviewPattern(text,/(저는|제가|본인|부모|엄마|아빠|어머니|아버지|남편|아내|배우자|가족|아이|할머니|할아버지)/))experience+=4,reasons.push('섭취 대상 구체적');
+    if(hasReviewPattern(text,/(계단|걷|산책|운동|출근|일할|잠|기상|병원|검사|일상|아침에|저녁에)/))experience+=4,reasons.push('생활 상황 언급');
+    if(/\d/.test(text))experience+=2;
+    experience=Math.min(20,experience);
     const generalEffect=hasReviewPattern(text,/(효과|도움|좋아졌|좋아진|편해졌|편해진|덜\s*(아프|뻣뻣|피곤|빠지)|줄었|감소|개선|변화|튼튼|상쾌|활력|체감)/),specificEffect=hasReviewPattern(text,reviewSpecificEffectRegex(candidate.group)),comparison=hasReviewPattern(text,/(전보다|이전보다|예전보다|먹기\s*전|섭취\s*전|\d+\s*(개월|주|일).{0,18}(후|지나)|덜|줄|늘|편해|좋아)/);
-    if(generalEffect)effect+=10,reasons.push('효과·변화 언급');if(specificEffect)effect+=12,reasons.push('제품 관련 체감');if(comparison)effect+=8,reasons.push('전후·정도 비교');
+    if(generalEffect)effect+=8,reasons.push('효과·변화 언급');if(specificEffect)effect+=10,reasons.push('제품 관련 체감');if(comparison)effect+=7,reasons.push('전후·정도 비교');
     const strongNegative=hasReviewPattern(text,/(효과\s*(가\s*)?(없|모르)|별로|실망|환불|부작용|더\s*아프|불편해|안\s*좋|못\s*먹)/);if(strongNegative){effect=Math.min(effect,3);flags.push('부정 경험 확인')}
-    effect=Math.min(30,effect);
-    if(length>=120)content=15;else if(length>=70)content=12;else if(length>=40)content=9;else if(length>=20)content=6;else if(length>=10)content=3;
-    const sentenceSignals=(text.match(/[.!?~\n]|그래서|하지만|그리고|때문|덕분|반면/g)||[]).length;if(sentenceSignals>=4)content+=5;else if(sentenceSignals>=2)content+=3;else if(sentenceSignals>=1)content+=1;content=Math.min(20,content);if(content>=12)reasons.push('충실한 내용');
+    effect=Math.min(25,effect);
+    if(length>=250)content=25;else if(length>=160)content=22;else if(length>=100)content=18;else if(length>=70)content=14;else if(length>=40)content=9;else if(length>=25)content=5;else if(length>=15)content=2;
+    const sentenceSignals=(text.match(/[.!?~\n]|그래서|하지만|그리고|때문|덕분|반면/g)||[]).length;if(sentenceSignals>=5)content+=5;else if(sentenceSignals>=3)content+=3;else if(sentenceSignals>=2)content+=2;else if(sentenceSignals>=1)content+=1;content=Math.min(30,content);if(content>=18)reasons.push('충실한 내용');
     if(candidate.photoCount>=3)media=9;else if(candidate.photoCount===2)media=7;else if(candidate.photoCount===1)media=5;if(candidate.videoCount>0)media=Math.min(10,media+2);if(media)reasons.push(candidate.videoCount?'사진·영상 첨부':'사진 첨부');
     if(hasReviewPattern(text,/(저는|제가|우리|엄마|아빠|남편|아내|가족|직접|개인적으로|제\s)/))natural+=3;if(/\d/.test(text))natural+=2;if(sentenceSignals>=2)natural+=2;
     if(length<15||/^(좋아요|좋습니다|잘먹고있어요|만족합니다|추천합니다|배송빨라요)[.!~\s]*$/i.test(text))natural-=6,flags.push('짧고 상투적');
@@ -3892,16 +3892,114 @@
     const structuredMarkers=(text.match(/가장\s*큰\s*장점|무엇보다|결론적으로|정리하자면|전반적으로|추천드리고|선택하게\s*되었|솔직\s*후기|내돈내산|사용\s*후기|총평|\n\s*\d+[.)]/g)||[]).length,marketingMarkers=(text.match(/개별인정형|기능성\s*원료|핵심\s*성분|인체적용시험|식약처|GMP|하루\s*섭취량|함량|상세페이지/g)||[]).length,highAiStyle=/이\s*제품의\s*가장\s*큰\s*장점|가장\s*먼저\s*눈에\s*들어온|여러\s*제품을\s*꼼꼼히\s*(비교|따져)|성분을\s*꼼꼼히\s*따져|단순히.{0,24}(아니라|넘어)/.test(text)||(structuredMarkers>=3&&length>=100);
     if(structuredMarkers>=2){natural-=4;flags.push('정형화 문장 검토')}if(marketingMarkers>=3){natural-=4;flags.push('상세페이지식 표현 검토')}if(highAiStyle){natural=Math.min(natural,4);flags.push('AI식 문장 구조 검토')}
     natural=Math.max(0,Math.min(15,natural));
-    if(!generalEffect||!comparison)flags.push('효능 구체성 검토');if(length<20&&!flags.includes('짧고 상투적'))flags.push('짧은 내용');if((idFrequency.get(candidate.reviewerKey)||0)>1)flags.push(`동일 등록자 리뷰 ${idFrequency.get(candidate.reviewerKey)}건`);
-    candidate.parts={experience,effect,content,media,natural};candidate.score=experience+effect+content+media+natural;candidate.reasons=[...new Set(reasons)].slice(0,5);candidate.flags=[...new Set(flags)];return candidate}
-  function compareReviewCandidates(a,b){return b.score-a.score||b.quantity-a.quantity||b.photoCount-a.photoCount||b.text.length-a.text.length||String(b.reviewNumber).localeCompare(String(a.reviewNumber),'ko',{numeric:true})}
+    if(!generalEffect||!comparison)flags.push('효능 구체성 검토');if(length<40)flags.push('40자 미만 · 자동 추천 후순위');if((idFrequency.get(candidate.reviewerKey)||0)>1)flags.push(`동일 등록자 리뷰 ${idFrequency.get(candidate.reviewerKey)}건`);
+    candidate.autoEligible=length>=40;candidate.meaningfulLength=length;candidate.parts={experience,effect,content,media,natural};candidate.score=experience+effect+content+media+natural;candidate.reasons=[...new Set(reasons)].slice(0,5);candidate.flags=[...new Set(flags)];return candidate}
+  function compareReviewCandidates(a,b){return Number(b.autoEligible)-Number(a.autoEligible)||b.score-a.score||b.quantity-a.quantity||b.photoCount-a.photoCount||b.meaningfulLength-a.meaningfulLength||String(b.reviewNumber).localeCompare(String(a.reviewNumber),'ko',{numeric:true})}
   function pickReviewCandidates(candidates,allocation,used,status){const remaining={...allocation},picked=[];for(const candidate of candidates){if((remaining[candidate.group]||0)<=0||used.has(candidate.reviewerKey))continue;picked.push({...candidate,status});used.add(candidate.reviewerKey);remaining[candidate.group]--}return {picked,remaining}}
-  function updateReviewSelectedKpi(){document.getElementById('reviewSelectedKpi').textContent=`${reviewState.selectedRows.size.toLocaleString()}명`}
-  function renderReviewAllocation(){const body=document.getElementById('reviewAllocationBody');if(!reviewState.allocations.length){body.innerHTML='<tr><td colspan="5" class="review-empty">엑셀을 업로드해주세요.</td></tr>';return}body.innerHTML=reviewState.allocations.map(item=>`<tr><td><span class="review-product-badge">${escHtml(item.label)}</span></td><td>${item.count.toLocaleString()}</td><td>${item.share.toFixed(1)}%</td><td><b>${item.winner.toLocaleString()}명</b></td><td>${item.reserve.toLocaleString()}명</td></tr>`).join('')}
+  function updateReviewSelectedKpi(){
+    const selected=reviewState.selectedRows.size,target=Math.max(1,Number(document.getElementById('reviewTargetCount').value)||60),live=document.getElementById('reviewLiveSelectedCount');
+    document.getElementById('reviewSelectedKpi').textContent=`${selected.toLocaleString()}명`;
+    if(!live)return;
+    live.className='review-live-count';
+    if(selected===target){live.classList.add('is-complete');live.textContent=`현재 당첨 ${selected.toLocaleString()}/${target.toLocaleString()}명 · 선정 완료`}
+    else if(selected<target){live.textContent=`현재 당첨 ${selected.toLocaleString()}/${target.toLocaleString()}명 · ${(target-selected).toLocaleString()}명 더 선택 필요`}
+    else{live.classList.add('is-over');live.textContent=`현재 당첨 ${selected.toLocaleString()}/${target.toLocaleString()}명 · ${(selected-target).toLocaleString()}명 초과`}
+  }
+  function updateReviewAllocationTotal(sum=null){const target=Math.max(1,Number(document.getElementById('reviewTargetCount').value)||60),total=sum===null?reviewState.allocations.reduce((acc,item)=>acc+(item.winner||0),0):sum,label=document.getElementById('reviewAllocationTotal');label.textContent=`합계 ${total.toLocaleString()}명 / 전체 ${target.toLocaleString()}명`;label.classList.toggle('is-error',total!==target);return total===target}
+  function handleReviewAllocationInput(){const manual=Object.fromEntries(REVIEW_PRODUCT_GROUPS.map(group=>{const input=document.querySelector(`[data-review-allocation="${group.key}"]`),max=Math.max(0,Number(input?.max)||0),value=Math.max(0,Math.min(max,Math.floor(Number(input?.value)||0)));if(input)input.value=value;return [group.key,value]})),sum=Object.values(manual).reduce((acc,value)=>acc+value,0),target=Math.max(1,Number(document.getElementById('reviewTargetCount').value)||60);reviewState.manualAllocation=manual;const valid=updateReviewAllocationTotal(sum);if(!valid){document.getElementById('reviewDownloadBtn').disabled=true;document.getElementById('reviewStatus').innerHTML=`<span class="review-error">상품별 추천 인원의 합계를 ${target.toLocaleString()}명으로 맞춰주세요. 현재 ${sum.toLocaleString()}명입니다.</span>`;return}calculateReviewDraw(false)}
+  function renderReviewAllocation(){const body=document.getElementById('reviewAllocationBody'),autoBtn=document.getElementById('reviewAutoAllocateBtn');if(!reviewState.allocations.length){body.innerHTML='<tr><td colspan="5" class="review-empty">엑셀을 업로드해주세요.</td></tr>';autoBtn.disabled=true;updateReviewAllocationTotal(0);return}body.innerHTML=reviewState.allocations.map(item=>`<tr><td><span class="review-product-badge">${escHtml(item.label)}</span></td><td>${item.count.toLocaleString()}</td><td>${item.share.toFixed(1)}%</td><td><input class="review-allocation-input" type="number" min="0" max="${item.count}" step="1" value="${item.winner}" data-review-allocation="${item.key}" aria-label="${escHtml(item.label)} 추천 인원" ${item.count?'':'disabled'}></td><td>${item.reserve.toLocaleString()}명</td></tr>`).join('');body.querySelectorAll('[data-review-allocation]').forEach(input=>input.addEventListener('change',handleReviewAllocationInput));autoBtn.disabled=false;updateReviewAllocationTotal()}
   function renderReviewResults(){const body=document.getElementById('reviewResultBody'),filter=document.getElementById('reviewResultFilter').value;let candidates=reviewState.candidates.filter(candidate=>filter==='all'||(filter==='selected'&&reviewState.selectedRows.has(candidate.rowIndex))||candidate.status===filter);document.getElementById('reviewResultCount').textContent=`${candidates.length.toLocaleString()}개 표시`;if(!candidates.length){body.innerHTML='<tr><td colspan="9" class="review-empty">표시할 후보가 없습니다.</td></tr>';return}body.innerHTML=candidates.map(candidate=>{const selected=reviewState.selectedRows.has(candidate.rowIndex),photoUrl=/^https?:\/\//i.test(candidate.photoUrl)?candidate.photoUrl:'',mediaText=candidate.photoCount?`사진 ${candidate.photoCount}장`:(candidate.videoCount?'영상':'—'),mediaHtml=photoUrl?`<a href="${escHtml(photoUrl)}" target="_blank" rel="noopener">${mediaText}</a>`:mediaText,flags=candidate.flags.map(flag=>`<span class="review-flag${flag.includes('동일 등록자')?' neutral':''}">${escHtml(flag)}</span>`).join(''),reason=candidate.reasons.length?candidate.reasons.join(' · '):'내용을 직접 확인해주세요.';return `<tr class="${candidate.status==='reserve'?'is-reserve ':''}${selected?'is-selected':''}"><td><input type="checkbox" data-review-row="${candidate.rowIndex}" ${selected?'checked':''} aria-label="리뷰 글번호 ${escHtml(candidate.reviewNumber)} 당첨"></td><td><span class="review-status-badge ${candidate.status==='reserve'?'reserve':''}">${candidate.status==='winner'?'추천':'추가 검토'}</span></td><td><span class="review-product-badge">${escHtml(reviewProductLabel(candidate.group))}</span></td><td><span class="review-score-badge">${candidate.score}</span><div class="review-meta-line">경험 ${candidate.parts.experience} · 효능 ${candidate.parts.effect} · 정성 ${candidate.parts.content} · 매체 ${candidate.parts.media} · 자연 ${candidate.parts.natural}</div></td><td>${candidate.quantity}개</td><td>${mediaHtml}</td><td class="review-id-cell">${escHtml(candidate.reviewer)}</td><td class="review-number-cell">${escHtml(candidate.reviewNumber)}</td><td class="review-text-cell">${escHtml(candidate.text||'(내용 없음)').replace(/\n/g,'<br>')}<div class="review-meta-line">${escHtml(reason)}</div>${flags?`<div>${flags}</div>`:''}</td></tr>`}).join('');body.querySelectorAll('[data-review-row]').forEach(checkbox=>checkbox.addEventListener('change',()=>{const row=Number(checkbox.dataset.reviewRow);checkbox.checked?reviewState.selectedRows.add(row):reviewState.selectedRows.delete(row);updateReviewSelectedKpi();renderReviewResults()}))}
-  function resetReviewDraw(){reviewState={file:null,workbook:null,worksheet:null,sheetName:'',rows:[],headers:[],headerIndex:{},candidates:[],selectedRows:new Set(),allocations:[],stats:null};document.getElementById('reviewExcelFile').value='';document.getElementById('reviewFileName').textContent='선택된 파일이 없습니다.';document.getElementById('reviewStatus').textContent='리뷰 엑셀을 선택하면 분석 결과가 표시됩니다. 전시상태가 ‘정상’인 리뷰만 평가하고 ‘블라인드’는 제외합니다.';['reviewTotalKpi','reviewEligibleKpi','reviewBlindKpi','reviewUnknownKpi'].forEach(id=>document.getElementById(id).textContent='0건');updateReviewSelectedKpi();renderReviewAllocation();renderReviewResults();document.getElementById('reviewDownloadBtn').disabled=true;document.getElementById('reviewRecalculateBtn').disabled=true}
+  function renderReviewResultsV813(){
+    const body=document.getElementById('reviewResultBody'),filter=document.getElementById('reviewResultFilter').value;
+    const candidates=reviewState.candidates.filter(candidate=>filter==='all'||(filter==='selected'&&reviewState.selectedRows.has(candidate.rowIndex))||candidate.status===filter);
+    document.getElementById('reviewResultCount').textContent=`${candidates.length.toLocaleString()}개 표시`;
+    if(!candidates.length){body.innerHTML='<tr><td colspan="9" class="review-empty">표시할 후보가 없습니다.</td></tr>';return}
+    body.innerHTML=candidates.map(candidate=>{
+      const selected=reviewState.selectedRows.has(candidate.rowIndex),photoUrl=/^https?:\/\//i.test(candidate.photoUrl)?candidate.photoUrl:'',mediaText=candidate.photoCount?`사진 ${candidate.photoCount}장`:(candidate.videoCount?'영상':'—'),mediaHtml=photoUrl?`<a href="${escHtml(photoUrl)}" target="_blank" rel="noopener">${mediaText}</a>`:mediaText,flags=candidate.flags.map(flag=>`<span class="review-flag${flag.includes('동일 등록자')?' neutral':''}">${escHtml(flag)}</span>`).join(''),reason=candidate.reasons.length?candidate.reasons.join(' · '):'내용을 직접 확인해주세요.';
+      return `<tr class="${candidate.status==='reserve'?'is-reserve ':''}${selected?'is-selected':''}"><td><input type="checkbox" data-review-row="${candidate.rowIndex}" ${selected?'checked':''} aria-label="리뷰 글번호 ${escHtml(candidate.reviewNumber)} 당첨"></td><td><span class="review-status-badge ${candidate.status==='reserve'?'reserve':''}">${candidate.status==='winner'?'추천':'추가 검토'}</span></td><td><span class="review-product-badge">${escHtml(reviewProductLabel(candidate.group))}</span></td><td><span class="review-score-badge">${candidate.score}</span><div class="review-meta-line">경험 ${candidate.parts.experience} · 효능 ${candidate.parts.effect} · 정성 ${candidate.parts.content} · 매체 ${candidate.parts.media} · 자연 ${candidate.parts.natural}</div></td><td class="review-text-cell">${escHtml(candidate.text||'(내용 없음)').replace(/\n/g,'<br>')}<div class="review-meta-line">${escHtml(reason)}</div>${flags?`<div>${flags}</div>`:''}</td><td>${candidate.quantity}개</td><td>${mediaHtml}</td><td class="review-id-cell">${escHtml(candidate.reviewer)}</td><td class="review-number-cell">${escHtml(candidate.reviewNumber)}</td></tr>`
+    }).join('');
+    body.querySelectorAll('[data-review-row]').forEach(checkbox=>checkbox.addEventListener('change',()=>{const row=Number(checkbox.dataset.reviewRow);checkbox.checked?reviewState.selectedRows.add(row):reviewState.selectedRows.delete(row);updateReviewSelectedKpi();renderReviewResults()}));
+  }
+  renderReviewResults=renderReviewResultsV813;
+  document.getElementById('reviewTargetCount').addEventListener('input',updateReviewSelectedKpi);
+  function resetReviewDraw(){reviewState={file:null,workbook:null,worksheet:null,sheetName:'',rows:[],headers:[],headerIndex:{},candidates:[],selectedRows:new Set(),allocations:[],stats:null,manualAllocation:null,winnerAllocation:null};document.getElementById('reviewExcelFile').value='';document.getElementById('reviewFileName').textContent='선택된 파일이 없습니다.';document.getElementById('reviewStatus').textContent='리뷰 엑셀을 선택하면 분석 결과가 표시됩니다. 전시상태가 ‘정상’인 리뷰만 평가하고 ‘블라인드’는 제외합니다.';['reviewTotalKpi','reviewEligibleKpi','reviewBlindKpi','reviewUnknownKpi'].forEach(id=>document.getElementById(id).textContent='0건');updateReviewSelectedKpi();renderReviewAllocation();renderReviewResults();document.getElementById('reviewDownloadBtn').disabled=true;document.getElementById('reviewRecalculateBtn').disabled=true}
   async function loadReviewWorkbook(file){if(!file)return;if(!window.XLSX)throw new Error('Excel 분석 모듈을 불러오지 못했습니다. 인터넷 연결을 확인해주세요.');const workbook=XLSX.read(await file.arrayBuffer(),{type:'array',cellDates:true,nodim:true,cellStyles:true});const sheetName=workbook.SheetNames[0],worksheet=workbook.Sheets[sheetName];if(!worksheet)throw new Error('첫 번째 시트를 읽지 못했습니다.');repairReviewSheetRef(worksheet);const rows=XLSX.utils.sheet_to_json(worksheet,{header:1,raw:true,defval:null,blankrows:true});if(rows.length<2)throw new Error('리뷰 데이터 행이 없습니다.');const headers=rows[0].map(reviewText),headerIndex={best:findReviewHeader(headers,['베스트리뷰','리뷰 당첨자 여부','리뷰당첨자여부']),bestAt:findReviewHeader(headers,['베스트리뷰선정일시','당첨일시']),product:findReviewHeader(headers,['상품명']),status:findReviewHeader(headers,['리뷰전시여부','전시상태']),reviewer:findReviewHeader(headers,['등록자','작성자']),text:findReviewHeader(headers,['리뷰상세내용','리뷰내용']),reviewNumber:findReviewHeader(headers,['리뷰글번호']),rating:findReviewHeader(headers,['평점']),photoCount:findReviewHeader(headers,['첨부사진 개수','첨부사진개수']),videoCount:findReviewHeader(headers,['동영상 개수','동영상개수']),photoUrl:findReviewHeader(headers,['포토/영상','포토영상']),reviewType:findReviewHeader(headers,['리뷰구분'])};const missing=[['베스트리뷰',headerIndex.best],['상품명',headerIndex.product],['전시상태',headerIndex.status],['등록자',headerIndex.reviewer],['리뷰상세내용',headerIndex.text],['리뷰글번호',headerIndex.reviewNumber]].filter(([,index])=>index<0).map(([name])=>name);if(missing.length)throw new Error(`필수 열을 찾지 못했습니다: ${missing.join(', ')}`);reviewState={...reviewState,file,workbook,worksheet,sheetName,rows,headers,headerIndex}}
   function calculateReviewDraw(){const {rows,headerIndex}=reviewState;if(!rows.length)return;const target=Math.max(1,Math.min(500,Math.floor(Number(document.getElementById('reviewTargetCount').value)||60))),reserveTarget=Math.max(0,Math.min(100,Math.floor(Number(document.getElementById('reviewReserveCount').value)||0)));document.getElementById('reviewTargetCount').value=target;document.getElementById('reviewReserveCount').value=reserveTarget;const entries=[];for(let rowIndex=1;rowIndex<rows.length;rowIndex++){const row=rows[rowIndex]||[],hasData=[headerIndex.product,headerIndex.text,headerIndex.reviewNumber].some(index=>reviewText(row[index]));if(!hasData)continue;entries.push({row,rowIndex})}const counts=Object.fromEntries(REVIEW_PRODUCT_GROUPS.map(group=>[group.key,0])),statusCounts={normal:0,blind:0,other:0},rawCandidates=[];entries.forEach(({row,rowIndex})=>{const status=reviewText(row[headerIndex.status]);if(status==='블라인드'){statusCounts.blind++;return}if(status!=='정상'){statusCounts.other++;return}statusCounts.normal++;const productName=reviewText(row[headerIndex.product]),group=classifyReviewProduct(productName);if(!group)return;counts[group]++;rawCandidates.push({rowIndex,group,productName,quantity:reviewPurchaseQuantity(productName),text:reviewText(row[headerIndex.text]),reviewer:reviewText(row[headerIndex.reviewer])||'(등록자 없음)',reviewerKey:normalizedReviewerId(row[headerIndex.reviewer],rowIndex),reviewNumber:reviewText(row[headerIndex.reviewNumber]),rating:Number(row[headerIndex.rating])||0,photoCount:Math.max(0,Number(row[headerIndex.photoCount])||0),videoCount:Math.max(0,Number(row[headerIndex.videoCount])||0),photoUrl:reviewText(row[headerIndex.photoUrl]),reviewType:reviewText(row[headerIndex.reviewType])})});const textFrequency=new Map(),idFrequency=new Map();rawCandidates.forEach(candidate=>{const body=normalizedReviewBody(candidate.text);if(body)textFrequency.set(body,(textFrequency.get(body)||0)+1);idFrequency.set(candidate.reviewerKey,(idFrequency.get(candidate.reviewerKey)||0)+1)});const ranked=rawCandidates.map(candidate=>scoreReviewCandidate(candidate,textFrequency,idFrequency)).sort(compareReviewCandidates),winnerAllocation=largestRemainderAllocation(counts,target),reserveAllocation=reserveReviewAllocation(counts,reserveTarget),used=new Set(),winners=pickReviewCandidates(ranked,winnerAllocation,used,'winner'),reserves=pickReviewCandidates(ranked,reserveAllocation,used,'reserve');reviewState.candidates=[...winners.picked,...reserves.picked];reviewState.selectedRows=new Set(winners.picked.map(candidate=>candidate.rowIndex));const recognized=Object.values(counts).reduce((sum,count)=>sum+count,0);reviewState.allocations=REVIEW_PRODUCT_GROUPS.map(group=>({key:group.key,label:group.label,count:counts[group.key]||0,share:recognized?(counts[group.key]||0)*100/recognized:0,winner:winnerAllocation[group.key]||0,reserve:reserveAllocation[group.key]||0}));reviewState.stats={total:entries.length,normal:statusCounts.normal,blind:statusCounts.blind,other:statusCounts.other,unknown:statusCounts.normal-recognized,recognized};document.getElementById('reviewTotalKpi').textContent=`${entries.length.toLocaleString()}건`;document.getElementById('reviewEligibleKpi').textContent=`${statusCounts.normal.toLocaleString()}건`;document.getElementById('reviewBlindKpi').textContent=`${statusCounts.blind.toLocaleString()}건`;document.getElementById('reviewUnknownKpi').textContent=`${(statusCounts.normal-recognized).toLocaleString()}건`;updateReviewSelectedKpi();renderReviewAllocation();renderReviewResults();document.getElementById('reviewDownloadBtn').disabled=!reviewState.candidates.length;document.getElementById('reviewRecalculateBtn').disabled=false;const selected=winners.picked.length,reserve=reserves.picked.length,shortfall=Math.max(0,target-selected);document.getElementById('reviewStatus').innerHTML=`<b>${escHtml(reviewState.file.name)}</b> 분석 완료 · 정상 ${statusCounts.normal.toLocaleString()}건 중 상품 분류 ${recognized.toLocaleString()}건을 평가했습니다. 추천 ${selected.toLocaleString()}명, 추가 검토 ${reserve.toLocaleString()}명${statusCounts.blind?` · 블라인드 ${statusCounts.blind.toLocaleString()}건 제외`:''}${statusCounts.other?` · 기타 전시상태 ${statusCounts.other.toLocaleString()}건 제외`:''}${shortfall?` <span class="review-error">· 중복 등록자 때문에 추천 인원이 ${shortfall}명 부족합니다.</span>`:''}`}
+  function calculateReviewDrawV812(forceAuto=false){
+    const {rows,headerIndex}=reviewState;
+    if(!rows.length)return;
+    const target=Math.max(1,Math.min(500,Math.floor(Number(document.getElementById('reviewTargetCount').value)||60)));
+    const reserveTarget=Math.max(0,Math.min(100,Math.floor(Number(document.getElementById('reviewReserveCount').value)||0)));
+    document.getElementById('reviewTargetCount').value=target;
+    document.getElementById('reviewReserveCount').value=reserveTarget;
+    const entries=[];
+    for(let rowIndex=1;rowIndex<rows.length;rowIndex++){
+      const row=rows[rowIndex]||[];
+      const hasData=[headerIndex.product,headerIndex.text,headerIndex.reviewNumber].some(index=>reviewText(row[index]));
+      if(hasData)entries.push({row,rowIndex});
+    }
+    const counts=Object.fromEntries(REVIEW_PRODUCT_GROUPS.map(group=>[group.key,0]));
+    const statusCounts={normal:0,blind:0,other:0};
+    const rawCandidates=[];
+    entries.forEach(({row,rowIndex})=>{
+      const status=reviewText(row[headerIndex.status]);
+      if(status==='블라인드'){statusCounts.blind++;return}
+      if(status!=='정상'){statusCounts.other++;return}
+      statusCounts.normal++;
+      const productName=reviewText(row[headerIndex.product]);
+      const group=classifyReviewProduct(productName);
+      if(!group)return;
+      counts[group]++;
+      rawCandidates.push({
+        rowIndex,group,productName,quantity:reviewPurchaseQuantity(productName),text:reviewText(row[headerIndex.text]),
+        reviewer:reviewText(row[headerIndex.reviewer])||'(등록자 없음)',reviewerKey:normalizedReviewerId(row[headerIndex.reviewer],rowIndex),
+        reviewNumber:reviewText(row[headerIndex.reviewNumber]),rating:Number(row[headerIndex.rating])||0,
+        photoCount:Math.max(0,Number(row[headerIndex.photoCount])||0),videoCount:Math.max(0,Number(row[headerIndex.videoCount])||0),
+        photoUrl:reviewText(row[headerIndex.photoUrl]),reviewType:reviewText(row[headerIndex.reviewType])
+      });
+    });
+    const textFrequency=new Map(),idFrequency=new Map();
+    rawCandidates.forEach(candidate=>{
+      const body=normalizedReviewBody(candidate.text);
+      if(body)textFrequency.set(body,(textFrequency.get(body)||0)+1);
+      idFrequency.set(candidate.reviewerKey,(idFrequency.get(candidate.reviewerKey)||0)+1);
+    });
+    const ranked=rawCandidates.map(candidate=>scoreReviewCandidate(candidate,textFrequency,idFrequency)).sort(compareReviewCandidates);
+    const autoWinnerAllocation=largestRemainderAllocation(counts,target);
+    const isNewFile=reviewState.allocationFile!==reviewState.file;
+    if(forceAuto===true||isNewFile)reviewState.manualAllocation=null;
+    reviewState.allocationFile=reviewState.file;
+    const manual=reviewState.manualAllocation;
+    const manualTotal=manual?Object.values(manual).reduce((sum,value)=>sum+(Number(value)||0),0):0;
+    const manualValid=Boolean(manual)&&manualTotal===target&&REVIEW_PRODUCT_GROUPS.every(group=>(Number(manual[group.key])||0)>=0&&(Number(manual[group.key])||0)<=(counts[group.key]||0));
+    if(manual&&!manualValid)reviewState.manualAllocation=null;
+    const winnerAllocation=manualValid?Object.fromEntries(REVIEW_PRODUCT_GROUPS.map(group=>[group.key,Math.floor(Number(manual[group.key])||0)])):autoWinnerAllocation;
+    const reserveAllocation=reserveReviewAllocation(winnerAllocation,reserveTarget);
+    reviewState.winnerAllocation={...winnerAllocation};
+    const used=new Set();
+    const winners=pickReviewCandidates(ranked,winnerAllocation,used,'winner');
+    const reserves=pickReviewCandidates(ranked,reserveAllocation,used,'reserve');
+    reviewState.candidates=[...winners.picked,...reserves.picked];
+    reviewState.selectedRows=new Set(winners.picked.map(candidate=>candidate.rowIndex));
+    const recognized=Object.values(counts).reduce((sum,count)=>sum+count,0);
+    reviewState.allocations=REVIEW_PRODUCT_GROUPS.map(group=>({
+      key:group.key,label:group.label,count:counts[group.key]||0,share:recognized?(counts[group.key]||0)*100/recognized:0,
+      winner:winnerAllocation[group.key]||0,reserve:reserveAllocation[group.key]||0
+    }));
+    reviewState.stats={total:entries.length,normal:statusCounts.normal,blind:statusCounts.blind,other:statusCounts.other,unknown:statusCounts.normal-recognized,recognized};
+    document.getElementById('reviewTotalKpi').textContent=`${entries.length.toLocaleString()}건`;
+    document.getElementById('reviewEligibleKpi').textContent=`${statusCounts.normal.toLocaleString()}건`;
+    document.getElementById('reviewBlindKpi').textContent=`${statusCounts.blind.toLocaleString()}건`;
+    document.getElementById('reviewUnknownKpi').textContent=`${(statusCounts.normal-recognized).toLocaleString()}건`;
+    updateReviewSelectedKpi();
+    renderReviewAllocation();
+    renderReviewResults();
+    document.getElementById('reviewDownloadBtn').disabled=!reviewState.candidates.length;
+    document.getElementById('reviewRecalculateBtn').disabled=false;
+    const selected=winners.picked.length,reserve=reserves.picked.length,shortfall=Math.max(0,target-selected),mode=manualValid?'상품별 직접 배정':'리뷰 수 비례 배정';
+    document.getElementById('reviewStatus').innerHTML=`<b>${escHtml(reviewState.file.name)}</b> 분석 완료 · ${mode} · 정상 ${statusCounts.normal.toLocaleString()}건 중 상품 분류 ${recognized.toLocaleString()}건을 평가했습니다. 추천 ${selected.toLocaleString()}명, 추가 검토 ${reserve.toLocaleString()}명${statusCounts.blind?` · 블라인드 ${statusCounts.blind.toLocaleString()}건 제외`:''}${statusCounts.other?` · 기타 전시상태 ${statusCounts.other.toLocaleString()}건 제외`:''}${shortfall?` <span class="review-error">· 중복 등록자 또는 후보 부족으로 추천 인원이 ${shortfall}명 부족합니다.</span>`:''}`;
+  }
+  calculateReviewDraw=calculateReviewDrawV812;
   async function handleReviewExcel(file){if(!file)return;document.getElementById('reviewStatus').textContent='리뷰 엑셀을 읽고 점수를 계산하는 중입니다.';document.getElementById('reviewFileName').textContent=file.name;document.getElementById('reviewDownloadBtn').disabled=true;document.getElementById('reviewRecalculateBtn').disabled=true;await new Promise(resolve=>requestAnimationFrame(resolve));try{await loadReviewWorkbook(file);calculateReviewDraw()}catch(err){console.error(err);document.getElementById('reviewStatus').innerHTML=`<span class="review-error">분석하지 못했습니다. ${escHtml(err.message||'파일 형식을 확인해주세요.')}</span>`;document.getElementById('reviewDownloadBtn').disabled=true}}
   function reviewSelectionTimestamp(){const d=new Date(),pad=value=>String(value).padStart(2,'0');return `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}. ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`}
   function setReviewWorksheetCell(sheet,row,column,value){const address=XLSX.utils.encode_cell({r:row,c:column}),cell=sheet[address]||{};if(value===null||value===''){delete cell.v;delete cell.w;cell.t='z'}else{cell.t='s';cell.v=String(value);delete cell.w}sheet[address]=cell}
@@ -4391,6 +4489,7 @@
   document.getElementById('reviewUploadBtn').addEventListener('click',()=>document.getElementById('reviewExcelFile').click());
   document.getElementById('reviewExcelFile').addEventListener('change',async e=>{await handleReviewExcel(e.target.files?.[0]);e.target.value=''});
   document.getElementById('reviewRecalculateBtn').addEventListener('click',calculateReviewDraw);
+  document.getElementById('reviewAutoAllocateBtn').addEventListener('click',()=>calculateReviewDraw(true));
   document.getElementById('reviewDownloadBtn').addEventListener('click',downloadReviewWorkbook);
   document.getElementById('reviewResetBtn').addEventListener('click',resetReviewDraw);
   document.getElementById('reviewResultFilter').addEventListener('change',renderReviewResults);
