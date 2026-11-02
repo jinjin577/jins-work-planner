@@ -1520,7 +1520,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.15</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.16</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1546,7 +1546,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.15</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.16</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -1825,7 +1825,7 @@
       <div class="review-kpi"><span>전체 리뷰</span><b id="reviewTotalKpi">0건</b></div>
       <div class="review-kpi"><span>정상 · 평가 대상</span><b class="is-accent" id="reviewEligibleKpi">0건</b></div>
       <div class="review-kpi"><span>블라인드 제외</span><b class="is-warning" id="reviewBlindKpi">0건</b></div>
-      <div class="review-kpi"><span>상품 분류 제외</span><b id="reviewUnknownKpi">0건</b></div>
+      <div class="review-kpi"><span>미분류·추첨 제외</span><b id="reviewUnknownKpi">0건</b></div>
       <div class="review-kpi"><span>현재 당첨 체크</span><b class="is-accent" id="reviewSelectedKpi">0명</b></div>
     </div>
 
@@ -1837,12 +1837,15 @@
       <div class="review-rule-panel">
         <div class="review-panel-head"><div><div class="review-panel-title">좋은 리뷰 평가 기준</div><div class="review-panel-hint">AI 작성 여부를 단정하지 않고 구체성·효능 경험·정성·자연스러움을 규칙으로 점수화합니다. 동점은 구매 수량이 큰 리뷰가 우선입니다.</div></div></div>
         <table class="review-rule-table"><thead><tr><th>평가 항목</th><th>판단 기준</th><th>배점</th></tr></thead><tbody>
-          <tr><td>구체적인 섭취 경험</td><td>섭취 기간·빈도·대상·생활 속 사용 상황이 구체적인지</td><td class="review-rule-score">20점</td></tr>
-          <tr><td>효능·효과 경험</td><td>제품군과 관련된 변화, 전후 비교 또는 체감이 구체적인지</td><td class="review-rule-score">25점</td></tr>
-          <tr><td>내용 충실도·정성</td><td>글 길이뿐 아니라 문장 구성과 구체적인 설명이 충분한지. 실질 내용 40자 미만은 자동 추천 후순위</td><td class="review-rule-score">30점</td></tr>
-          <tr><td>사진·영상</td><td>첨부사진 개수와 동영상 첨부 여부</td><td class="review-rule-score">10점</td></tr>
-          <tr><td>자연스러운 작성</td><td>개인 경험이 자연스럽고 복붙·광고성·상투적 표현이 적은지</td><td class="review-rule-score">15점</td></tr>
+          <tr><td>구체적인 섭취 경험</td><td>섭취 기간·빈도·대상·생활 속 사용 상황이 구체적인지</td><td class="review-rule-score">15점</td></tr>
+          <tr><td>효능·효과 경험</td><td>제품군과 관련된 경험·전후 변화. MBP는 골밀도·골감소·골다공 관련 개인 경험 우선 (효능 사실 검증 아님)</td><td class="review-rule-score">20점</td></tr>
+          <tr><td>내용 충실도·정성</td><td>실질 내용 길이에 최대 35점, 문장 구성에 최대 5점. 실질 내용 40자 미만은 자동 추천 후순위</td><td class="review-rule-score">40점</td></tr>
+          <tr><td>사진·영상</td><td>첨부사진 개수와 동영상 첨부 여부</td><td class="review-rule-score">5점</td></tr>
+          <tr><td>자연스러운 작성</td><td>개인 경험이 자연스럽고 복붙·광고성·상투적 표현이 적은지</td><td class="review-rule-score">10점</td></tr>
+          <tr><td>재구매 경험</td><td>반복 재구매·여러 번째 구매 등 구체적인 지속 구매 경험</td><td class="review-rule-score">10점</td></tr>
+          <tr><td>내용 적합성 감점</td><td>제품에 맞지 않는 원료·효능 설명, 타사 원료·제품을 특정한 비교는 감점 및 검토 표시. AI 사용 여부는 확정하지 않습니다.</td><td class="review-rule-score">별도 차감</td></tr>
         </tbody></table>
+        <div class="review-panel-hint">HW 포함 상품은 HW-3로 분류 · 하스카프베리 포함 상품은 추첨 제외. 점수는 리뷰 선정을 위한 참고이며 제품 효능을 입증하지 않습니다.</div>
       </div>
     </div>
 
@@ -3923,14 +3926,13 @@
     {key:'chondroitin',label:'콘드로이친'},
     {key:'mbp',label:'뼈엔엠비피'},
     {key:'hairCollagen',label:'모발콜라겐'},
-    {key:'haskapPowder',label:'하스카프베리분말'},
-    {key:'haskapNfc',label:'NFC하스카프베리'},
+    {key:'hw3',label:'HW-3'},
     {key:'omega3',label:'식물성오메가3'}
   ];
   function reviewText(value){return String(value??'').replace(/\u00a0/g,' ').trim()}
   function normalizeReviewHeader(value){return reviewText(value).replace(/\s+/g,'')}
   function findReviewHeader(headers,names){const normalized=headers.map(normalizeReviewHeader);for(const name of names){const index=normalized.indexOf(normalizeReviewHeader(name));if(index>=0)return index}return -1}
-  function classifyReviewProduct(name){const text=reviewText(name);if(/하스카프/i.test(text)&&/NFC/i.test(text))return 'haskapNfc';if(/하스카프/i.test(text)&&/(분말|파우더)/i.test(text))return 'haskapPowder';if(/콘드로이친/i.test(text))return 'chondroitin';if(/뼈엔\s*엠비피|\bMBP\b/i.test(text))return 'mbp';if(/모발\s*콜라겐|모발콜라겐|콜라겐\s*3270/i.test(text))return 'hairCollagen';if(/식물성\s*오메가\s*3|오메가\s*3/i.test(text))return 'omega3';return ''}
+  function classifyReviewProduct(name){const text=reviewText(name);if(/하스카프\s*베리/i.test(text))return '';if(/HW/i.test(text))return 'hw3';if(/콘드로이친/i.test(text))return 'chondroitin';if(/뼈엔\s*엠비피|\bMBP\b/i.test(text))return 'mbp';if(/모발\s*콜라겐|모발콜라겐|콜라겐\s*3270/i.test(text))return 'hairCollagen';if(/식물성\s*오메가\s*3|오메가\s*3/i.test(text))return 'omega3';return ''}
   function reviewProductLabel(key){return REVIEW_PRODUCT_GROUPS.find(group=>group.key===key)?.label||key}
   function reviewPurchaseQuantity(name){const matches=[...reviewText(name).matchAll(/(\d+)\s*개/g)];return matches.length?Math.max(1,Number(matches[matches.length-1][1])||1):1}
   function normalizedReviewerId(value,rowIndex){const text=reviewText(value).toLowerCase().replace(/\s+/g,'').replace(/\*+/g,'*');return text||`__row_${rowIndex}`}
@@ -3941,35 +3943,63 @@
   function hasReviewPattern(text,regex){return regex.test(text)}
   function reviewSpecificEffectRegex(group){return {
     chondroitin:/(관절|무릎|연골|계단|걷|보행|뻣뻣|허리|손목|움직)/,
-    mbp:/(뼈|골밀도|골다공|관절|무릎|허리|튼튼|검사|칼슘)/,
+    mbp:/(뼈|골밀도|골감소|골다공|검사|칼슘)/,
+    hw3:/(근력|근육|단백질|운동|회복|체지방|지방|포만)/,
     hairCollagen:/(머리|모발|머릿결|빠지|탈모|두피|손톱|피부|윤기)/,
     haskapPowder:/(피로|활력|눈|항산화|컨디션|아침|상쾌|건강)/,
     haskapNfc:/(피로|활력|눈|항산화|컨디션|아침|상쾌|건강)/,
     omega3:/(기억|깜빡|두뇌|눈|건조|혈행|혈액|콜레스테롤|중성지방|순환)/
   }[group]||/(건강|효과|도움)/}
+  function reviewPolicyAssessment(text,group){
+    const reasons=[],flags=[],sentences=reviewText(text).split(/[.!?\n]+/).filter(Boolean);
+    const affirmative=sentence=>!/(없|않|아니|미포함|무첨가|제외|안\s*들|안\s*포함)/.test(sentence);
+    let penalty=0,effectCap=20,loyalty=0;
+    const repeat=/(재구매|재주문|재구입|다시\s*(구매|주문|구입)|또\s*(구매|주문)|[두세네다섯여섯일이삼사오육칠팔구십\d]+\s*번째\s*(구매|주문|구입)|여러\s*번.{0,12}(구매|주문|구입))/;
+    const repeatSentences=sentences.filter(x=>repeat.test(x)&&!/(재구매|재주문|재구입).{0,8}(안\s*할|없|않|고민|예정|의향)|다음.{0,12}(구매|주문)/.test(x));
+    if(repeatSentences.length){loyalty=/(여러\s*번|계속|꾸준|매번|[2-9]\d*\s*(번째|회|번)|[두세네다섯여섯일이삼사오육칠팔구십]+\s*번째)/.test(repeatSentences.join(' '))?10:6;reasons.push(loyalty===10?'반복 재구매 경험':'재구매 경험');}
+    if(group==='chondroitin'){
+      if(sentences.some(x=>/뮤코\s*다당\s*단백/.test(x)&&affirmative(x))){penalty+=15;flags.push('콘드로이친: 뮤코다당단백 설명 불일치 검토');}
+      if(sentences.some(x=>/(MSM|엠에스엠|보스웰리아)/i.test(x)&&/(함유|포함|들어|성분|원료|배합)/.test(x)&&affirmative(x)&&!/(타사|다른\s*제품|이전\s*제품)/.test(x))){penalty+=20;flags.push('콘드로이친: 미포함 원료 설명 검토');}
+    }
+    if(group==='mbp'){
+      const boneExperience=sentences.some(x=>/(골감소|골다공|골밀도)/.test(x)&&/(검사|수치|진단|먹|섭취|복용|관리|도움|개선|좋아|변화|높아|올라)/.test(x));
+      const jointClaim=sentences.some(x=>/(관절|연골|무릎)/.test(x)&&/(통증|아프|아픈)/.test(x)&&/(개선|도움|좋아|줄|덜|완화|사라|없어|안\s*아)/.test(x));
+      if(boneExperience){reasons.push('골밀도·골감소·골다공 관련 개인 경험');effectCap=20;}
+      else if(/관절|연골|무릎/.test(text)){effectCap=5;flags.push('MBP: 관절·연골 설명은 뼈 건강 경험과 구분');}
+      if(jointClaim){penalty+=15;flags.push('MBP: 관절·연골 통증 개선 주장 검토');}
+    }
+    const competitor=sentences.some(x=>/(비교|보다|대신|갈아|바꿨|바꾸|달리|차이)/.test(x)&&(/종근당|정관장|뉴트리원|뉴트리코어|닥터스베스트|솔가|나우푸드|GNM|닥터린/i.test(x)||/(타사|다른\s*(제품|브랜드)|이전\s*제품)/.test(x)&&/(MSM|보스웰리아|뮤코\s*다당\s*단백|UC-?II|초록입홍합|제품명|브랜드명|콜라겐|콘드로이친|엠비피|MBP|오메가)/i.test(x)));
+    if(competitor){penalty+=10;flags.push('타사 특정 제품·원료 비교 검토');}
+    return {penalty,effectCap,loyalty,reasons,flags};
+  }
   function scoreReviewCandidate(candidate,textFrequency,idFrequency){const text=candidate.text,compact=normalizedReviewBody(text),length=compact.length;let experience=0,effect=0,content=0,media=0,natural=7;const reasons=[],flags=[];
     if(hasReviewPattern(text,/(꾸준|한달|한 달|\d+\s*(개월|주|일)|매일|하루|아침|저녁|식후|공복|동안)/))experience+=6,reasons.push('섭취 기간·빈도');
     if(hasReviewPattern(text,/(먹고|먹어|섭취|복용|챙겨|사용|타서|마셔|주문)/))experience+=4,reasons.push('실제 섭취 경험');
     if(hasReviewPattern(text,/(저는|제가|본인|부모|엄마|아빠|어머니|아버지|남편|아내|배우자|가족|아이|할머니|할아버지)/))experience+=4,reasons.push('섭취 대상 구체적');
     if(hasReviewPattern(text,/(계단|걷|산책|운동|출근|일할|잠|기상|병원|검사|일상|아침에|저녁에)/))experience+=4,reasons.push('생활 상황 언급');
     if(/\d/.test(text))experience+=2;
-    experience=Math.min(20,experience);
+    experience=Math.min(15,experience);
     const generalEffect=hasReviewPattern(text,/(효과|도움|좋아졌|좋아진|편해졌|편해진|덜\s*(아프|뻣뻣|피곤|빠지)|줄었|감소|개선|변화|튼튼|상쾌|활력|체감)/),specificEffect=hasReviewPattern(text,reviewSpecificEffectRegex(candidate.group)),comparison=hasReviewPattern(text,/(전보다|이전보다|예전보다|먹기\s*전|섭취\s*전|\d+\s*(개월|주|일).{0,18}(후|지나)|덜|줄|늘|편해|좋아)/);
     if(generalEffect)effect+=8,reasons.push('효과·변화 언급');if(specificEffect)effect+=10,reasons.push('제품 관련 체감');if(comparison)effect+=7,reasons.push('전후·정도 비교');
     const strongNegative=hasReviewPattern(text,/(효과\s*(가\s*)?(없|모르)|별로|실망|환불|부작용|더\s*아프|불편해|안\s*좋|못\s*먹)/);if(strongNegative){effect=Math.min(effect,3);flags.push('부정 경험 확인')}
-    effect=Math.min(25,effect);
-    if(length>=250)content=25;else if(length>=160)content=22;else if(length>=100)content=18;else if(length>=70)content=14;else if(length>=40)content=9;else if(length>=25)content=5;else if(length>=15)content=2;
-    const sentenceSignals=(text.match(/[.!?~\n]|그래서|하지만|그리고|때문|덕분|반면/g)||[]).length;if(sentenceSignals>=5)content+=5;else if(sentenceSignals>=3)content+=3;else if(sentenceSignals>=2)content+=2;else if(sentenceSignals>=1)content+=1;content=Math.min(30,content);if(content>=18)reasons.push('충실한 내용');
-    if(candidate.photoCount>=3)media=9;else if(candidate.photoCount===2)media=7;else if(candidate.photoCount===1)media=5;if(candidate.videoCount>0)media=Math.min(10,media+2);if(media)reasons.push(candidate.videoCount?'사진·영상 첨부':'사진 첨부');
+    effect=Math.min(20,effect);
+    if(length>=600)content=35;else if(length>=400)content=32;else if(length>=250)content=29;else if(length>=160)content=25;else if(length>=100)content=20;else if(length>=70)content=15;else if(length>=40)content=10;else if(length>=25)content=5;else if(length>=15)content=2;
+    const sentenceSignals=(text.match(/[.!?~\n]|그래서|하지만|그리고|때문|덕분|반면/g)||[]).length;if(sentenceSignals>=5)content+=5;else if(sentenceSignals>=3)content+=3;else if(sentenceSignals>=2)content+=2;else if(sentenceSignals>=1)content+=1;content=Math.min(40,content);if(content>=18)reasons.push('충실한 내용');
+    if(candidate.photoCount>=3)media=4;else if(candidate.photoCount===2)media=3;else if(candidate.photoCount===1)media=2;if(candidate.videoCount>0)media=Math.min(5,media+1);if(media)reasons.push(candidate.videoCount?'사진·영상 첨부':'사진 첨부');
     if(hasReviewPattern(text,/(저는|제가|우리|엄마|아빠|남편|아내|가족|직접|개인적으로|제\s)/))natural+=3;if(/\d/.test(text))natural+=2;if(sentenceSignals>=2)natural+=2;
     if(length<15||/^(좋아요|좋습니다|잘먹고있어요|만족합니다|추천합니다|배송빨라요)[.!~\s]*$/i.test(text))natural-=6,flags.push('짧고 상투적');
     if((textFrequency.get(compact)||0)>1&&length>=8)natural-=4,flags.push(`동일 문구 ${textFrequency.get(compact)}건`);
     if(hasReviewPattern(text,/(무조건\s*추천|인생템|완벽한|최고의\s*선택|필수템|강력\s*추천)/))natural-=2,flags.push('광고성 표현 확인');
     const structuredMarkers=(text.match(/가장\s*큰\s*장점|무엇보다|결론적으로|정리하자면|전반적으로|추천드리고|선택하게\s*되었|솔직\s*후기|내돈내산|사용\s*후기|총평|\n\s*\d+[.)]/g)||[]).length,marketingMarkers=(text.match(/개별인정형|기능성\s*원료|핵심\s*성분|인체적용시험|식약처|GMP|하루\s*섭취량|함량|상세페이지/g)||[]).length,highAiStyle=/이\s*제품의\s*가장\s*큰\s*장점|가장\s*먼저\s*눈에\s*들어온|여러\s*제품을\s*꼼꼼히\s*(비교|따져)|성분을\s*꼼꼼히\s*따져|단순히.{0,24}(아니라|넘어)/.test(text)||(structuredMarkers>=3&&length>=100);
     if(structuredMarkers>=2){natural-=4;flags.push('정형화 문장 검토')}if(marketingMarkers>=3){natural-=4;flags.push('상세페이지식 표현 검토')}if(highAiStyle){natural=Math.min(natural,4);flags.push('AI식 문장 구조 검토')}
-    natural=Math.max(0,Math.min(15,natural));
+    natural=Math.max(0,Math.min(10,natural));
+    const policy=reviewPolicyAssessment(text,candidate.group);
+    effect=Math.min(effect,policy.effectCap);
+    reasons.push(...policy.reasons);flags.push(...policy.flags);
+    const loyalty=policy.loyalty,penalty=policy.penalty;
+    if(penalty)flags.push('내용 적합성 감점 '+penalty+'점');
     if(!generalEffect||!comparison)flags.push('효능 구체성 검토');if(length<40)flags.push('40자 미만 · 자동 추천 후순위');if((idFrequency.get(candidate.reviewerKey)||0)>1)flags.push(`동일 등록자 리뷰 ${idFrequency.get(candidate.reviewerKey)}건`);
-    candidate.autoEligible=length>=40;candidate.meaningfulLength=length;candidate.parts={experience,effect,content,media,natural};candidate.score=experience+effect+content+media+natural;candidate.reasons=[...new Set(reasons)].slice(0,5);candidate.flags=[...new Set(flags)];return candidate}
+    candidate.autoEligible=length>=40;candidate.meaningfulLength=length;candidate.parts={experience,effect,content,media,natural,loyalty,penalty};candidate.score=Math.max(0,Math.min(100,experience+effect+content+media+natural+loyalty-penalty));candidate.reasons=[...new Set(reasons)].slice(0,5);candidate.flags=[...new Set(flags)];return candidate}
   function compareReviewCandidates(a,b){return Number(b.autoEligible)-Number(a.autoEligible)||b.score-a.score||b.quantity-a.quantity||b.photoCount-a.photoCount||b.meaningfulLength-a.meaningfulLength||String(b.reviewNumber).localeCompare(String(a.reviewNumber),'ko',{numeric:true})}
   function pickReviewCandidates(candidates,allocation,used,status){const remaining={...allocation},picked=[];for(const candidate of candidates){if((remaining[candidate.group]||0)<=0||used.has(candidate.reviewerKey))continue;picked.push({...candidate,status});used.add(candidate.reviewerKey);remaining[candidate.group]--}return {picked,remaining}}
   function updateReviewSelectedKpi(){
@@ -3984,7 +4014,7 @@
   function updateReviewAllocationTotal(sum=null){const target=Math.max(1,Number(document.getElementById('reviewTargetCount').value)||60),total=sum===null?reviewState.allocations.reduce((acc,item)=>acc+(item.winner||0),0):sum,label=document.getElementById('reviewAllocationTotal');label.textContent=`합계 ${total.toLocaleString()}명 / 전체 ${target.toLocaleString()}명`;label.classList.toggle('is-error',total!==target);return total===target}
   function handleReviewAllocationInput(){const manual=Object.fromEntries(REVIEW_PRODUCT_GROUPS.map(group=>{const input=document.querySelector(`[data-review-allocation="${group.key}"]`),max=Math.max(0,Number(input?.max)||0),value=Math.max(0,Math.min(max,Math.floor(Number(input?.value)||0)));if(input)input.value=value;return [group.key,value]})),sum=Object.values(manual).reduce((acc,value)=>acc+value,0),target=Math.max(1,Number(document.getElementById('reviewTargetCount').value)||60);reviewState.manualAllocation=manual;const valid=updateReviewAllocationTotal(sum);if(!valid){document.getElementById('reviewDownloadBtn').disabled=true;document.getElementById('reviewStatus').innerHTML=`<span class="review-error">상품별 추천 인원의 합계를 ${target.toLocaleString()}명으로 맞춰주세요. 현재 ${sum.toLocaleString()}명입니다.</span>`;return}calculateReviewDraw(false)}
   function renderReviewAllocation(){const body=document.getElementById('reviewAllocationBody'),autoBtn=document.getElementById('reviewAutoAllocateBtn');if(!reviewState.allocations.length){body.innerHTML='<tr><td colspan="5" class="review-empty">엑셀을 업로드해주세요.</td></tr>';autoBtn.disabled=true;updateReviewAllocationTotal(0);return}body.innerHTML=reviewState.allocations.map(item=>`<tr><td><span class="review-product-badge">${escHtml(item.label)}</span></td><td>${item.count.toLocaleString()}</td><td>${item.share.toFixed(1)}%</td><td><input class="review-allocation-input" type="number" min="0" max="${item.count}" step="1" value="${item.winner}" data-review-allocation="${item.key}" aria-label="${escHtml(item.label)} 추천 인원" ${item.count?'':'disabled'}></td><td>${item.reserve.toLocaleString()}명</td></tr>`).join('');body.querySelectorAll('[data-review-allocation]').forEach(input=>input.addEventListener('change',handleReviewAllocationInput));autoBtn.disabled=false;updateReviewAllocationTotal()}
-  function renderReviewResults(){const body=document.getElementById('reviewResultBody'),filter=document.getElementById('reviewResultFilter').value;let candidates=reviewState.candidates.filter(candidate=>filter==='all'||(filter==='selected'&&reviewState.selectedRows.has(candidate.rowIndex))||candidate.status===filter);document.getElementById('reviewResultCount').textContent=`${candidates.length.toLocaleString()}개 표시`;if(!candidates.length){body.innerHTML='<tr><td colspan="9" class="review-empty">표시할 후보가 없습니다.</td></tr>';return}body.innerHTML=candidates.map(candidate=>{const selected=reviewState.selectedRows.has(candidate.rowIndex),photoUrl=/^https?:\/\//i.test(candidate.photoUrl)?candidate.photoUrl:'',mediaText=candidate.photoCount?`사진 ${candidate.photoCount}장`:(candidate.videoCount?'영상':'—'),mediaHtml=photoUrl?`<a href="${escHtml(photoUrl)}" target="_blank" rel="noopener">${mediaText}</a>`:mediaText,flags=candidate.flags.map(flag=>`<span class="review-flag${flag.includes('동일 등록자')?' neutral':''}">${escHtml(flag)}</span>`).join(''),reason=candidate.reasons.length?candidate.reasons.join(' · '):'내용을 직접 확인해주세요.';return `<tr class="${candidate.status==='reserve'?'is-reserve ':''}${selected?'is-selected':''}"><td><input type="checkbox" data-review-row="${candidate.rowIndex}" ${selected?'checked':''} aria-label="리뷰 글번호 ${escHtml(candidate.reviewNumber)} 당첨"></td><td><span class="review-status-badge ${candidate.status==='reserve'?'reserve':''}">${candidate.status==='winner'?'추천':'추가 검토'}</span></td><td><span class="review-product-badge">${escHtml(reviewProductLabel(candidate.group))}</span></td><td><span class="review-score-badge">${candidate.score}</span><div class="review-meta-line">경험 ${candidate.parts.experience} · 효능 ${candidate.parts.effect} · 정성 ${candidate.parts.content} · 매체 ${candidate.parts.media} · 자연 ${candidate.parts.natural}</div></td><td>${candidate.quantity}개</td><td>${mediaHtml}</td><td class="review-id-cell">${escHtml(candidate.reviewer)}</td><td class="review-number-cell">${escHtml(candidate.reviewNumber)}</td><td class="review-text-cell">${escHtml(candidate.text||'(내용 없음)').replace(/\n/g,'<br>')}<div class="review-meta-line">${escHtml(reason)}</div>${flags?`<div>${flags}</div>`:''}</td></tr>`}).join('');body.querySelectorAll('[data-review-row]').forEach(checkbox=>checkbox.addEventListener('change',()=>{const row=Number(checkbox.dataset.reviewRow);checkbox.checked?reviewState.selectedRows.add(row):reviewState.selectedRows.delete(row);updateReviewSelectedKpi();renderReviewResults()}))}
+  function renderReviewResults(){const body=document.getElementById('reviewResultBody'),filter=document.getElementById('reviewResultFilter').value;let candidates=reviewState.candidates.filter(candidate=>filter==='all'||(filter==='selected'&&reviewState.selectedRows.has(candidate.rowIndex))||candidate.status===filter);document.getElementById('reviewResultCount').textContent=`${candidates.length.toLocaleString()}개 표시`;if(!candidates.length){body.innerHTML='<tr><td colspan="9" class="review-empty">표시할 후보가 없습니다.</td></tr>';return}body.innerHTML=candidates.map(candidate=>{const selected=reviewState.selectedRows.has(candidate.rowIndex),photoUrl=/^https?:\/\//i.test(candidate.photoUrl)?candidate.photoUrl:'',mediaText=candidate.photoCount?`사진 ${candidate.photoCount}장`:(candidate.videoCount?'영상':'—'),mediaHtml=photoUrl?`<a href="${escHtml(photoUrl)}" target="_blank" rel="noopener">${mediaText}</a>`:mediaText,flags=candidate.flags.map(flag=>`<span class="review-flag${flag.includes('동일 등록자')?' neutral':''}">${escHtml(flag)}</span>`).join(''),reason=candidate.reasons.length?candidate.reasons.join(' · '):'내용을 직접 확인해주세요.';return `<tr class="${candidate.status==='reserve'?'is-reserve ':''}${selected?'is-selected':''}"><td><input type="checkbox" data-review-row="${candidate.rowIndex}" ${selected?'checked':''} aria-label="리뷰 글번호 ${escHtml(candidate.reviewNumber)} 당첨"></td><td><span class="review-status-badge ${candidate.status==='reserve'?'reserve':''}">${candidate.status==='winner'?'추천':'추가 검토'}</span></td><td><span class="review-product-badge">${escHtml(reviewProductLabel(candidate.group))}</span></td><td><span class="review-score-badge">${candidate.score}</span><div class="review-meta-line">경험 ${candidate.parts.experience} · 효능 ${candidate.parts.effect} · 정성 ${candidate.parts.content} · 매체 ${candidate.parts.media} · 자연 ${candidate.parts.natural} · 재구매 ${candidate.parts.loyalty} · 감점 ${candidate.parts.penalty}</div></td><td>${candidate.quantity}개</td><td>${mediaHtml}</td><td class="review-id-cell">${escHtml(candidate.reviewer)}</td><td class="review-number-cell">${escHtml(candidate.reviewNumber)}</td><td class="review-text-cell">${escHtml(candidate.text||'(내용 없음)').replace(/\n/g,'<br>')}<div class="review-meta-line">${escHtml(reason)}</div>${flags?`<div>${flags}</div>`:''}</td></tr>`}).join('');body.querySelectorAll('[data-review-row]').forEach(checkbox=>checkbox.addEventListener('change',()=>{const row=Number(checkbox.dataset.reviewRow);checkbox.checked?reviewState.selectedRows.add(row):reviewState.selectedRows.delete(row);updateReviewSelectedKpi();renderReviewResults()}))}
   function renderReviewResultsV813(){
     const body=document.getElementById('reviewResultBody'),filter=document.getElementById('reviewResultFilter').value;
     const candidates=reviewState.candidates.filter(candidate=>filter==='all'||(filter==='selected'&&reviewState.selectedRows.has(candidate.rowIndex))||candidate.status===filter);
