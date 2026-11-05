@@ -1512,7 +1512,11 @@
     .review-status-badge,.review-score-badge,.review-product-badge,.review-flag{display:inline-flex;align-items:center;border-radius:999px;font-weight:850;white-space:nowrap}.review-status-badge{padding:4px 7px;background:#eaf2ff;color:#2f64b1;font-size:10px}.review-status-badge.reserve{background:#fff1d9;color:#946000}.review-score-badge{min-width:36px;justify-content:center;padding:4px 7px;background:#edf7f1;color:#24724b;font-size:10.5px}.review-product-badge{padding:4px 7px;background:#f0f3f7;color:#4d5969;font-size:10px}.review-flag{padding:3px 6px;background:#fff0ed;color:#b34c3f;font-size:9.5px;margin:2px 3px 0 0}.review-flag.neutral{background:#eef3f9;color:#53677f}.review-text-cell{min-width:340px;max-width:520px;line-height:1.55;color:#303744}.review-meta-line{margin-top:5px;color:#7a8492;font-size:9.5px}.review-id-cell,.review-number-cell{white-space:nowrap;font-variant-numeric:tabular-nums}.review-empty{padding:34px!important;text-align:center!important;color:var(--muted)}
     .review-privacy-note{margin-top:9px;color:#718096;font-size:10.5px;line-height:1.55}.review-error{color:#b34141}.review-file-name{font-weight:800;color:#334155}
     @media(min-width:701px) and (max-width:1100px){.review-upload-panel{grid-template-columns:repeat(3,minmax(0,1fr))}.review-upload-copy{grid-column:1/-1}.review-grid{grid-template-columns:1fr}.review-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
-</style>
+/* GFA settlement: no persistence */
+    .settlement-view{display:none;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--panel);box-shadow:var(--shadow);width:100%;box-sizing:border-box}
+    .settlement-view.planner-view-active{display:block!important}.settlement-heading{display:flex;align-items:start;justify-content:space-between;gap:16px}.settlement-pill{padding:7px 12px;border-radius:20px;background:#e8f6ef;color:#18714d;white-space:nowrap;font-size:12px}.settlement-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:16px 0}.settlement-note{font-size:12px;color:var(--muted);line-height:1.7;margin:14px 0}.settlement-grid{display:grid;grid-template-columns:minmax(300px,.8fr) minmax(480px,1.2fr);gap:16px;margin:16px 0}.settlement-card{border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0;background:var(--panel)}.settlement-card h3{font-size:16px;margin:0 0 12px}.settlement-card p{font-size:12px;line-height:1.6;color:var(--muted);margin:6px 0 12px}.settlement-table{overflow:auto}.settlement-table table{width:100%;border-collapse:collapse;font-size:13px}.settlement-table th,.settlement-table td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}.settlement-table th{background:#f4f7fb;color:#334155}.settlement-table .settlement-number{text-align:right;font-variant-numeric:tabular-nums}.settlement-table tbody tr:last-child{font-weight:700}.settlement-table select{padding:7px;border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--text)}.settlement-warning{color:#9a5b00!important;background:#fff8e8!important}.settlement-card summary{cursor:pointer;font-weight:650}
+    @media(max-width:1100px){.settlement-grid{grid-template-columns:1fr}}
+  </style>
 
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
@@ -1520,7 +1524,7 @@
 <body>
 <div class="auth-gate" id="authGate">
   <div class="auth-card">
-    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.16</span></h1>
+    <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.17</span></h1>
     <p>업무 데이터는 로그인 후에만 불러옵니다.</p>
 
     <div class="auth-field">
@@ -1546,7 +1550,7 @@
 <div class="app hidden" id="plannerApp">
   <div class="topbar">
     <div class="title-wrap">
-      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.16</span></h1>
+      <h1>🖥️ Jin's Work Planner <span class="version-badge">v8.17</span></h1>
       <p>Less noise, more clarity.</p>
     </div>
     <div class="actions">
@@ -1564,6 +1568,7 @@
       <button class="pc-main-btn" id="salesOpsMainBtn" type="button"><span class="pc-main-icon">📦</span><span>판매 운영</span></button>
       <button class="pc-main-btn" id="performanceMainBtn" type="button"><span class="pc-main-icon">🏆</span><span>네이버 랭킹</span></button>
       <button class="pc-main-btn" id="orderSummaryBtn" type="button" title="회사 PC에 설치된 주문 집계 프로그램 열기"><span class="pc-main-icon">📋</span><span>주문 집계</span></button>
+      <button class="pc-main-btn" id="settlementMainBtn" type="button"><span class="pc-main-icon">🧾</span><span>광고정산</span></button>
       <button class="pc-main-btn" id="addressGuardBtn" type="button" title="회사 PC에 설치된 리셀러 추적 프로그램 열기"><span class="pc-main-icon">🔎</span><span>리셀러 추적</span></button>
       <button class="pc-main-btn pc-settings-main" id="settingsMainBtn" type="button">설정</button>
     </div>
@@ -1806,6 +1811,18 @@
     <div class="inventory-table-wrap"><table class="inventory-table"><thead><tr><th>제품</th><th>일반 판매 예상</th><th>행사 반영 예상</th><th>안전재고</th><th>총 필요량</th><th>기준일 잔여재고</th><th>입고 전 예상 소진</th><th>입고일 예상 잔여재고</th><th>별도 입고 예정 재고·도착일</th><th>권장 입고량</th></tr></thead><tbody id="inventoryTableBody"><tr><td colspan="10" class="local-empty">누적된 제품 데이터가 없습니다.</td></tr></tbody></table></div>
   </section>
 
+  <section class="settlement-view planner-view-hidden" id="settlementView">
+    <div class="settlement-heading"><div><div class="local-page-title">광고정산</div><div class="local-page-hint">캠페인별 비용을 상품별로 정리합니다. 업로드 파일은 이 화면에서만 처리하며 계정이나 브라우저 저장소에 기록하지 않습니다.</div></div><span class="settlement-pill">저장 안 함 · 일회성 변환</span></div>
+    <div class="settlement-actions"><button class="btn primary" type="button" aria-pressed="true">GFA 광고</button><button class="btn" type="button" disabled>SA 광고 · 준비 중</button></div>
+    <div class="settlement-actions"><label class="btn" for="settlementFile">GFA 파일 업로드<input id="settlementFile" type="file" accept=".xlsx,.xls,.csv" style="display:none"></label><button class="btn" type="button" id="settlementExport" disabled>정산 엑셀 다운로드</button><button class="btn" type="button" id="settlementReset">초기화</button></div>
+    <div class="local-status" id="settlementStatus" role="status" aria-live="polite">파일을 업로드하면 두 표를 만듭니다. 새로고침하거나 초기화하면 업로드 데이터가 사라집니다.</div>
+    <div class="settlement-note">첫 번째 시트의 ‘캠페인 이름’과 ‘총비용’을 사용합니다. 0원 캠페인은 제외하고 전체 합계 행은 검산에만 사용합니다. 상품명 1개는 해당 상품, 2개 이상 또는 상품명 없이 ‘통합’이 있는 캠페인은 통합으로 분류합니다.</div>
+    <div id="settlementResult" hidden>
+      <div class="local-status" id="settlementCheck"></div>
+      <div class="settlement-grid"><div class="settlement-card"><h3>상품별 광고비 · 배분 전</h3><div id="settlementOriginal"></div></div><div class="settlement-card"><h3>통합 비용 배분 · 최종 광고비</h3><p>콘드로이친 70% · 뼈엔엠비피 20% · 모발콜라겐 10%</p><p>배분액의 반올림 잔액까지 조정하여 전후 합계를 맞춥니다.</p><div id="settlementAllocated"></div></div></div>
+      <details class="settlement-card"><summary>캠페인별 분류 확인·수정</summary><p>미분류 비용도 합계에 포함됩니다. 상품 분류를 선택하면 두 표에 즉시 반영됩니다.</p><div id="settlementDetail"></div></details>
+    </div>
+  </section>
   <section class="review-draw-view planner-view-hidden" id="reviewDrawView">
     <div class="local-page-head">
       <div><div class="local-page-title">리뷰 추첨</div><div class="local-page-hint">리뷰 수에 비례해 상품별 당첨 인원을 배정하고, 좋은 리뷰 점수와 구매 수량을 반영해 중복 등록자 없이 후보를 추천합니다.</div></div>
@@ -4143,12 +4160,117 @@
     document.getElementById('reviewStatus').textContent=`다운로드 완료 · 체크한 리뷰 ${selected.toLocaleString()}건만 포함했으며 ‘베스트리뷰’ 열은 모두 Y로 표시했습니다.`;
   }
 
+  // GFA settlement is intentionally memory-only. SA can use its own parser later.
+  const SETTLEMENT_PRODUCTS=['HW-3','모발콜라겐','뼈엔엠비피','콘드로이친','하스카프','오메가3'];
+  const SETTLEMENT_WEIGHTS=[['콘드로이친',.7],['뼈엔엠비피',.2],['모발콜라겐',.1]];
+  let settlementState=null,settlementLoading=false,settlementEpoch=0;
+  function settlementClassify(name){
+    const compact=String(name||'').replace(/\s+/g,'').toUpperCase();
+    const matches=SETTLEMENT_PRODUCTS.filter(p=>compact.includes(p.toUpperCase()));
+    if(matches.length>1)return '통합';
+    if(matches.length===1)return matches[0];
+    return compact.includes('통합')?'통합':'미분류';
+  }
+  function settlementMoney(value){
+    const text=String(value??'').trim().replace(/,/g,'').replace(/원$/,'').trim();
+    if(!/^-?\d+(?:\.\d{1,2})?$/.test(text))throw new Error('총비용에 숫자가 아닌 값 또는 소수 셋째 자리 이상인 값이 있습니다: '+text);
+    const amount=Number(text);if(!Number.isFinite(amount)||Math.abs(amount)>Number.MAX_SAFE_INTEGER/100)throw new Error('총비용 숫자 범위를 확인해주세요.');
+    return Math.round(amount*100);
+  }
+  function settlementParseRows(rows){
+    const norm=x=>String(x??'').replace(/\s+/g,'');
+    const headerAt=rows.findIndex(r=>r.some(c=>['캠페인이름','캠페인명'].includes(norm(c)))&&r.some(c=>norm(c)==='총비용'));
+    if(headerAt<0)throw new Error('필수 열을 찾지 못했습니다: 캠페인 이름(또는 캠페인명), 총비용');
+    const headers=rows[headerAt].map(norm),nameAt=headers.findIndex(x=>['캠페인이름','캠페인명'].includes(x)),costAt=headers.indexOf('총비용');
+    const records=[],checks=[];let zeros=0;
+    const isSummary=x=>/^(?:캠페인\d+개결과|전체캠페인(?:총비용|합계|결과)?|전체캠페인\d+개결과|전체합계|총계|총합|합계|전체)$/.test(norm(x));
+    for(let i=headerAt+1;i<rows.length;i++){
+      const row=rows[i];if(!row.some(x=>String(x??'').trim()))continue;
+      if(norm(row[nameAt])===headers[nameAt]&&norm(row[costAt])==='총비용')continue;
+      const rawCost=row[costAt],name=String(row[nameAt]??'').trim();
+      const summary=isSummary(name)||(!name&&row.some(isSummary));
+      if(rawCost===null||rawCost===undefined||String(rawCost).trim()===''){
+        throw new Error((i+1)+'행의 총비용이 비어 있습니다. 파일 범위를 확인해주세요.');
+      }
+      const cost=settlementMoney(rawCost);
+      if(summary){checks.push({row:i+1,total:cost});continue;}
+      if(cost===0){zeros++;continue;}
+      if(!name)throw new Error((i+1)+'행: 비용이 있지만 캠페인 이름이 없습니다.');
+      records.push({row:i+1,name,cost,product:settlementClassify(name)});
+    }
+    if(!records.length)throw new Error('총비용이 0이 아닌 캠페인이 없습니다.');
+    return {records,checks,zeros};
+  }
+  function settlementBuild(data){
+    const names=[...SETTLEMENT_PRODUCTS,'통합','미분류'],totals=Object.fromEntries(names.map(x=>[x,0])),counts=Object.fromEntries(names.map(x=>[x,0]));
+    data.records.forEach(r=>{totals[r.product]+=r.cost;counts[r.product]++;});
+    const total=data.records.reduce((n,r)=>n+r.cost,0),pool=totals['통합'];
+    // Allocate in won for integral-won files, otherwise in hundredths of won.
+    const unit=data.records.every(r=>r.cost%100===0)?100:1,amount=Math.abs(pool)/unit;
+    const parts=SETTLEMENT_WEIGHTS.map(([name,weight],index)=>({name,index,exact:amount*weight,value:Math.floor(amount*weight)}));
+    let left=Math.round(amount-parts.reduce((n,x)=>n+x.value,0));
+    [...parts].sort((a,b)=>(b.exact-b.value)-(a.exact-a.value)||a.index-b.index).forEach(p=>{if(left>0){p.value++;left--;}});
+    const allocated=Object.fromEntries(parts.map(p=>[p.name,p.value*unit*Math.sign(pool)]));
+    const adjusted=SETTLEMENT_PRODUCTS.map(name=>({name,direct:totals[name],allocated:allocated[name]||0,final:totals[name]+(allocated[name]||0)}));
+    adjusted.push({name:'미분류',direct:totals['미분류'],allocated:0,final:totals['미분류']});
+    const finalTotal=adjusted.reduce((n,r)=>n+r.final,0);
+    if(finalTotal!==total)throw new Error('배분 전후 총액이 일치하지 않습니다.');
+    return {totals,counts,total,pool,adjusted,finalTotal,unit,checks:data.checks.map(c=>({...c,diff:total-c.total}))};
+  }
+  function settlementFormat(cents){return (cents/100).toLocaleString('ko-KR',{maximumFractionDigits:2});}
+  function settlementRender(){
+    const result=document.getElementById('settlementResult'),exportBtn=document.getElementById('settlementExport');
+    result.hidden=!settlementState;exportBtn.disabled=!settlementState||settlementLoading;
+    if(!settlementState)return;
+    const data=settlementState,model=settlementBuild(data);data.model=model;
+    const fmt=settlementFormat,esc=escHtml,unknown=model.counts['미분류'];
+    const checks=model.checks.length?model.checks.map(c=>`${c.row}행 전체 합계 ${fmt(c.total)}원 / 차이 ${fmt(c.diff)}원 (${c.diff===0?'일치':'불일치'})`).join(' · '):'파일 내 전체 합계 행 없음: 캠페인 합산만 표시합니다.';
+    document.getElementById('settlementCheck').textContent=checks;
+    document.getElementById('settlementCheck').classList.toggle('settlement-warning',!model.checks.length||model.checks.some(c=>c.diff!==0));
+    document.getElementById('settlementStatus').textContent=`${data.fileName} · 비용 있는 캠페인 ${data.records.length}개 · 0원 ${data.zeros}개 제외 · 전체 합계 행 ${data.checks.length}개는 검산에만 사용${unknown?' · 미분류 '+unknown+'개: 아래 분류를 선택해주세요.':''}`;
+    const table=(heads,rows)=>`<div class="settlement-table"><table><thead><tr>${heads.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((v,i)=>`<td${i?' class="settlement-number"':''}>${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    document.getElementById('settlementOriginal').innerHTML=table(['상품','캠페인 수','광고비 (원)'],[...[...SETTLEMENT_PRODUCTS,'통합','미분류'].map(name=>[name,model.counts[name],fmt(model.totals[name])]),['합계',data.records.length,fmt(model.total)]]);
+    document.getElementById('settlementAllocated').innerHTML=table(['상품','직접 광고비 (원)','통합 배분액 (원)','최종 광고비 (원)'],[...model.adjusted.map(r=>[r.name,fmt(r.direct),fmt(r.allocated),fmt(r.final)]),['합계',fmt(model.total-model.pool),fmt(model.pool),fmt(model.finalTotal)]]);
+    document.getElementById('settlementDetail').innerHTML=`<div class="settlement-table"><table><thead><tr><th>행</th><th>캠페인 이름</th><th>분류</th><th>총비용 (원)</th></tr></thead><tbody>${data.records.map((r,i)=>`<tr><td>${r.row}</td><td>${esc(r.name)}</td><td><select aria-label="${esc(r.name)} 분류" data-settlement-row="${i}">${[...SETTLEMENT_PRODUCTS,'통합','미분류'].map(p=>`<option${p===r.product?' selected':''}>${p}</option>`).join('')}</select></td><td class="settlement-number">${fmt(r.cost)}</td></tr>`).join('')}</tbody></table></div>`;
+    document.querySelectorAll('[data-settlement-row]').forEach(select=>select.addEventListener('change',()=>{data.records[Number(select.dataset.settlementRow)].product=select.value;settlementRender();}));
+  }
+  function settlementReset(){settlementEpoch++;settlementState=null;document.getElementById('settlementFile').value='';document.getElementById('settlementStatus').textContent='파일을 업로드하면 두 표를 만듭니다. 새로고침하거나 초기화하면 업로드 데이터가 사라집니다.';settlementRender();}
+  async function settlementUpload(file){
+    if(!file||settlementLoading)return;
+    const epoch=++settlementEpoch;
+    settlementState=null;settlementLoading=true;settlementRender();
+    document.getElementById('settlementReset').disabled=true;
+    document.getElementById('settlementFile').disabled=true;
+    document.getElementById('settlementStatus').textContent='GFA 캠페인 파일을 분석하고 있습니다.';
+    try{
+      if(!/\.(xlsx|xls|csv)$/i.test(file.name))throw new Error('XLSX, XLS, CSV 파일을 선택해주세요.');
+      if(!window.XLSX)throw new Error('엑셀 모듈을 불러오지 못했습니다. 인터넷 연결 후 새로고침해주세요.');
+      const workbook=XLSX.read(await file.arrayBuffer(),{type:'array',nodim:true});
+      const sheet=workbook.Sheets[workbook.SheetNames[0]];
+      if(!sheet)throw new Error('첫 번째 시트가 없습니다.');
+      repairReviewSheetRef(sheet);
+      const rows=XLSX.utils.sheet_to_json(sheet,{header:1,raw:true,defval:null,blankrows:true});
+      const parsed=settlementParseRows(rows);settlementBuild(parsed);
+      if(epoch===settlementEpoch)settlementState={...parsed,fileName:file.name};
+    }catch(error){if(epoch===settlementEpoch)document.getElementById('settlementStatus').textContent='분석하지 못했습니다: '+error.message;}
+    finally{settlementLoading=false;document.getElementById('settlementReset').disabled=false;document.getElementById('settlementFile').disabled=false;document.getElementById('settlementFile').value='';settlementRender();}
+  }
+  function settlementExport(){
+    if(!settlementState)return;const data=settlementState,m=settlementBuild(data),wb=XLSX.utils.book_new();
+    const add=(name,rows)=>{const sheet=XLSX.utils.aoa_to_sheet(rows);sheet['!cols']=rows[0].map((_,i)=>({wch:i===0?24:22}));XLSX.utils.book_append_sheet(wb,sheet,name);};
+    add('GFA 상품별 광고비',[['상품','캠페인 수','광고비 (원)'],...[...SETTLEMENT_PRODUCTS,'통합','미분류'].map(p=>[p,m.counts[p],m.totals[p]/100]),['합계',data.records.length,m.total/100],[],['파일 전체 합계 (검산 전용)','차이 (원)'],...m.checks.map(c=>[c.total/100,c.diff/100])]);
+    add('GFA 통합 배분',[['상품','직접 광고비 (원)','통합 배분액 (원)','최종 광고비 (원)'],...m.adjusted.map(r=>[r.name,r.direct/100,r.allocated/100,r.final/100]),['합계',(m.total-m.pool)/100,m.pool/100,m.finalTotal/100],[],['배분 비율','콘드로이친 70% / 뼈엔엠비피 20% / 모발콜라겐 10%'],['배분 전후 차이',(m.finalTotal-m.total)/100]]);
+    add('캠페인 분류',[['원본 행','캠페인 이름','상품 분류','총비용 (원)'],...data.records.map(r=>[r.row,r.name,r.product,r.cost/100])]);
+    XLSX.writeFile(wb,data.fileName.replace(/\.[^.]+$/,'')+'_GFA광고정산.xlsx',{compression:true});
+  }
+
   function isMobileLayout(){return window.matchMedia('(max-width:700px)').matches}
   function setStandardViewVisibility(activeView){
-    const isWeek=activeView==='week',isMonth=activeView==='month',isCategory=activeView==='category',isAds=activeView==='ads',isRank=activeView==='rank',isSales=activeView==='sales',isInbound=activeView==='inbound',isReview=activeView==='review',completed=activeView==='completed',isSettings=activeView==='settings';
+    const isWeek=activeView==='week',isMonth=activeView==='month',isCategory=activeView==='category',isAds=activeView==='ads',isRank=activeView==='rank',isSales=activeView==='sales',isInbound=activeView==='inbound',isReview=activeView==='review',isSettlement=activeView==='settlement',completed=activeView==='completed',isSettings=activeView==='settings';
     const isWork=isWeek||isMonth||isCategory||completed;
-    const views=[[weekShell,isWeek],[monthView,isMonth],[categoryView,isCategory],[adReportView,isAds],[rankView,isRank],[salesCalendarView,isSales],[inboundPlannerView,isInbound],[reviewDrawView,isReview],[completedView,completed],[pcSettingsView,isSettings],[mobileSettingsView,false]];
+    const views=[[weekShell,isWeek],[monthView,isMonth],[categoryView,isCategory],[adReportView,isAds],[rankView,isRank],[salesCalendarView,isSales],[inboundPlannerView,isInbound],[reviewDrawView,isReview],[document.getElementById('settlementView'),isSettlement],[completedView,completed],[pcSettingsView,isSettings],[mobileSettingsView,false]];
     views.forEach(([el,active])=>{if(!el)return;el.classList.toggle('planner-view-active',active);el.classList.toggle('planner-view-hidden',!active);el.style.removeProperty('display')});
+    document.getElementById('settlementMainBtn').classList.toggle('active',isSettlement);
     workMainBtn.classList.toggle('active',pcMainSection==='work');salesOpsMainBtn.classList.toggle('active',pcMainSection==='sales');performanceMainBtn.classList.toggle('active',pcMainSection==='performance');settingsMainBtn.classList.toggle('active',pcMainSection==='settings');
     workSubnav.classList.toggle('hidden',pcMainSection!=='work');salesOpsSubnav.classList.toggle('hidden',pcMainSection!=='sales');performanceSubnav.classList.add('hidden');
     document.querySelectorAll('.tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.view===activeView));
@@ -4169,6 +4291,7 @@
     else if(isSales){rangeTitle.textContent='프로모션';renderSalesLocal()}
     else if(isInbound){rangeTitle.textContent='풀필먼트';renderInventoryTable(false)}
     else if(isReview)rangeTitle.textContent='리뷰 추첨';
+    else if(isSettlement)rangeTitle.textContent='광고정산';
     else if(completed)renderCompleted();
   }
   function syncMobileNavUI(){
@@ -4197,7 +4320,7 @@
       if(mobileMainSection==='work'){
         mobileTabs.classList.remove('planner-view-hidden');
         if(mobileWorkView==='home'){
-          [weekShell,monthView,categoryView,adReportView,rankView,salesCalendarView,inboundPlannerView,reviewDrawView,completedView,mobileSettingsView].forEach(el=>{el.classList.add('planner-view-hidden');el.classList.remove('planner-view-active')});
+          [weekShell,monthView,categoryView,adReportView,rankView,salesCalendarView,inboundPlannerView,reviewDrawView,document.getElementById('settlementView'),completedView,mobileSettingsView].forEach(el=>{el.classList.add('planner-view-hidden');el.classList.remove('planner-view-active')});
           mobileWorkHome.classList.remove('planner-view-hidden');mobileWorkHome.classList.add('planner-view-active');
           productivityHub.classList.add('hidden');quickAddBar.classList.add('hidden');
           workToolbar.classList.add('hidden');
@@ -4229,7 +4352,7 @@
       }else{
         mobileWorkHome.classList.add('planner-view-hidden');
         mobileTabs.classList.add('planner-view-hidden');
-        [weekShell,monthView,categoryView,adReportView,rankView,salesCalendarView,inboundPlannerView,reviewDrawView,completedView].forEach(el=>{el.classList.add('planner-view-hidden');el.classList.remove('planner-view-active')});
+        [weekShell,monthView,categoryView,adReportView,rankView,salesCalendarView,inboundPlannerView,reviewDrawView,document.getElementById('settlementView'),completedView].forEach(el=>{el.classList.add('planner-view-hidden');el.classList.remove('planner-view-active')});
         productivityHub.classList.add('hidden');quickAddBar.classList.add('hidden');
         mobileSettingsView.classList.remove('planner-view-hidden');mobileSettingsView.classList.add('planner-view-active');
         workToolbar.classList.add('hidden');
@@ -4615,6 +4738,12 @@
     loadAdHistory();
     loadAdProductDashboard();
   });
+  document.getElementById('settlementMainBtn').addEventListener('click',()=>{pcMainSection='settlement';currentView='settlement';render();});
+  document.getElementById('settlementFile').addEventListener('change',e=>settlementUpload(e.target.files?.[0]));
+  document.getElementById('settlementReset').addEventListener('click',settlementReset);
+  document.getElementById('settlementExport').addEventListener('click',settlementExport);
+  document.getElementById('logoutBtn').addEventListener('click',settlementReset);
+  window.addEventListener('pagehide',()=>{settlementEpoch++;settlementState=null;});
   orderSummaryBtn.addEventListener('click',()=>{
     window.location.href='order-summary://open';
   });
